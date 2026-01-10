@@ -8,7 +8,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url("ChatGPT Image 10 de jan. de 2026, 13_36_37.png") no-repeat center center fixed;
+      background: url("fundo.jpg") no-repeat center center fixed;
       background-size: cover;
       color: white;
       text-align: center;
@@ -63,6 +63,14 @@
       background: #1d4ed8;
     }
 
+    .btn-vetos {
+      background: #dc2626;
+    }
+
+    .btn-vetos:hover {
+      background: #b91c1c;
+    }
+
     footer {
       margin-top: 60px;
       font-size: 14px;
@@ -81,7 +89,7 @@
     <p>Sudden Attack Brasil</p>
 
     <!-- BOTÕES -->
-    <a href="https://wa.me/5599999999999" class="btn btn-inscricao">
+    <a href="https://wa.me/5599999999999" class="btn btn-inscricao" target="_blank">
       📝 INSCREVER-SE
     </a>
 
@@ -89,10 +97,23 @@
       📊 VER TABELA
     </a>
 
+    <!-- BOTÃO DE VETOS (PRONTO) -->
+    <a href="#" class="btn btn-vetos" id="btnVetos">
+      🗺️ VETOS DE MAPAS
+    </a>
+
     <footer>
       © 2026 • Campeonato SABR • Todos os direitos reservados
     </footer>
 
   </div>
+
+  <!-- SCRIPT PARA O BOTÃO DE VETO -->
+  <script>
+    document.getElementById("btnVetos").addEventListener("click", function () {
+      alert("Link de veto de mapas ainda não configurado.");
+    });
+  </script>
+
 </body>
 </html>
