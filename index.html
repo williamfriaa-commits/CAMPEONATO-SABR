@@ -1,78 +1,135 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Campeonato SABR</title>
+    <meta charset="UTF-8">
+    <title>Campeonato SABR</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
 
-      background-image:
-        linear-gradient(
-          rgba(0, 0, 0, 0.65),
-          rgba(0, 0, 0, 0.65)
-        ),
-        url("fundo.jpg2");
+            font-family: Arial, sans-serif;
+            color: #e5e7eb;
 
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+            /* FUNDO DO SITE */
+            background-image:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.65),
+                    rgba(0, 0, 0, 0.65)
+                ),
+                url("fundo.jpg");
 
-      color: #e5e7eb;
-      margin: 0;
-      padding: 20px;
-    }
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
-    h1 {
-      text-align: center;
-      color: #38bdf8;
-    }
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            color: #38bdf8;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        }
 
-    table {
-      width: 100%;
-      max-width: 800px;
-      margin: 40px auto;
-      border-collapse: collapse;
-      background: rgba(2, 6, 23, 0.85);
-      border-radius: 12px;
-      overflow: hidden;
-    }
+        .tabela-container {
+            max-width: 900px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.65);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.7);
+        }
 
-    th, td {
-      padding: 14px;
-      text-align: center;
-      border-bottom: 1px solid #1e293b;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    th {
-      color: #38bdf8;
-    }
-  </style>
+        th {
+            background: rgba(56, 189, 248, 0.15);
+            padding: 12px;
+            color: #38bdf8;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .status-aguardando {
+            color: #facc15;
+            font-weight: bold;
+        }
+
+        .status-finalizado {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <h1>🏆 Campeonato SABR</h1>
+    <h1>🏆 Campeonato SABR</h1>
 
-  <table>
-    <tr>
-      <th>Confronto</th>
-      <th>Placar</th>
-      <th>Status</th>
-    </tr>
-    <tr>
-      <td>Time A x Time B</td>
-      <td>—</td>
-      <td>Aguardando</td>
-    </tr>
-    <tr>
-      <td>Time C x Time D</td>
-      <td>13 x 9</td>
-      <td>Finalizado</td>
-    </tr>
-  </table>
+    <div class="tabela-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Confronto</th>
+                    <th>Placar</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Time A x Time B</td>
+                    <td>—</td>
+                    <td class="status-aguardando">Aguardando</td>
+                </tr>
+
+                <tr>
+                    <td>Time C x Time D</td>
+                    <td>13 x 9</td>
+                    <td class="status-finalizado">Finalizado</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        © Campeonato SABR • Sudden Attack
+    </footer>
 
 </body>
 </html>
