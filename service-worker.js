@@ -7,7 +7,7 @@ const FILES_TO_CACHE = [
   "./manifest.json",
   "./logo.png",
   "./APP.png",
-  "./logo-512.png",
+  "./APPg.png",
   "./fundo-pc-1920x1080.png",
   "./fundo-mobile-1080x1920.png"
 ];
