@@ -19,67 +19,24 @@
 
       background-image: url("ChatGPT Image 10 de jan. de 2026, 13_36_37.png");
       background-repeat: no-repeat;
-      background-position: center top;
       background-size: cover;
+      background-position: center center;
       background-color: #000;
     }
 
-    /* ===== LOADING ===== */
-    .loading {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      animation: fadeOut 1s ease forwards;
-      animation-delay: 1.5s;
-    }
-
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 4px solid #333;
-      border-top: 4px solid #22c55e;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    /* ===== CONTEÚDO ===== */
     .overlay {
       min-height: 100vh;
       padding: 40px 20px;
-      background: rgba(0, 0, 0, 0.6);
+
+      background: linear-gradient(
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.65)
+      );
 
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
-      animation: fadeUp 1s ease;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .logo {
@@ -91,13 +48,13 @@
     h1 {
       font-size: 42px;
       margin: 10px 0;
-      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
 
     p {
       font-size: 18px;
       margin-bottom: 35px;
-      opacity: 0.9;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
 
     .btn {
@@ -113,37 +70,51 @@
       color: white;
 
       border-radius: 10px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
 
-    .btn-inscricao { background: #16a34a; }
-    .btn-tabela    { background: #2563eb; }
-    .btn-vetos     { background: #dc2626; }
+    .btn-inscricao {
+      background: #16a34a;
+    }
+
+    .btn-tabela {
+      background: #2563eb;
+    }
+
+    .btn-vetos {
+      background: #dc2626;
+    }
 
     footer {
       margin-top: 50px;
       font-size: 14px;
-      opacity: 0.7;
+      opacity: 0.8;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
     }
 
-    /* ===== MOBILE ===== */
+    /* ===== AJUSTE FINO MOBILE ===== */
     @media (max-width: 768px) {
       body {
-        background-position: center center;
-        background-size: contain;
+        background-position: center top;
       }
 
-      .overlay {
-        background: rgba(0, 0, 0, 0.55);
+      h1 {
+        font-size: 28px;
       }
 
-      h1 { font-size: 28px; }
-      p  { font-size: 16px; }
+      p {
+        font-size: 16px;
+      }
+
+      .btn {
+        font-size: 16px;
+        padding: 16px;
+      }
 
       footer {
         font-size: 12px;
@@ -153,12 +124,6 @@
 </head>
 
 <body>
-
-  <!-- LOADING -->
-  <div class="loading">
-    <div class="spinner"></div>
-  </div>
-
   <div class="overlay">
 
     <img src="logo.png" class="logo" alt="Campeonato SABR">
@@ -183,6 +148,5 @@
     </footer>
 
   </div>
-
 </body>
 </html>
