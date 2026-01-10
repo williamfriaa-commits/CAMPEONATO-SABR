@@ -43,7 +43,6 @@
         rgba(0, 0, 0, 0.65)
       );
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
@@ -87,7 +86,7 @@
       width: 320px;
       max-width: 100%;
       padding: 18px;
-      margin: 12px 0;
+      margin: 12px auto;
       font-size: 18px;
       font-weight: bold;
       text-decoration: none;
@@ -109,6 +108,10 @@
 
     .btn-tabela {
       background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    .btn-jornal {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
     }
 
     .btn-vetos {
@@ -153,11 +156,14 @@
         📊 VER TABELA
       </a>
 
+      <a href="jornal.html" class="btn btn-jornal">
+        📰 JORNAL SABR
+      </a>
+
       <a href="https://ban-map.vercel.app" class="btn btn-vetos" target="_blank">
         🗺️ VETOS DE MAPAS
       </a>
 
-      <!-- BOTÃO INSTALAR APP -->
       <button id="installBtn" class="btn btn-instalar">
         📲 INSTALAR APP
       </button>
