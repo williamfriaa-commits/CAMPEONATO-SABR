@@ -189,15 +189,26 @@ Texto simples.
 <!-- ===== SCRIPT DO VIDEO (MODO FACIL) ===== -->
 <script>
 /* ===== EDITAR SOMENTE A LINHA ABAIXO ===== */
-const linkYouTube = "https://www.youtube.com/watch?v=CqfRSpQ3YGY&t=69s";
+const linkYouTube = "COLE_O_LINK_DO_YOUTUBE_AQUI";
 
 /* ===== NÃO MEXA DAQUI PRA BAIXO ===== */
-if (linkYouTube.includes("watch?v=")) {
-  const codigo = linkYouTube.split("watch?v=")[1];
+function extrairIdYouTube(url) {
+  if (url.includes("youtu.be/")) {
+    return url.split("youtu.be/")[1].split("?")[0];
+  }
+  if (url.includes("watch?v=")) {
+    return url.split("watch?v=")[1].split("&")[0];
+  }
+  return "";
+}
+
+const videoId = extrairIdYouTube(linkYouTube);
+if (videoId) {
   document.getElementById("videoSabr").src =
-    "https://www.youtube.com/embed/" + codigo;
+    "https://www.youtube.com/embed/" + videoId;
 }
 </script>
+
 
 </body>
 </html>
