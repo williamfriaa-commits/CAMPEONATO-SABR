@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Campeonato SABR</title>
 
+  <!-- RESPONSIVO -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -16,12 +17,20 @@
       font-family: Arial, sans-serif;
       color: white;
       text-align: center;
+      background-color: #000;
 
-      background-image: url("ChatGPT Image 10 de jan. de 2026, 13_36_37.png");
-      background-repeat: no-repeat;
+      /* FUNDO PC (depois você troca a imagem) */
+      background-image: url("fundo-pc-1920x1080.png");
       background-size: cover;
       background-position: center center;
-      background-color: #000;
+      background-repeat: no-repeat;
+    }
+
+    /* FUNDO MOBILE */
+    @media (max-width: 768px) {
+      body {
+        background-image: url("fundo-mobile-1080x1920.png");
+      }
     }
 
     .overlay {
@@ -97,12 +106,7 @@
       text-shadow: 0 2px 6px rgba(0,0,0,0.8);
     }
 
-    /* ===== AJUSTE FINO MOBILE ===== */
     @media (max-width: 768px) {
-      body {
-        background-position: center top;
-      }
-
       h1 {
         font-size: 28px;
       }
@@ -126,11 +130,13 @@
 <body>
   <div class="overlay">
 
+    <!-- LOGO -->
     <img src="logo.png" class="logo" alt="Campeonato SABR">
 
     <h1>TORNEIO SABR</h1>
     <p>GAMER SIGNAL Brasil</p>
 
+    <!-- BOTÕES -->
     <a href="https://forms.gle/X7RhYCWCc4WVV4fo9" class="btn btn-inscricao" target="_blank">
       📝 INSCREVER-SE
     </a>
