@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tabela do Campeonato</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    p {
+      text-align: center;
+      color: #cbd5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #020617;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #1e293b;
+    }
+    th {
+      background: #020617;
+      color: #38bdf8;
+    }
+    tr:hover {
+      background: #020617;
+    }
+    .status {
+      font-weight: bold;
+    }
+    .win { color: #22c55e; }
+    .lose { color: #ef4444; }
+    .pending { color: #eab308; }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏆 Campeonato Sudden Attack</h1>
+    <p>Acompanhe os confrontos e resultados</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Confronto</th>
+          <th>Placar</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HyperX x Avoxy</td>
+          <td>—</td>
+          <td class="status pending">Aguardando</td>
+        </tr>
+        <tr>
+          <td>Unshakable~ x Undecided</td>
+          <td>13 x 9</td>
+          <td class="status win">Finalizado</td>
+        </tr>
+        <tr>
+          <td>Nulborm x Offensive</td>
+          <td>—</td>
+          <td class="status pending">Aguardando</td>
+        </tr>
+        <tr>
+          <td>Clandosnub x Celtics</td>
+          <td>7 x 13</td>
+          <td class="status lose">Finalizado</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <footer>
+      Organização: LYKO • Atualizações manuais
+    </footer>
+  </div>
+</body>
+</html>
