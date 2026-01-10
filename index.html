@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Campeonato SABR</title>
+  <title>Eventos SABR</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -93,6 +93,8 @@
       text-decoration: none;
       color: white;
       border-radius: 12px;
+      border: none;
+      cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
@@ -111,6 +113,11 @@
 
     .btn-vetos {
       background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .btn-instalar {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      display: none;
     }
 
     footer {
@@ -133,9 +140,9 @@
   <div class="overlay">
     <div class="content">
 
-      <img src="logo.png" class="logo" alt="Campeonato SABR">
+      <img src="logo.png" class="logo" alt="Eventos SABR">
 
-      <h1>TORNEIO SABR</h1>
+      <h1>EVENTOS SABR</h1>
       <p>GAMER SIGNAL Brasil</p>
 
       <a href="https://forms.gle/X7RhYCWCc4WVV4fo9" class="btn btn-inscricao" target="_blank">
@@ -150,8 +157,13 @@
         🗺️ VETOS DE MAPAS
       </a>
 
+      <!-- BOTÃO INSTALAR APP -->
+      <button id="installBtn" class="btn btn-instalar">
+        📲 INSTALAR APP
+      </button>
+
       <footer>
-        © 2026 • Campeonato SABR • Todos os direitos reservados
+        © 2026 • Eventos SABR • Todos os direitos reservados
       </footer>
 
     </div>
@@ -162,6 +174,28 @@
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js");
     }
+  </script>
+
+  <!-- BOTÃO INSTALAR -->
+  <script>
+    let deferredPrompt;
+    const installBtn = document.getElementById("installBtn");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = "block";
+    });
+
+    installBtn.addEventListener("click", async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        installBtn.style.display = "none";
+        deferredPrompt = null;
+      }
+    });
   </script>
 
 </body>
