@@ -1,204 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Campeonato SABR</title>
+  <meta charset="UTF-8">
+  <title>Campeonato SABR</title>
 
-<style>
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url("fundo.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+    }
 
-/* FUNDO */
-body {
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    color: #e5e7eb;
+    .overlay {
+      background: rgba(0, 0, 0, 0.65);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
 
-    background:
-        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-        url("ChatGPT Image 10 de jan. de 2026, 13_36_37.png");
+    .logo {
+      max-width: 280px;
+      margin-bottom: 30px;
+    }
 
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
-
-/* CONTAINER */
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-/* TITULO */
-h1 {
-    text-align: center;
-    color: #38bdf8;
-    font-size: 36px;
-    margin-bottom: 15px;
-    text-shadow: 0 0 15px rgba(56,189,248,0.7);
-}
-
-.subtitulo {
-    text-align: center;
-    margin-bottom: 35px;
-    opacity: 0.8;
-}
-
-/* BOTOES */
-.botoes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-}
-
-.botao {
-    padding: 15px 30px;
-    font-size: 16px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.botao-inscrever {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(34,197,94,0.6);
-}
-
-.botao-inscrever:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(34,197,94,0.9);
-}
-
-.botao-tabela {
-    background: linear-gradient(135deg, #38bdf8, #0284c7);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(56,189,248,0.6);
-}
-
-.botao-tabela:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(56,189,248,0.9);
-}
-
-/* TABELA */
-.tabela-container {
-    background: rgba(0,0,0,0.7);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    background: rgba(56,189,248,0.2);
-    padding: 12px;
-    color: #38bdf8;
-}
-
-td {
-    padding: 12px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-tr:hover {
-    background: rgba(255,255,255,0.05);
-}
-
-.status-aguardando {
-    color: #facc15;
-    font-weight: bold;
-}
-
-.status-finalizado {
-    color: #22c55e;
-    font-weight: bold;
-}
-
-/* FOOTER */
-footer {
-    text-align: center;
-    margin-top: 40px;
-    opacity: 0.7;
-    font-size: 14px;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
     h1 {
-        font-size: 26px;
+      font-size: 42px;
+      margin-bottom: 10px;
     }
 
-    .botao {
-        width: 100%;
-        text-align: center;
+    p {
+      font-size: 18px;
+      margin-bottom: 40px;
     }
-}
-</style>
+
+    .btn {
+      display: inline-block;
+      padding: 18px 40px;
+      margin: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .btn-inscricao {
+      background: #16a34a;
+    }
+
+    .btn-inscricao:hover {
+      background: #15803d;
+    }
+
+    .btn-tabela {
+      background: #2563eb;
+    }
+
+    .btn-tabela:hover {
+      background: #1d4ed8;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="overlay">
 
-<div class="container">
+    <!-- LOGO -->
+    <img src="logo.png" class="logo" alt="Campeonato SABR">
 
-    <h1>🏆 Campeonato SABR</h1>
-    <p class="subtitulo">Sudden Attack Brasil – Organização Oficial</p>
+    <h1>CAMPEONATO SABR</h1>
+    <p>Sudden Attack Brasil</p>
 
-    <!-- BOTOES -->
-    <div class="botoes">
-        <a href="https://forms.gle/X7RhYCWCc4WVV4fo9" class="botao botao-inscrever">
-            🔥 INSCREVER-SE
-        </a>
+    <!-- BOTÕES -->
+    <a href="https://wa.me/5599999999999" class="btn btn-inscricao">
+      📝 INSCREVER-SE
+    </a>
 
-        <a href="#tabela" class="botao botao-tabela">
-            📊 ACOMPANHAR TABELA
-        </a>
-    </div>
-
-    <!-- TABELA -->
-    <div id="tabela" class="tabela-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Confronto</th>
-                    <th>Placar</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Time A x Time B</td>
-                    <td>—</td>
-                    <td class="status-aguardando">Aguardando</td>
-                </tr>
-                <tr>
-                    <td>Time C x Time D</td>
-                    <td>13 x 9</td>
-                    <td class="status-finalizado">Finalizado</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <a href="tabela.html" class="btn btn-tabela">
+      📊 VER TABELA
+    </a>
 
     <footer>
-        © Campeonato SABR • Sudden Attack
+      © 2026 • Campeonato SABR • Todos os direitos reservados
     </footer>
 
-</div>
-
+  </div>
 </body>
 </html>
