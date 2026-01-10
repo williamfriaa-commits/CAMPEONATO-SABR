@@ -1,1 +1,192 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jornal SABR</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: linear-gradient(180deg, #020617, #000);
+    }
+
+    header {
+      padding: 30px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #7c3aed, #4c1d95);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 38px;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.9);
+    }
+
+    header p {
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .tag-campeonato {
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    .tag-aviso {
+      background: #ef4444;
+      color: #450a0a;
+    }
+
+    .tag-ranking {
+      background: #3b82f6;
+      color: #020617;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+
+    .card p {
+      font-size: 15px;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+
+    .btn-voltar {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 16px 28px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      text-decoration: none;
+      border-radius: 14px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-voltar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>📰 JORNAL SABR</h1>
+    <p>Notícias oficiais • Campeonatos • Comunicados</p>
+  </header>
+
+  <div class="container">
+
+    <div class="news-grid">
+
+      <div class="card">
+        <span class="tag tag-campeonato">CAMPEONATO</span>
+        <h2>Inscrições abertas para o próximo torneio</h2>
+        <p>
+          As inscrições do novo campeonato SABR já estão abertas.
+          Reúna seu clã, organize sua line e garanta sua vaga.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="tag tag-ranking">RANKING</span>
+        <h2>Ranking oficial em breve</h2>
+        <p>
+          O ranking SABR está sendo preparado e será divulgado
+          após o encerramento do campeonato atual.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="tag tag-aviso">AVISO</span>
+        <h2>Regras e vetos atualizados</h2>
+        <p>
+          As regras oficiais e o sistema de vetos foram atualizados.
+          Confira antes de jogar para evitar punições.
+        </p>
+      </div>
+
+      <div class="card">
+        <span class="tag tag-campeonato">DESTAQUE</span>
+        <h2>Clãs em destaque da rodada</h2>
+        <p>
+          Alguns clãs se destacaram na última rodada do campeonato.
+          Parabéns às equipes pelo desempenho.
+        </p>
+      </div>
+
+    </div>
+
+    <a href="index.html" class="btn-voltar">
+      ⬅ VOLTAR PARA EVENTOS SABR
+    </a>
+
+  </div>
+
+  <footer>
+    © 2026 • Jornal SABR • Eventos SABR
+  </footer>
+
+</body>
+</html>
