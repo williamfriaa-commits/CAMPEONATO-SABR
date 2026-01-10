@@ -6,7 +6,7 @@ const FILES_TO_CACHE = [
   "./tabela.html",
   "./manifest.json",
   "./logo.png",
-  "./APP.png",
+  "./APPg.png",
   "./APPg.png",
   "./fundo-pc-1920x1080.png",
   "./fundo-mobile-1080x1920.png"
