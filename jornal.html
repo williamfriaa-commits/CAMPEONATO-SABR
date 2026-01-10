@@ -44,7 +44,7 @@ font-weight:bold
 }
 .foco p{font-size:16px;line-height:1.6;white-space:pre-line}
 
-/* VIDEO */
+/* ===== VIDEO ===== */
 .video{
 margin-top:20px;
 position:relative;
@@ -55,7 +55,11 @@ box-shadow:0 10px 30px rgba(0,0,0,.7)
 }
 .video iframe{
 position:absolute;
-top:0;left:0;width:100%;height:100%;border:0
+top:0;
+left:0;
+width:100%;
+height:100%;
+border:0
 }
 
 /* NOTÍCIAS */
@@ -129,24 +133,19 @@ footer{text-align:center;padding:30px 20px;font-size:13px;opacity:.7}
 
 🔥 O que rolou:
 Escreva aqui o que aconteceu na rodada.
-Pode ser vitória, treta, provocação ou highlight.
 
 👀 Bastidores:
 O que ninguém viu.
-Chat pegando fogo, discussão, zoação etc.
 </p>
 
-<!-- VIDEO: PEGUE O LINK DO YOUTUBE
-EXEMPLO: https://www.youtube.com/watch?v=ABC123
-COLE APENAS: ABC123 -->
+<!-- ===== VIDEO (MODO FACIL) ===== -->
 <div class="video">
-<iframe src="https://www.youtube.com/embed/COLE_AQUI" allowfullscreen></iframe>
+  <iframe id="videoSabr" allowfullscreen></iframe>
 </div>
 </div>
 
 <!-- =====================================================
  🔴 EDITAR AQUI – NOTÍCIAS 🔴
- PARA NOVA NOTÍCIA: COPIE UM BLOCO .card
 ===================================================== -->
 
 <h2 class="titulo">🗞️ NOTÍCIAS</h2>
@@ -158,7 +157,6 @@ COLE APENAS: ABC123 -->
 <h3>Título da notícia</h3>
 <p>
 Escreva a notícia aqui.
-Pode pular linha normalmente.
 </p>
 </div>
 
@@ -187,6 +185,19 @@ Texto simples.
 <footer>
 © 2026 • Jornal SABR • Eventos SABR
 </footer>
+
+<!-- ===== SCRIPT DO VIDEO (MODO FACIL) ===== -->
+<script>
+/* ===== EDITAR SOMENTE A LINHA ABAIXO ===== */
+const linkYouTube = "COLE_O_LINK_DO_YOUTUBE_AQUI";
+
+/* ===== NÃO MEXA DAQUI PRA BAIXO ===== */
+if (linkYouTube.includes("watch?v=")) {
+  const codigo = linkYouTube.split("watch?v=")[1];
+  document.getElementById("videoSabr").src =
+    "https://www.youtube.com/embed/" + codigo;
+}
+</script>
 
 </body>
 </html>
