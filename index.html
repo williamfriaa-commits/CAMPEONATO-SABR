@@ -1,107 +1,176 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Campeonato SABR</title>
+<meta charset="UTF-8">
+<title>Campeonato SABR</title>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
+<style>
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-            font-family: Arial, sans-serif;
-            color: #e5e7eb;
+/* FUNDO */
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #e5e7eb;
 
-            /* FUNDO DO SITE */
-            background-image:
-                linear-gradient(
-                    rgba(0, 0, 0, 0.65),
-                    rgba(0, 0, 0, 0.65)
-                ),
-                url("ChatGPT Image 10 de jan. de 2026, 13_36_37.png");
+    background:
+        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+        url("fundo.jpg");
 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
 
-        h1 {
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 30px;
-            color: #38bdf8;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-        }
+/* CONTAINER */
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+}
 
-        .tabela-container {
-            max-width: 900px;
-            margin: auto;
-            background: rgba(0, 0, 0, 0.65);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.7);
-        }
+/* TITULO */
+h1 {
+    text-align: center;
+    color: #38bdf8;
+    font-size: 36px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(56,189,248,0.7);
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+.subtitulo {
+    text-align: center;
+    margin-bottom: 35px;
+    opacity: 0.8;
+}
 
-        th {
-            background: rgba(56, 189, 248, 0.15);
-            padding: 12px;
-            color: #38bdf8;
-            font-size: 16px;
-        }
+/* BOTOES */
+.botoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
 
-        td {
-            padding: 12px;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+.botao {
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
 
-        tr:hover {
-            background: rgba(255,255,255,0.05);
-        }
+.botao-inscrever {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(34,197,94,0.6);
+}
 
-        .status-aguardando {
-            color: #facc15;
-            font-weight: bold;
-        }
+.botao-inscrever:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(34,197,94,0.9);
+}
 
-        .status-finalizado {
-            color: #22c55e;
-            font-weight: bold;
-        }
+.botao-tabela {
+    background: linear-gradient(135deg, #38bdf8, #0284c7);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(56,189,248,0.6);
+}
 
-        footer {
-            text-align: center;
-            margin: 40px 0 20px;
-            font-size: 14px;
-            opacity: 0.7;
-        }
+.botao-tabela:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(56,189,248,0.9);
+}
 
-        /* RESPONSIVO */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 22px;
-            }
+/* TABELA */
+.tabela-container {
+    background: rgba(0,0,0,0.7);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
 
-            th, td {
-                font-size: 14px;
-                padding: 8px;
-            }
-        }
-    </style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: rgba(56,189,248,0.2);
+    padding: 12px;
+    color: #38bdf8;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.status-aguardando {
+    color: #facc15;
+    font-weight: bold;
+}
+
+.status-finalizado {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 26px;
+    }
+
+    .botao {
+        width: 100%;
+        text-align: center;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <h1>🏆 Campeonato SABR</h1>
+<div class="container">
 
-    <div class="tabela-container">
+    <h1>🏆 Campeonato SABR</h1>
+    <p class="subtitulo">Sudden Attack Brasil – Organização Oficial</p>
+
+    <!-- BOTOES -->
+    <div class="botoes">
+        <a href="https://forms.gle/SEUFORMULARIO" class="botao botao-inscrever">
+            🔥 INSCREVER-SE
+        </a>
+
+        <a href="#tabela" class="botao botao-tabela">
+            📊 ACOMPANHAR TABELA
+        </a>
+    </div>
+
+    <!-- TABELA -->
+    <div id="tabela" class="tabela-container">
         <table>
             <thead>
                 <tr>
@@ -110,14 +179,12 @@
                     <th>Status</th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr>
                     <td>Time A x Time B</td>
                     <td>—</td>
                     <td class="status-aguardando">Aguardando</td>
                 </tr>
-
                 <tr>
                     <td>Time C x Time D</td>
                     <td>13 x 9</td>
@@ -130,6 +197,8 @@
     <footer>
         © Campeonato SABR • Sudden Attack
     </footer>
+
+</div>
 
 </body>
 </html>
