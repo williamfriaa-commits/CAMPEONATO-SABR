@@ -2,153 +2,145 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Mix Sudden Attack</title>
+<title>Eventos SABR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
+  margin:0;font-family:Arial,sans-serif;color:#fff;
   background:#000;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   min-height:100vh;
 }
-
+.tela{
+  position:fixed;inset:0;background:rgba(0,0,0,.9);
+  display:none;align-items:center;justify-content:center;
+}
+.content{text-align:center}
 .box{
-  background:#111;
-  padding:25px;
-  border-radius:15px;
-  width:100%;
-  max-width:400px;
-  text-align:center;
+  background:#111;padding:25px;border-radius:15px;
+  width:100%;max-width:400px;text-align:center
 }
-
-h1{
-  margin-bottom:10px;
+.btn{
+  width:320px;max-width:100%;padding:18px;margin:10px auto;
+  border:none;border-radius:12px;font-size:18px;font-weight:bold;
+  cursor:pointer;color:#fff
 }
-
+.btn-inscricao{background:#22c55e;color:#000}
+.btn-mix{background:#3b82f6}
+.btn-voltar{background:#ef4444}
 input{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:none;
-  margin-bottom:10px;
+  width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px
 }
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.btn-pagar{
-  background:#22c55e;
-  color:#000;
-}
-
-.btn-girar{
-  background:#3b82f6;
-  color:#fff;
-}
-
-.btn-girar:disabled{
-  background:#555;
-  cursor:not-allowed;
-}
-
 .roleta{
-  margin:20px auto;
-  width:200px;
-  height:200px;
-  border-radius:50%;
-  border:8px solid #22c55e;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36px;
-  font-weight:bold;
-}
-
-.resultado{
-  margin-top:15px;
-  font-size:18px;
+  width:180px;height:180px;border-radius:50%;
+  border:8px solid #22c55e;margin:15px auto;
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;font-weight:bold
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-
-<h1>🎮 MIX SA</h1>
-<p>Valor: <strong>R$ 4,00</strong></p>
-
-<input id="nome" placeholder="Digite seu nick">
-
-<!-- PIX -->
-<div style="margin-top:10px;">
-  <p><strong>PIX:</strong></p>
-  <p>aa9e2475-78c0-4798-af15-88bdfe6d0399</p>
-  <img src="qrcode4,00-pix (1).png" alt="QR Code Pix" style="width:150px;">
+<!-- TELA INICIAL -->
+<div class="content">
+  <h1>EVENTOS SABR</h1>
+  <button class="btn btn-inscricao" onclick="abrirMix()">📝 INSCREVER-SE</button>
 </div>
 
-<button class="btn-pagar" onclick="liberarRoleta()">
-  JÁ PAGUEI – GIRAR ROLETA
-</button>
+<!-- MIX -->
+<div id="telaMix" class="tela">
+  <div class="box">
 
-<div class="roleta" id="roleta">?</div>
+    <h2>MIX SA</h2>
+    <p><strong>Valor: R$ 4,00</strong></p>
 
-<button class="btn-girar" id="btnGirar" onclick="girar()" disabled>
-  🎯 GIRAR
-</button>
+    <input id="nome" placeholder="Digite seu nick">
 
-<div class="resultado" id="resultado"></div>
+    <p><strong>PIX:</strong></p>
+    <p>SUA_CHAVE_PIX_AQUI</p>
+    <img src="qrcode-pix.png" width="150">
 
+    <button class="btn btn-inscricao" onclick="liberar()">JÁ PAGUEI</button>
+
+    <div class="roleta" id="roleta">?</div>
+
+    <button class="btn btn-mix" id="btnGirar" onclick="girar()" disabled>
+      🎯 GIRAR ROLETA
+    </button>
+
+    <p id="resultado"></p>
+    <p id="status"></p>
+
+    <button class="btn btn-voltar" onclick="fechar()">❌ SAIR</button>
+
+  </div>
 </div>
 
 <script>
+const LIMITE = 5;
+let equipes = {
+  1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0
+};
 let jaGirou = false;
 
-function liberarRoleta(){
-  const nome = document.getElementById("nome").value;
-  if(!nome){
-    alert("Digite seu nome/nick!");
+function abrirMix(){
+  document.getElementById("telaMix").style.display="flex";
+  atualizarStatus();
+}
+
+function fechar(){
+  document.getElementById("telaMix").style.display="none";
+}
+
+function liberar(){
+  if(!nome.value){
+    alert("Digite seu nick!");
     return;
   }
-  document.getElementById("btnGirar").disabled = false;
+  btnGirar.disabled=false;
+}
+
+function equipesDisponiveis(){
+  return Object.keys(equipes).filter(e => equipes[e] < LIMITE);
 }
 
 function girar(){
   if(jaGirou) return;
 
+  const disponiveis = equipesDisponiveis();
+  if(disponiveis.length === 0){
+    document.getElementById("resultado").innerHTML =
+      "🚫 <b>MIX LOTADO</b><br>Inscrições encerradas.";
+    btnGirar.disabled=true;
+    return;
+  }
+
   jaGirou = true;
-  document.getElementById("btnGirar").disabled = true;
+  btnGirar.disabled=true;
 
   let tempo = 0;
   let intervalo = setInterval(()=>{
-    const n = Math.floor(Math.random()*8)+1;
-    document.getElementById("roleta").innerText = n;
+    const e = disponiveis[Math.floor(Math.random()*disponiveis.length)];
+    roleta.innerText = e;
     tempo += 100;
 
     if(tempo >= 2000){
       clearInterval(intervalo);
-      mostrarResultado(n);
+      equipes[e]++;
+      document.getElementById("resultado").innerHTML =
+        "✅ Você ficou na <b>SALA " + e + "</b>";
+      atualizarStatus();
     }
   },100);
 }
 
-function mostrarResultado(numero){
-  document.getElementById("resultado").innerHTML =
-    "✅ Você ficou na <strong>EQUIPE / SALA " + numero + "</strong><br>" +
-    "❌ Não é permitido girar novamente.";
+function atualizarStatus(){
+  const total = Object.values(equipes).reduce((a,b)=>a+b,0);
+  document.getElementById("status").innerHTML =
+    `Vagas preenchidas: <b>${total}/40</b>`;
 }
 </script>
 
