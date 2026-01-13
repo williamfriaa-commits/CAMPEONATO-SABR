@@ -11,7 +11,9 @@
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;font-family:Arial,sans-serif;color:#fff;
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
   background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;
 }
 @media(max-width:768px){
@@ -20,41 +22,76 @@ body{
 .overlay{
   min-height:100vh;
   background:rgba(0,0,0,.65);
-  display:flex;align-items:center;justify-content:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .content{text-align:center}
 .logo{max-width:260px;width:80%;margin-bottom:20px}
-h1{font-size:38px}
+h1{font-size:38px;margin:10px 0}
+p{margin-bottom:20px}
+
 .btn{
-  width:320px;max-width:100%;padding:18px;margin:12px auto;
-  border:none;border-radius:12px;font-size:18px;font-weight:bold;
-  cursor:pointer;color:#fff
+  display:block;
+  width:320px;
+  max-width:100%;
+  padding:18px;
+  margin:12px auto;
+  border:none;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  color:#fff;
 }
+
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
 .btn-mix{background:linear-gradient(135deg,#0ea5e9,#0284c7)}
 .btn-torneio{background:linear-gradient(135deg,#a855f7,#7c3aed)}
 .btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
 .btn-voltar{background:#ef4444}
 
 .tela{
-  position:fixed;inset:0;background:#000;
-  display:none;align-items:center;justify-content:center;
-  z-index:999
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
 }
 
 .box{
-  background:#111;padding:25px;border-radius:15px;
-  width:100%;max-width:400px;text-align:center
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:400px;
+  text-align:center;
 }
+
 input{
-  width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  margin-bottom:10px;
 }
+
 .roleta{
-  width:180px;height:180px;border-radius:50%;
-  border:8px solid #22c55e;margin:15px auto;
-  display:flex;align-items:center;justify-content:center;
-  font-size:36px;font-weight:bold
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  border:8px solid #22c55e;
+  margin:15px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  font-weight:bold;
 }
+
 button:disabled{opacity:.5}
 </style>
 </head>
@@ -71,6 +108,10 @@ button:disabled{opacity:.5}
     <button class="btn btn-inscricao" onclick="abrirEscolha()">
       📝 INSCREVER-SE
     </button>
+
+    <a href="tabela.html" class="btn btn-tabela">
+      📊 VER TABELA
+    </a>
 
     <footer style="margin-top:30px;font-size:14px;opacity:.8">
       © 2026 • Eventos SABR
@@ -133,19 +174,25 @@ function fecharTudo(){
   document.querySelectorAll(".tela").forEach(t=>t.style.display="none");
 }
 function liberar(){
-  if(!nome.value){alert("Digite seu nick");return}
+  if(!nome.value){
+    alert("Digite seu nick");
+    return;
+  }
   btnGirar.disabled=false;
 }
 function girar(){
   if(jaGirou) return;
-  jaGirou=true;btnGirar.disabled=true;
-  let t=0;
-  let i=setInterval(()=>{
+  jaGirou=true;
+  btnGirar.disabled=true;
+
+  let tempo=0;
+  let anim=setInterval(()=>{
     roleta.innerText=Math.floor(Math.random()*8)+1;
-    t+=100;
-    if(t>=2000){
-      clearInterval(i);
-      resultado.innerHTML="✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
+    tempo+=100;
+    if(tempo>=2000){
+      clearInterval(anim);
+      resultado.innerHTML=
+        "✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
     }
   },100);
 }
