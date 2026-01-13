@@ -2,188 +2,196 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Tabela de Vagas - Eventos SABR</title>
+<title>Tabela – Eventos SABR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b1220;
+  font-family:Arial,sans-serif;
   color:#fff;
+  background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;
 }
 
-.container{
-  max-width:800px;
-  margin:30px auto;
-  padding:0 15px;
+@media(max-width:768px){
+  body{background-image:url("fundo-mobile-1080x1920.png")}
+}
+
+.overlay{
+  min-height:100vh;
+  background:rgba(0,0,0,.75);
+  padding:40px 15px;
 }
 
 h1{
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:30px;
 }
 
-.lista{
-  background:#0e1627;
-  border-radius:12px;
+.tabela{
+  max-width:700px;
+  margin:0 auto;
+  background:rgba(15,15,15,.9);
+  border-radius:15px;
   overflow:hidden;
 }
 
-.item{
+.linha{
   display:flex;
   align-items:center;
-  gap:15px;
-  padding:14px 18px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+  padding:14px 16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.item:last-child{
-  border-bottom:none;
-}
+.linha:last-child{border-bottom:none}
 
-.numero{
+.posicao{
   width:30px;
-  text-align:center;
-  font-weight:bold;
-  opacity:.8;
+  opacity:.7;
 }
 
-.logo{
-  width:34px;
-  height:34px;
+.emblema{
+  width:38px;
+  height:38px;
+  background:#000;
   border-radius:8px;
-  background:url("dd.webp") center/cover no-repeat;
-
-  object-fit:contain;
+  margin:0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.nome{
+.emblema img{
+  max-width:28px;
+  max-height:28px;
+}
+
+.clan{
   font-size:16px;
-  font-weight:500;
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="overlay">
+  <h1>VAGAS DO CAMPEONATO</h1>
 
-  <h1>📊 VAGAS DO TORNEIO</h1>
-
-  <div class="lista">
+  <div class="tabela">
 
     <!-- VAGA 1 -->
-    <div class="item">
-      <div class="numero">1</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">1</div>
+      <div class="emblema"><img src="clans/v1.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 2 -->
-    <div class="item">
-      <div class="numero">2</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">2</div>
+      <div class="emblema"><img src="clans/v2.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 3 -->
-    <div class="item">
-      <div class="numero">3</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">3</div>
+      <div class="emblema"><img src="clans/v3.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 4 -->
-    <div class="item">
-      <div class="numero">4</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">4</div>
+      <div class="emblema"><img src="clans/v4.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 5 -->
-    <div class="item">
-      <div class="numero">5</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">5</div>
+      <div class="emblema"><img src="clans/v5.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 6 -->
-    <div class="item">
-      <div class="numero">6</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">6</div>
+      <div class="emblema"><img src="clans/v6.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 7 -->
-    <div class="item">
-      <div class="numero">7</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">7</div>
+      <div class="emblema"><img src="clans/v7.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 8 -->
-    <div class="item">
-      <div class="numero">8</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">8</div>
+      <div class="emblema"><img src="clans/v8.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 9 -->
-    <div class="item">
-      <div class="numero">9</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">9</div>
+      <div class="emblema"><img src="clans/v9.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 10 -->
-    <div class="item">
-      <div class="numero">10</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">10</div>
+      <div class="emblema"><img src="clans/v10.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 11 -->
-    <div class="item">
-      <div class="numero">11</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">11</div>
+      <div class="emblema"><img src="clans/v11.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 12 -->
-    <div class="item">
-      <div class="numero">12</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">12</div>
+      <div class="emblema"><img src="clans/v12.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 13 -->
-    <div class="item">
-      <div class="numero">13</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">13</div>
+      <div class="emblema"><img src="clans/v13.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 14 -->
-    <div class="item">
-      <div class="numero">14</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">14</div>
+      <div class="emblema"><img src="clans/v14.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 15 -->
-    <div class="item">
-      <div class="numero">15</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">15</div>
+      <div class="emblema"><img src="clans/v15.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
     <!-- VAGA 16 -->
-    <div class="item">
-      <div class="numero">16</div>
-      <img class="logo" src="logos/vaga.png">
-      <div class="nome">NOME DO CLÃ</div>
+    <div class="linha">
+      <div class="posicao">16</div>
+      <div class="emblema"><img src="clans/v16.png"></div>
+      <div class="clan">NOME DO CLÃ</div>
     </div>
 
   </div>
