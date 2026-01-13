@@ -60,8 +60,8 @@ input{
     <input id="nome" placeholder="Digite seu nick">
 
     <p><strong>PIX:</strong></p>
-    <p>aa9e2475-78c0-4798-af15-88bdfe6d0399</p>
-    <img src="qrcode-pix.png" width="150">
+    <img id="qrPix" width="150" style="display:none">
+    <p id="msgPix">Clique em <b>JÁ PAGUEI</b> para gerar o PIX</p>
 
     <button class="btn btn-inscricao" onclick="liberar()">JÁ PAGUEI</button>
 
@@ -81,10 +81,9 @@ input{
 
 <script>
 const LIMITE = 5;
-let equipes = {
-  1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0
-};
+let equipes = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0};
 let jaGirou = false;
+let pagamentoId = null;
 
 function abrirMix(){
   document.getElementById("telaMix").style.display="flex";
@@ -95,12 +94,48 @@ function fechar(){
   document.getElementById("telaMix").style.display="none";
 }
 
-function liberar(){
-  if(!nome.value){
+async function liberar(){
+  const nick = nome.value.trim();
+  if(!nick){
     alert("Digite seu nick!");
     return;
   }
-  btnGirar.disabled=false;
+
+  document.getElementById("msgPix").innerText = "Gerando PIX...";
+
+  const res = await fetch("http://localhost:3000/criar-pagamento", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nome: nick })
+  });
+
+  const data = await res.json();
+  pagamentoId = data.id;
+
+  const img = document.getElementById("qrPix");
+  img.src = "data:image/png;base64," + data.qr_base64;
+  img.style.display = "block";
+
+  document.getElementById("msgPix").innerText =
+    "Escaneie o QR Code e pague";
+
+  verificarPagamento();
+}
+
+async function verificarPagamento(){
+  const timer = setInterval(async () => {
+    const res = await fetch(
+      `http://localhost:3000/status/${pagamentoId}`
+    );
+    const data = await res.json();
+
+    if(data.status === "approved"){
+      clearInterval(timer);
+      document.getElementById("msgPix").innerText =
+        "✅ Pagamento confirmado!";
+      btnGirar.disabled = false;
+    }
+  }, 3000);
 }
 
 function equipesDisponiveis(){
