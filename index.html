@@ -19,6 +19,7 @@ body{
 @media(max-width:768px){
   body{background-image:url("fundo-mobile-1080x1920.png")}
 }
+
 .overlay{
   min-height:100vh;
   background:rgba(0,0,0,.65);
@@ -26,10 +27,17 @@ body{
   align-items:center;
   justify-content:center;
 }
+
 .content{text-align:center}
-.logo{max-width:260px;width:80%;margin-bottom:20px}
+
+.logo{
+  max-width:260px;
+  width:80%;
+  margin-bottom:20px
+}
+
 h1{font-size:38px;margin:10px 0}
-p{margin-bottom:20px}
+p{opacity:.9}
 
 .btn{
   display:block;
@@ -47,6 +55,7 @@ p{margin-bottom:20px}
 
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
 .btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+.btn-jornal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
 .btn-mix{background:linear-gradient(135deg,#0ea5e9,#0284c7)}
 .btn-torneio{background:linear-gradient(135deg,#a855f7,#7c3aed)}
 .btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
@@ -55,7 +64,7 @@ p{margin-bottom:20px}
 .tela{
   position:fixed;
   inset:0;
-  background:#000;
+  background:rgba(0,0,0,.9);
   display:none;
   align-items:center;
   justify-content:center;
@@ -67,7 +76,7 @@ p{margin-bottom:20px}
   padding:25px;
   border-radius:15px;
   width:100%;
-  max-width:400px;
+  max-width:420px;
   text-align:center;
 }
 
@@ -113,13 +122,17 @@ button:disabled{opacity:.5}
       📊 VER TABELA
     </a>
 
+    <a href="jornal.html" class="btn btn-jornal">
+      📰 JORNAL SABR
+    </a>
+
     <footer style="margin-top:30px;font-size:14px;opacity:.8">
       © 2026 • Eventos SABR
     </footer>
   </div>
 </div>
 
-<!-- ESCOLHA -->
+<!-- ESCOLHA DE INSCRIÇÃO -->
 <div id="telaEscolha" class="tela">
   <div class="content">
     <h1>ESCOLHA A INSCRIÇÃO</h1>
@@ -156,7 +169,6 @@ button:disabled{opacity:.5}
     <p id="resultado"></p>
 
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ SAIR</button>
-
   </div>
 </div>
 
@@ -166,13 +178,16 @@ let jaGirou=false;
 function abrirEscolha(){
   document.getElementById("telaEscolha").style.display="flex";
 }
+
 function abrirMix(){
   document.getElementById("telaEscolha").style.display="none";
   document.getElementById("telaMix").style.display="flex";
 }
+
 function fecharTudo(){
   document.querySelectorAll(".tela").forEach(t=>t.style.display="none");
 }
+
 function liberar(){
   if(!nome.value){
     alert("Digite seu nick");
@@ -180,8 +195,10 @@ function liberar(){
   }
   btnGirar.disabled=false;
 }
+
 function girar(){
   if(jaGirou) return;
+
   jaGirou=true;
   btnGirar.disabled=true;
 
