@@ -61,9 +61,9 @@ input{
 
     <p><strong>PIX:</strong></p>
     <img id="qrPix" width="150" style="display:none">
-    <p id="msgPix">Clique em <b>JÁ PAGUEI</b> para gerar o PIX</p>
+    <p id="msgPix">Clique em <b>GERAR PIX</b> para pagar</p>
 
-    <button class="btn btn-inscricao" onclick="liberar()">JÁ PAGUEI</button>
+    <button class="btn btn-inscricao" onclick="gerarPix()">GERAR PIX</button>
 
     <div class="roleta" id="roleta">?</div>
 
@@ -94,8 +94,8 @@ function fechar(){
   document.getElementById("telaMix").style.display="none";
 }
 
-async function liberar(){
-  const nick = nome.value.trim();
+async function gerarPix(){
+  const nick = document.getElementById("nome").value.trim();
   if(!nick){
     alert("Digite seu nick!");
     return;
@@ -117,23 +117,21 @@ async function liberar(){
   img.style.display = "block";
 
   document.getElementById("msgPix").innerText =
-    "Escaneie o QR Code e pague";
+    "Escaneie o QR Code e efetue o pagamento";
 
   verificarPagamento();
 }
 
-async function verificarPagamento(){
-  const timer = setInterval(async () => {
-    const res = await fetch(
-      `http://localhost:3000/status/${pagamentoId}`
-    );
+function verificarPagamento(){
+  const intervalo = setInterval(async () => {
+    const res = await fetch(`http://localhost:3000/status/${pagamentoId}`);
     const data = await res.json();
 
     if(data.status === "approved"){
-      clearInterval(timer);
+      clearInterval(intervalo);
       document.getElementById("msgPix").innerText =
         "✅ Pagamento confirmado!";
-      btnGirar.disabled = false;
+      document.getElementById("btnGirar").disabled = false;
     }
   }, 3000);
 }
@@ -149,17 +147,17 @@ function girar(){
   if(disponiveis.length === 0){
     document.getElementById("resultado").innerHTML =
       "🚫 <b>MIX LOTADO</b><br>Inscrições encerradas.";
-    btnGirar.disabled=true;
+    document.getElementById("btnGirar").disabled=true;
     return;
   }
 
   jaGirou = true;
-  btnGirar.disabled=true;
+  document.getElementById("btnGirar").disabled=true;
 
   let tempo = 0;
   let intervalo = setInterval(()=>{
     const e = disponiveis[Math.floor(Math.random()*disponiveis.length)];
-    roleta.innerText = e;
+    document.getElementById("roleta").innerText = e;
     tempo += 100;
 
     if(tempo >= 2000){
