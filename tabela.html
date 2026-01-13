@@ -10,158 +10,179 @@
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:#000;
+  background:#0b1220;
   color:#fff;
 }
 
-.overlay{
-  min-height:100vh;
-  background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.8));
-  padding:30px 15px;
-}
-
 .container{
-  max-width:1100px;
-  margin:auto;
-  text-align:center;
+  max-width:800px;
+  margin:30px auto;
+  padding:0 15px;
 }
 
 h1{
-  margin-bottom:25px;
+  text-align:center;
+  margin-bottom:20px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
+.lista{
+  background:#0e1627;
+  border-radius:12px;
+  overflow:hidden;
 }
 
-.vaga{
-  background:#111;
-  border-radius:15px;
-  padding:20px;
+.item{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:14px 18px;
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
 
-.vaga img{
-  width:90px;
-  height:90px;
+.item:last-child{
+  border-bottom:none;
+}
+
+.numero{
+  width:30px;
+  text-align:center;
+  font-weight:bold;
+  opacity:.8;
+}
+
+.logo{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:#000;
   object-fit:contain;
-  margin-bottom:12px;
 }
 
-.vaga h2{
-  font-size:18px;
-  margin:0;
-  color:#22c55e;
+.nome{
+  font-size:16px;
+  font-weight:500;
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay">
-  <div class="container">
+<div class="container">
 
-    <h1>📊 VAGAS DO TORNEIO</h1>
+  <h1>📊 VAGAS DO TORNEIO</h1>
 
-    <div class="grid">
+  <div class="lista">
 
-      <!-- VAGA 1 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 1 -->
+    <div class="item">
+      <div class="numero">1</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 2 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 2 -->
+    <div class="item">
+      <div class="numero">2</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 3 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 3 -->
+    <div class="item">
+      <div class="numero">3</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 4 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 4 -->
+    <div class="item">
+      <div class="numero">4</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 5 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 5 -->
+    <div class="item">
+      <div class="numero">5</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 6 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 6 -->
+    <div class="item">
+      <div class="numero">6</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 7 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 7 -->
+    <div class="item">
+      <div class="numero">7</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 8 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 8 -->
+    <div class="item">
+      <div class="numero">8</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 9 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 9 -->
+    <div class="item">
+      <div class="numero">9</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 10 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 10 -->
+    <div class="item">
+      <div class="numero">10</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 11 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 11 -->
+    <div class="item">
+      <div class="numero">11</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 12 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 12 -->
+    <div class="item">
+      <div class="numero">12</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 13 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 13 -->
+    <div class="item">
+      <div class="numero">13</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 14 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 14 -->
+    <div class="item">
+      <div class="numero">14</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 15 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
+    <!-- VAGA 15 -->
+    <div class="item">
+      <div class="numero">15</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
+    </div>
 
-      <!-- VAGA 16 -->
-      <div class="vaga">
-        <img src="logo-vaga.png">
-        <h2>NOME DO CLÃ</h2>
-      </div>
-
+    <!-- VAGA 16 -->
+    <div class="item">
+      <div class="numero">16</div>
+      <img class="logo" src="logos/vaga.png">
+      <div class="nome">NOME DO CLÃ</div>
     </div>
 
   </div>
