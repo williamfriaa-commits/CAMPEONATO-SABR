@@ -44,13 +44,11 @@ input{
 
 <body>
 
-<!-- TELA INICIAL -->
 <div class="content">
   <h1>EVENTOS SABR</h1>
   <button class="btn btn-inscricao" onclick="abrirMix()">📝 INSCREVER-SE</button>
 </div>
 
-<!-- MIX -->
 <div id="telaMix" class="tela">
   <div class="box">
 
@@ -59,11 +57,12 @@ input{
 
     <input id="nome" placeholder="Digite seu nick">
 
-    <p><strong>PIX:</strong></p>
-    <img id="qrPix" width="150" style="display:none">
-    <p id="msgPix">Clique em <b>GERAR PIX</b> para pagar</p>
+    <button class="btn btn-inscricao" onclick="gerarPix()">
+      💸 GERAR PIX
+    </button>
 
-    <button class="btn btn-inscricao" onclick="gerarPix()">GERAR PIX</button>
+    <p id="msgPix"></p>
+    <img id="qrPix" width="150" style="display:none">
 
     <div class="roleta" id="roleta">?</div>
 
@@ -86,54 +85,50 @@ let jaGirou = false;
 let pagamentoId = null;
 
 function abrirMix(){
-  document.getElementById("telaMix").style.display="flex";
+  telaMix.style.display="flex";
   atualizarStatus();
 }
 
 function fechar(){
-  document.getElementById("telaMix").style.display="none";
+  telaMix.style.display="none";
 }
 
 async function gerarPix(){
-  const nick = document.getElementById("nome").value.trim();
+  const nick = nome.value.trim();
   if(!nick){
     alert("Digite seu nick!");
     return;
   }
 
-  document.getElementById("msgPix").innerText = "Gerando PIX...";
+  msgPix.innerText = "Gerando PIX...";
 
   const res = await fetch("http://localhost:3000/criar-pagamento", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome: nick })
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({ nome:nick })
   });
 
   const data = await res.json();
   pagamentoId = data.id;
 
-  const img = document.getElementById("qrPix");
-  img.src = "data:image/png;base64," + data.qr_base64;
-  img.style.display = "block";
+  qrPix.src = "data:image/png;base64," + data.qr_base64;
+  qrPix.style.display = "block";
 
-  document.getElementById("msgPix").innerText =
-    "Escaneie o QR Code e efetue o pagamento";
-
+  msgPix.innerText = "⏳ Aguardando pagamento...";
   verificarPagamento();
 }
 
 function verificarPagamento(){
-  const intervalo = setInterval(async () => {
+  const timer = setInterval(async ()=>{
     const res = await fetch(`http://localhost:3000/status/${pagamentoId}`);
     const data = await res.json();
 
     if(data.status === "approved"){
-      clearInterval(intervalo);
-      document.getElementById("msgPix").innerText =
-        "✅ Pagamento confirmado!";
-      document.getElementById("btnGirar").disabled = false;
+      clearInterval(timer);
+      msgPix.innerText = "✅ Pagamento confirmado!";
+      btnGirar.disabled = false;
     }
-  }, 3000);
+  },3000);
 }
 
 function equipesDisponiveis(){
@@ -142,29 +137,20 @@ function equipesDisponiveis(){
 
 function girar(){
   if(jaGirou) return;
-
-  const disponiveis = equipesDisponiveis();
-  if(disponiveis.length === 0){
-    document.getElementById("resultado").innerHTML =
-      "🚫 <b>MIX LOTADO</b><br>Inscrições encerradas.";
-    document.getElementById("btnGirar").disabled=true;
-    return;
-  }
-
   jaGirou = true;
-  document.getElementById("btnGirar").disabled=true;
+  btnGirar.disabled = true;
 
-  let tempo = 0;
-  let intervalo = setInterval(()=>{
-    const e = disponiveis[Math.floor(Math.random()*disponiveis.length)];
-    document.getElementById("roleta").innerText = e;
-    tempo += 100;
+  const disp = equipesDisponiveis();
+  let tempo=0;
 
-    if(tempo >= 2000){
-      clearInterval(intervalo);
+  const i = setInterval(()=>{
+    const e = disp[Math.floor(Math.random()*disp.length)];
+    roleta.innerText = e;
+    tempo+=100;
+    if(tempo>=2000){
+      clearInterval(i);
       equipes[e]++;
-      document.getElementById("resultado").innerHTML =
-        "✅ Você ficou na <b>SALA " + e + "</b>";
+      resultado.innerHTML = "✅ Você ficou na <b>SALA "+e+"</b>";
       atualizarStatus();
     }
   },100);
@@ -172,8 +158,7 @@ function girar(){
 
 function atualizarStatus(){
   const total = Object.values(equipes).reduce((a,b)=>a+b,0);
-  document.getElementById("status").innerHTML =
-    `Vagas preenchidas: <b>${total}/40</b>`;
+  status.innerHTML = `Vagas preenchidas: <b>${total}/40</b>`;
 }
 </script>
 
