@@ -1,168 +1,171 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Eventos SABR</title>
+<meta charset="UTF-8">
+<title>Tabela de Vagas - Eventos SABR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  color:#fff;
+}
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#000000">
+.overlay{
+  min-height:100vh;
+  background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.8));
+  padding:30px 15px;
+}
 
-  <style>
-    * { box-sizing: border-box; }
+.container{
+  max-width:1100px;
+  margin:auto;
+  text-align:center;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: white;
-      background-color: #000;
-      background-image: url("fundo-pc-1920x1080.png");
-      background-size: cover;
-      background-position: center;
-    }
+h1{
+  margin-bottom:25px;
+}
 
-    @media (max-width: 768px) {
-      body {
-        background-image: url("fundo-mobile-1080x1920.png");
-      }
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
 
-    .overlay {
-      min-height: 100vh;
-      padding: 40px 20px;
-      background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.vaga{
+  background:#111;
+  border-radius:15px;
+  padding:20px;
+}
 
-    .content {
-      text-align: center;
-      animation: fadeUp 1s ease forwards;
-    }
+.vaga img{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+  margin-bottom:12px;
+}
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo {
-      max-width: 260px;
-      width: 80%;
-      margin-bottom: 20px;
-    }
-
-    h1 { font-size: 42px; margin: 10px 0; }
-
-    p { font-size: 18px; margin-bottom: 30px; }
-
-    .btn {
-      display: block;
-      width: 320px;
-      max-width: 100%;
-      padding: 18px;
-      margin: 12px auto;
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 10px 25px rgba(0,0,0,.6);
-    }
-
-    .btn-inscricao { background: linear-gradient(135deg,#22c55e,#16a34a); }
-    .btn-mix { background: linear-gradient(135deg,#0ea5e9,#0284c7); }
-    .btn-torneio { background: linear-gradient(135deg,#a855f7,#7c3aed); }
-    .btn-camp { background: linear-gradient(135deg,#f59e0b,#d97706); }
-
-    /* TELA DE INSCRIÇÃO */
-    .tela-inscricao {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.95);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    footer { margin-top: 40px; font-size: 14px; opacity: .8; }
-  </style>
+.vaga h2{
+  font-size:18px;
+  margin:0;
+  color:#22c55e;
+}
+</style>
 </head>
 
 <body>
 
-<!-- TELA PRINCIPAL -->
 <div class="overlay">
-  <div class="content">
+  <div class="container">
 
-    <img src="logo.png" class="logo" alt="Eventos SABR">
+    <h1>📊 VAGAS DO TORNEIO</h1>
 
-    <h1>EVENTOS SABR</h1>
-    <p>GAMER SIGNAL Brasil</p>
+    <div class="grid">
 
-    <button class="btn btn-inscricao" onclick="abrirTela()">
-      📝 INSCREVER-SE
-    </button>
+      <!-- VAGA 1 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
 
-    <a href="tabela.html" class="btn btn-mix">📊 VER TABELA</a>
-    <a href="jornal.html" class="btn btn-torneio">📰 JORNAL SABR</a>
+      <!-- VAGA 2 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
 
-    <footer>
-      © 2026 • Eventos SAGS • Todos os direitos reservados
-    </footer>
+      <!-- VAGA 3 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 4 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 5 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 6 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 7 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 8 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 9 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 10 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 11 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 12 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 13 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 14 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 15 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+      <!-- VAGA 16 -->
+      <div class="vaga">
+        <img src="logo-vaga.png">
+        <h2>NOME DO CLÃ</h2>
+      </div>
+
+    </div>
 
   </div>
 </div>
-
-<!-- TELA DE ESCOLHA -->
-<div id="telaInscricao" class="tela-inscricao">
-  <div class="content">
-
-    <h1>ESCOLHA A INSCRIÇÃO</h1>
-
-    <button class="btn btn-mix" onclick="selecionar('MIX')">
-      🎮 INSCRIÇÃO MIX
-    </button>
-
-    <button class="btn btn-torneio" onclick="selecionar('TORNEIO')">
-      🏆 INSCRIÇÃO TORNEIO
-    </button>
-
-    <button class="btn btn-camp" onclick="selecionar('CAMPEONATO')">
-      🥇 INSCRIÇÃO CAMPEONATO
-    </button>
-
-    <button class="btn" onclick="fecharTela()" style="background:#ef4444">
-      ❌ VOLTAR
-    </button>
-
-  </div>
-</div>
-
-<script>
-function abrirTela() {
-  document.getElementById("telaInscricao").style.display = "flex";
-}
-
-function fecharTela() {
-  document.getElementById("telaInscricao").style.display = "none";
-}
-
-function selecionar(tipo) {
-  alert("Você escolheu: " + tipo);
-  // PRÓXIMA ETAPA:
-  // aqui entra Série A / B ou formulário
-}
-</script>
 
 </body>
 </html>
