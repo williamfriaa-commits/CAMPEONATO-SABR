@@ -30,6 +30,7 @@ h1{
   margin-bottom:30px;
 }
 
+/* Tabela existente */
 .tabela{
   max-width:700px;
   margin:0 auto;
@@ -72,6 +73,65 @@ h1{
   font-size:16px;
   font-weight:bold;
 }
+
+/* Chaveamento */
+.chaveamento{
+  max-width:1200px;
+  margin:50px auto 0;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.round{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  flex:1;
+  min-width:150px;
+}
+
+.round-title{
+  text-align:center;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.match{
+  background:rgba(30,30,30,0.9);
+  border:1px solid #444;
+  border-radius:6px;
+  padding:10px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  min-height:50px;
+}
+
+/* Emblema dentro do match */
+.match .emblema{
+  width:32px;
+  height:32px;
+  margin:0;
+}
+
+.match .clan{
+  font-size:14px;
+  font-weight:bold;
+}
+
+/* Responsivo */
+@media(max-width:768px){
+  .chaveamento{
+    flex-direction:column;
+    align-items:center;
+  }
+  .round{
+    min-width:80%;
+  }
+}
 </style>
 </head>
 
@@ -81,119 +141,183 @@ h1{
   <h1>VAGAS DO CAMPEONATO</h1>
 
   <div class="tabela">
-
-    <!-- VAGA 1 -->
+    <!-- SUA TABELA EXISTENTE AQUI -->
     <div class="linha">
       <div class="posicao">1</div>
       <div class="emblema"><img src="celtic.png"></div>
       <div class="clan">CELTICS</div>
     </div>
-
-    <!-- VAGA 2 -->
     <div class="linha">
       <div class="posicao">2</div>
       <div class="emblema"><img src="ClassiC-.png"></div>
       <div class="clan">CLASSIC</div>
     </div>
-
-    <!-- VAGA 3 -->
     <div class="linha">
       <div class="posicao">3</div>
       <div class="emblema"><img src="GTS (1).png"></div>
       <div class="clan">.::GTS::.</div>
     </div>
-
-    <!-- VAGA 4 -->
     <div class="linha">
       <div class="posicao">4</div>
       <div class="emblema"><img src="HOMELLES.png"></div>
       <div class="clan">HOMELLES</div>
     </div>
-
-    <!-- VAGA 5 -->
     <div class="linha">
       <div class="posicao">5</div>
       <div class="emblema"><img src="avox.png"></div>
       <div class="clan">AVOXY</div>
     </div>
-
-    <!-- VAGA 6 -->
     <div class="linha">
       <div class="posicao">6</div>
       <div class="emblema"><img src="funny.png"></div>
       <div class="clan">FUNNY</div>
     </div>
-
-    <!-- VAGA 7 -->
     <div class="linha">
       <div class="posicao">7</div>
       <div class="emblema"><img src="hyperX.png"></div>
       <div class="clan">HYPERX-</div>
     </div>
-
-    <!-- VAGA 8 -->
     <div class="linha">
       <div class="posicao">8</div>
       <div class="emblema"><img src="king.png"></div>
       <div class="clan">KING-</div>
     </div>
-
-    <!-- VAGA 9 -->
     <div class="linha">
       <div class="posicao">9</div>
       <div class="emblema"><img src="playcore.png"></div>
       <div class="clan">PLAYCORE</div>
     </div>
-
-    <!-- VAGA 10 -->
     <div class="linha">
       <div class="posicao">10</div>
       <div class="emblema"><img src="reaction.jpeg"></div>
       <div class="clan">REACTION-</div>
     </div>
-
-    <!-- VAGA 11 -->
     <div class="linha">
       <div class="posicao">11</div>
       <div class="emblema"><img src="since.png"></div>
       <div class="clan">SINCE</div>
     </div>
-
-    <!-- VAGA 12 -->
     <div class="linha">
       <div class="posicao">12</div>
       <div class="emblema"><img src="theend.jpeg"></div>
       <div class="clan">THEENDGAAMING</div>
     </div>
-
-    <!-- VAGA 13 -->
     <div class="linha">
       <div class="posicao">13</div>
       <div class="emblema"><img src="undecided.png"></div>
       <div class="clan">UNDECIDE</div>
     </div>
-
-    <!-- VAGA 14 -->
     <div class="linha">
       <div class="posicao">14</div>
       <div class="emblema"><img src="unsharkble~.png"></div>
       <div class="clan">UNSHAKABLE~</div>
     </div>
-
-    <!-- VAGA 15 -->
     <div class="linha">
       <div class="posicao">15</div>
       <div class="emblema"><img src="clans/v15.png"></div>
       <div class="clan">YINYANG</div>
     </div>
-
-    <!-- VAGA 16 -->
     <div class="linha">
       <div class="posicao">16</div>
       <div class="emblema"><img src="varzea.png"></div>
       <div class="clan">VÁRZEA</div>
     </div>
+  </div>
 
+  <!-- NOVO CHAVEAMENTO COM IMAGEM -->
+  <h1>CHAVEAMENTO - 16 TIMES</h1>
+  <div class="chaveamento">
+    <!-- Oitavas -->
+    <div class="round">
+      <div class="round-title">Oitavas</div>
+
+      <div class="match">
+        <div class="emblema"><img src="celtic.png"></div>
+        <div class="clan">CELTICS</div>
+        <span>vs</span>
+        <div class="emblema"><img src="varzea.png"></div>
+        <div class="clan">VÁRZEA</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="king.png"></div>
+        <div class="clan">KING-</div>
+        <span>vs</span>
+        <div class="emblema"><img src="playcore.png"></div>
+        <div class="clan">PLAYCORE</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="avox.png"></div>
+        <div class="clan">AVOXY</div>
+        <span>vs</span>
+        <div class="emblema"><img src="HOMELLES.png"></div>
+        <div class="clan">HOMELLES</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="funny.png"></div>
+        <div class="clan">FUNNY</div>
+        <span>vs</span>
+        <div class="emblema"><img src="GTS (1).png"></div>
+        <div class="clan">.::GTS::.</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="hyperX.png"></div>
+        <div class="clan">HYPERX-</div>
+        <span>vs</span>
+        <div class="emblema"><img src="theend.jpeg"></div>
+        <div class="clan">THEENDGAAMING</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="v15.png"></div>
+        <div class="clan">YINYANG</div>
+        <span>vs</span>
+        <div class="emblema"><img src="unsharkble~.png"></div>
+        <div class="clan">UNSHAKABLE~</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="reaction.jpeg"></div>
+        <div class="clan">REACTION-</div>
+        <span>vs</span>
+        <div class="emblema"><img src="undecided.png"></div>
+        <div class="clan">UNDECIDE</div>
+      </div>
+
+      <div class="match">
+        <div class="emblema"><img src="ClassiC-.png"></div>
+        <div class="clan">CLASSIC</div>
+        <span>vs</span>
+        <div class="emblema"><img src="since.png"></div>
+        <div class="clan">SINCE</div>
+      </div>
+
+    </div>
+
+    <!-- Quartas -->
+    <div class="round">
+      <div class="round-title">Quartas</div>
+      <div class="match">Vencedor 1 vs Vencedor 2</div>
+      <div class="match">Vencedor 3 vs Vencedor 4</div>
+      <div class="match">Vencedor 5 vs Vencedor 6</div>
+      <div class="match">Vencedor 7 vs Vencedor 8</div>
+    </div>
+
+    <!-- Semifinal -->
+    <div class="round">
+      <div class="round-title">Semifinal</div>
+      <div class="match">Vencedor Q1 vs Vencedor Q2</div>
+      <div class="match">Vencedor Q3 vs Vencedor Q4</div>
+    </div>
+
+    <!-- Final -->
+    <div class="round">
+      <div class="round-title">Final</div>
+      <div class="match">Vencedor S1 vs Vencedor S2</div>
+    </div>
   </div>
 </div>
 
