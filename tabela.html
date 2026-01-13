@@ -2,324 +2,249 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Tabela – Eventos SABR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Chaveamento Torneio 16 Times</title>
 <style>
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family: Arial, sans-serif;
+  background:#111 url("dd.webp") center/cover no-repeat;
   color:#fff;
-  background:#000 url("dd.webp") center/cover no-repeat;
-}
-
-@media(max-width:768px){
-  body{background-image:url("dd.webp")}
-}
-
-.overlay{
-  min-height:100vh;
-  background:rgba(0,0,0,.75);
-  padding:40px 15px;
 }
 
 h1{
   text-align:center;
-  margin-bottom:30px;
+  margin:20px 0;
+  font-size:28px;
+  text-shadow: 2px 2px 5px #000;
 }
 
-/* Tabela existente */
-.tabela{
-  max-width:700px;
-  margin:0 auto;
-  background:rgba(15,15,15,.9);
-  border-radius:15px;
-  overflow:hidden;
-}
-
-.linha{
-  display:flex;
-  align-items:center;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.linha:last-child{border-bottom:none}
-
-.posicao{
-  width:30px;
-  opacity:.7;
-}
-
-.emblema{
-  width:38px;
-  height:38px;
-  background:#000;
-  border-radius:8px;
-  margin:0 12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.emblema img{
-  max-width:28px;
-  max-height:28px;
-}
-
-.clan{
-  font-size:16px;
-  font-weight:bold;
-}
-
-/* Chaveamento */
 .chaveamento{
-  max-width:1200px;
-  margin:50px auto 0;
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  flex-wrap:wrap;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 20px;
+  flex-wrap: nowrap;
+  position: relative;
 }
 
+/* Round / Fase */
 .round{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
-  flex:1;
-  min-width:150px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
 }
 
+/* Título da fase */
 .round-title{
-  text-align:center;
+  text-align: center;
   font-weight:bold;
+  font-size:18px;
   margin-bottom:10px;
+  color:#FFD700;
+  text-shadow: 1px 1px 3px #000;
 }
 
+/* Confronto */
 .match{
-  background:rgba(30,30,30,0.9);
-  border:1px solid #444;
-  border-radius:6px;
-  padding:10px;
   display:flex;
   align-items:center;
-  justify-content:flex-start;
-  gap:10px;
-  min-height:50px;
+  gap:6px;
+  background: rgba(20,20,20,0.9);
+  border-radius:8px;
+  padding:8px;
+  position: relative;
+  min-height:60px;
+  border-left:3px solid #FFD700;
 }
 
-/* Emblema dentro do match */
 .match .emblema{
-  width:32px;
-  height:32px;
-  margin:0;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.match .emblema img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .match .clan{
-  font-size:14px;
   font-weight:bold;
+  font-size:14px;
+}
+
+.match span{
+  margin:0 4px;
+  font-weight:bold;
+  color:#FFD700;
+}
+
+.match .mapa{
+  font-size:12px;
+  margin-left:auto;
+  color:#ccc;
+}
+
+/* Linhas conectando os rounds */
+.round:not(:last-child) .match::after{
+  content:'';
+  position:absolute;
+  width:40px;
+  height:2px;
+  background:#FFD700;
+  right:-40px;
+  top:50%;
+}
+
+.round:nth-child(2) .match:nth-child(odd)::after,
+.round:nth-child(3) .match:nth-child(odd)::after{
+  top:25%;
+}
+
+.round:nth-child(2) .match:nth-child(even)::after,
+.round:nth-child(3) .match:nth-child(even)::after{
+  top:75%;
+}
+
+/* Conexão vertical das linhas (tarja) */
+.round:not(:last-child) .match:nth-child(odd)::before,
+.round:not(:last-child) .match:nth-child(even)::before{
+  content:'';
+  position:absolute;
+  width:2px;
+  height:40px;
+  background:#FFD700;
+  right:-40px;
+}
+
+.round:not(:last-child) .match:nth-child(odd)::before{
+  top:50%;
+}
+
+.round:not(:last-child) .match:nth-child(even)::before{
+  top:-50%;
 }
 
 /* Responsivo */
-@media(max-width:768px){
+@media(max-width:1200px){
   .chaveamento{
-    flex-direction:column;
+    flex-direction: column;
     align-items:center;
+    gap:30px;
   }
   .round{
-    min-width:80%;
+    gap:20px;
   }
 }
 </style>
 </head>
-
 <body>
 
-<div class="overlay">
-  <h1>VAGAS DO CAMPEONATO</h1>
+<h1>CHAVEAMENTO TORNEIO 16 TIMES</h1>
 
-  <div class="tabela">
-    <!-- SUA TABELA EXISTENTE AQUI -->
-    <div class="linha">
-      <div class="posicao">1</div>
-      <div class="emblema"><img src="celtic.png"></div>
-      <div class="clan">CELTICS</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">2</div>
-      <div class="emblema"><img src="ClassiC-.png"></div>
-      <div class="clan">CLASSIC</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">3</div>
-      <div class="emblema"><img src="GTS (1).png"></div>
-      <div class="clan">.::GTS::.</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">4</div>
-      <div class="emblema"><img src="HOMELLES.png"></div>
-      <div class="clan">HOMELLES</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">5</div>
-      <div class="emblema"><img src="avox.png"></div>
-      <div class="clan">AVOXY</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">6</div>
-      <div class="emblema"><img src="funny.png"></div>
-      <div class="clan">FUNNY</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">7</div>
+<div class="chaveamento">
+  <!-- Oitavas A -->
+  <div class="round">
+    <div class="round-title">Oitavas A</div>
+    <div class="match">
       <div class="emblema"><img src="hyperX.png"></div>
       <div class="clan">HYPERX-</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">8</div>
-      <div class="emblema"><img src="king.png"></div>
-      <div class="clan">KING-</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">9</div>
-      <div class="emblema"><img src="playcore.png"></div>
-      <div class="clan">PLAYCORE</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">10</div>
+      <span>vs</span>
       <div class="emblema"><img src="reaction.jpeg"></div>
       <div class="clan">REACTION-</div>
+      <div class="mapa">CP | DR</div>
     </div>
-    <div class="linha">
-      <div class="posicao">11</div>
-      <div class="emblema"><img src="since.png"></div>
-      <div class="clan">SINCE</div>
+    <div class="match">
+      <div class="emblema"><img src="avox.png"></div>
+      <div class="clan">AVOXY</div>
+      <span>vs</span>
+      <div class="emblema"><img src="HOMELLES.png"></div>
+      <div class="clan">HOMELLES</div>
+      <div class="mapa">CP | DR</div>
     </div>
-    <div class="linha">
-      <div class="posicao">12</div>
+    <div class="match">
+      <div class="emblema"><img src="v15.png"></div>
+      <div class="clan">YINYANG</div>
+      <span>vs</span>
+      <div class="emblema"><img src="celtic.png"></div>
+      <div class="clan">CELTICS</div>
+      <div class="mapa">CP | DR</div>
+    </div>
+    <div class="match">
       <div class="emblema"><img src="theend.jpeg"></div>
       <div class="clan">THEENDGAAMING</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">13</div>
+      <span>vs</span>
       <div class="emblema"><img src="undecided.png"></div>
       <div class="clan">UNDECIDE</div>
+      <div class="mapa">CP | DR</div>
     </div>
-    <div class="linha">
-      <div class="posicao">14</div>
-      <div class="emblema"><img src="unsharkble~.png"></div>
-      <div class="clan">UNSHAKABLE~</div>
+  </div>
+
+  <!-- Oitavas B -->
+  <div class="round">
+    <div class="round-title">Oitavas B</div>
+    <div class="match">
+      <div class="emblema"><img src="GTS (1).png"></div>
+      <div class="clan">.::GTS::.</div>
+      <span>vs</span>
+      <div class="emblema"><img src="playcore.png"></div>
+      <div class="clan">PLAYCORE</div>
+      <div class="mapa">CP | DR</div>
     </div>
-    <div class="linha">
-      <div class="posicao">15</div>
-      <div class="emblema"><img src="clans/v15.png"></div>
-      <div class="clan">YINYANG</div>
-    </div>
-    <div class="linha">
-      <div class="posicao">16</div>
+    <div class="match">
       <div class="emblema"><img src="varzea.png"></div>
       <div class="clan">VÁRZEA</div>
+      <span>vs</span>
+      <div class="emblema"><img src="ClassiC-.png"></div>
+      <div class="clan">CLASSIC</div>
+      <div class="mapa">CP | DR</div>
+    </div>
+    <div class="match">
+      <div class="emblema"><img src="king.png"></div>
+      <div class="clan">KINGS-</div>
+      <span>vs</span>
+      <div class="emblema"><img src="since.png"></div>
+      <div class="clan">SINCE</div>
+      <div class="mapa">CP | DR</div>
+    </div>
+    <div class="match">
+      <div class="emblema"><img src="unsharkble~.png"></div>
+      <div class="clan">UNSHAKABLE~</div>
+      <span>vs</span>
+      <div class="emblema"><img src="funny.png"></div>
+      <div class="clan">FUNNY</div>
+      <div class="mapa">CP | DR</div>
     </div>
   </div>
 
-  <!-- NOVO CHAVEAMENTO COM IMAGEM -->
-  <h1>CHAVEAMENTO - 16 TIMES</h1>
-  <div class="chaveamento">
-    <!-- Oitavas -->
-    <div class="round">
-      <div class="round-title">Oitavas</div>
-
-      <div class="match">
-        <div class="emblema"><img src="celtic.png"></div>
-        <div class="clan">CELTICS</div>
-        <span>vs</span>
-        <div class="emblema"><img src="varzea.png"></div>
-        <div class="clan">VÁRZEA</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="king.png"></div>
-        <div class="clan">KING-</div>
-        <span>vs</span>
-        <div class="emblema"><img src="playcore.png"></div>
-        <div class="clan">PLAYCORE</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="avox.png"></div>
-        <div class="clan">AVOXY</div>
-        <span>vs</span>
-        <div class="emblema"><img src="HOMELLES.png"></div>
-        <div class="clan">HOMELLES</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="funny.png"></div>
-        <div class="clan">FUNNY</div>
-        <span>vs</span>
-        <div class="emblema"><img src="GTS (1).png"></div>
-        <div class="clan">.::GTS::.</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="hyperX.png"></div>
-        <div class="clan">HYPERX-</div>
-        <span>vs</span>
-        <div class="emblema"><img src="theend.jpeg"></div>
-        <div class="clan">THEENDGAAMING</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="v15.png"></div>
-        <div class="clan">YINYANG</div>
-        <span>vs</span>
-        <div class="emblema"><img src="unsharkble~.png"></div>
-        <div class="clan">UNSHAKABLE~</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="reaction.jpeg"></div>
-        <div class="clan">REACTION-</div>
-        <span>vs</span>
-        <div class="emblema"><img src="undecided.png"></div>
-        <div class="clan">UNDECIDE</div>
-      </div>
-
-      <div class="match">
-        <div class="emblema"><img src="ClassiC-.png"></div>
-        <div class="clan">CLASSIC</div>
-        <span>vs</span>
-        <div class="emblema"><img src="since.png"></div>
-        <div class="clan">SINCE</div>
-      </div>
-
-    </div>
-
-    <!-- Quartas -->
-    <div class="round">
-      <div class="round-title">Quartas</div>
-      <div class="match">Vencedor 1 vs Vencedor 2</div>
-      <div class="match">Vencedor 3 vs Vencedor 4</div>
-      <div class="match">Vencedor 5 vs Vencedor 6</div>
-      <div class="match">Vencedor 7 vs Vencedor 8</div>
-    </div>
-
-    <!-- Semifinal -->
-    <div class="round">
-      <div class="round-title">Semifinal</div>
-      <div class="match">Vencedor Q1 vs Vencedor Q2</div>
-      <div class="match">Vencedor Q3 vs Vencedor Q4</div>
-    </div>
-
-    <!-- Final -->
-    <div class="round">
-      <div class="round-title">Final</div>
-      <div class="match">Vencedor S1 vs Vencedor S2</div>
-    </div>
+  <!-- Quartas -->
+  <div class="round">
+    <div class="round-title">Quartas</div>
+    <div class="match">Vencedor A1 vs Vencedor A2</div>
+    <div class="match">Vencedor A3 vs Vencedor A4</div>
+    <div class="match">Vencedor B1 vs Vencedor B2</div>
+    <div class="match">Vencedor B3 vs Vencedor B4</div>
   </div>
+
+  <!-- Semifinal -->
+  <div class="round">
+    <div class="round-title">Semifinal (MD3)</div>
+    <div class="match">Vencedor Q1 vs Vencedor Q2</div>
+    <div class="match">Vencedor Q3 vs Vencedor Q4</div>
+  </div>
+
+  <!-- Final -->
+  <div class="round">
+    <div class="round-title">Final (MD5)</div>
+    <div class="match">Vencedor S1 vs Vencedor S2</div>
+  </div>
+
 </div>
-
 </body>
 </html>
