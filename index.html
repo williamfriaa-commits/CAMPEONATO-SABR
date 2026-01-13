@@ -20,15 +20,12 @@
       font-family: Arial, sans-serif;
       color: white;
       background-color: #000;
-
-      /* FUNDO PC */
       background-image: url("fundo-pc-1920x1080.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
 
-    /* FUNDO MOBILE */
     @media (max-width: 768px) {
       body {
         background-image: url("fundo-mobile-1080x1920.png");
@@ -89,7 +86,6 @@
       margin: 12px auto;
       font-size: 18px;
       font-weight: bold;
-      text-decoration: none;
       color: white;
       border-radius: 12px;
       border: none;
@@ -122,20 +118,6 @@
       background: linear-gradient(135deg, #f59e0b, #d97706);
       display: none;
     }
-
-    footer {
-      margin-top: 40px;
-      font-size: 14px;
-      opacity: 0.8;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-    }
-
-    @media (max-width: 768px) {
-      h1 { font-size: 28px; }
-      p { font-size: 16px; }
-      .btn { font-size: 16px; padding: 16px; }
-      footer { font-size: 12px; }
-    }
   </style>
 </head>
 
@@ -148,9 +130,25 @@
       <h1>EVENTOS SABR</h1>
       <p>GAMER SIGNAL Brasil</p>
 
-      <a href="https://forms.gle/X7RhYCWCc4WVV4fo9" class="btn btn-inscricao" target="_blank">
+      <!-- BOTÃO PRINCIPAL -->
+      <button class="btn btn-inscricao" onclick="abrirOpcoes()">
         📝 INSCREVER-SE
-      </a>
+      </button>
+
+      <!-- OPÇÕES DE INSCRIÇÃO -->
+      <div id="opcoesInscricao" style="display:none; margin-top:20px;">
+        <button class="btn btn-inscricao" onclick="selecionarTipo('MIX')">
+          🎮 INSCRIÇÃO MIX
+        </button>
+
+        <button class="btn btn-tabela" onclick="selecionarTipo('TORNEIO')">
+          🏆 INSCRIÇÃO TORNEIO
+        </button>
+
+        <button class="btn btn-jornal" onclick="selecionarTipo('CAMPEONATO')">
+          🥇 INSCRIÇÃO CAMPEONATO
+        </button>
+      </div>
 
       <a href="tabela.html" class="btn btn-tabela">
         📊 VER TABELA
@@ -168,7 +166,7 @@
         📲 INSTALAR APP
       </button>
 
-      <footer>
+      <footer style="margin-top:40px;font-size:14px;opacity:.8;">
         © 2026 • Eventos SABR • Todos os direitos reservados
       </footer>
 
@@ -182,7 +180,7 @@
     }
   </script>
 
-  <!-- BOTÃO INSTALAR -->
+  <!-- INSTALAR APP -->
   <script>
     let deferredPrompt;
     const installBtn = document.getElementById("installBtn");
@@ -202,6 +200,18 @@
         deferredPrompt = null;
       }
     });
+
+    function abrirOpcoes() {
+      const opcoes = document.getElementById("opcoesInscricao");
+      opcoes.style.display = "block";
+      opcoes.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function selecionarTipo(tipo) {
+      alert("Tipo selecionado: " + tipo);
+      // PRÓXIMA ETAPA:
+      // aqui entra Série A / B ou formulário
+    }
   </script>
 
 </body>
