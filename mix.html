@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Mix Sudden Attack</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+
+.box{
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:400px;
+  text-align:center;
+}
+
+h1{
+  margin-bottom:10px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  margin-bottom:10px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn-pagar{
+  background:#22c55e;
+  color:#000;
+}
+
+.btn-girar{
+  background:#3b82f6;
+  color:#fff;
+}
+
+.btn-girar:disabled{
+  background:#555;
+  cursor:not-allowed;
+}
+
+.roleta{
+  margin:20px auto;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  border:8px solid #22c55e;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  font-weight:bold;
+}
+
+.resultado{
+  margin-top:15px;
+  font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>🎮 MIX SA</h1>
+<p>Valor: <strong>R$ 4,00</strong></p>
+
+<input id="nome" placeholder="Digite seu nick">
+
+<!-- PIX -->
+<div style="margin-top:10px;">
+  <p><strong>PIX:</strong></p>
+  <p>SUA_CHAVE_PIX_AQUI</p>
+  <img src="qrcode-pix.png" alt="QR Code Pix" style="width:150px;">
+</div>
+
+<button class="btn-pagar" onclick="liberarRoleta()">
+  JÁ PAGUEI – GIRAR ROLETA
+</button>
+
+<div class="roleta" id="roleta">?</div>
+
+<button class="btn-girar" id="btnGirar" onclick="girar()" disabled>
+  🎯 GIRAR
+</button>
+
+<div class="resultado" id="resultado"></div>
+
+</div>
+
+<script>
+let jaGirou = false;
+
+function liberarRoleta(){
+  const nome = document.getElementById("nome").value;
+  if(!nome){
+    alert("Digite seu nome/nick!");
+    return;
+  }
+  document.getElementById("btnGirar").disabled = false;
+}
+
+function girar(){
+  if(jaGirou) return;
+
+  jaGirou = true;
+  document.getElementById("btnGirar").disabled = true;
+
+  let tempo = 0;
+  let intervalo = setInterval(()=>{
+    const n = Math.floor(Math.random()*8)+1;
+    document.getElementById("roleta").innerText = n;
+    tempo += 100;
+
+    if(tempo >= 2000){
+      clearInterval(intervalo);
+      mostrarResultado(n);
+    }
+  },100);
+}
+
+function mostrarResultado(numero){
+  document.getElementById("resultado").innerHTML =
+    "✅ Você ficou na <strong>EQUIPE / SALA " + numero + "</strong><br>" +
+    "❌ Não é permitido girar novamente.";
+}
+</script>
+
+</body>
+</html>
