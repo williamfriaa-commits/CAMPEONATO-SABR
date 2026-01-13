@@ -2,191 +2,167 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Tabela do Campeonato SABR</title>
+  <title>Eventos SABR</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       color: white;
       background-color: #000;
-
-      /* FUNDO PC */
-      background-image: url("dd.webp");
+      background-image: url("fundo-pc-1920x1080.png");
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
     }
 
-    /* FUNDO MOBILE */
     @media (max-width: 768px) {
       body {
-        background-image: url("dd.webp");
+        background-image: url("fundo-mobile-1080x1920.png");
       }
     }
 
     .overlay {
       min-height: 100vh;
-      padding: 30px 15px;
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-    }
-
-    table {
-      width: 100%;
-      max-width: 650px;
-      margin: auto;
-      border-collapse: collapse;
-      background: rgba(17, 24, 39, 0.95);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    th, td {
-      padding: 14px;
-      text-align: center;
-      border-bottom: 1px solid #1f2937;
-      font-size: 15px;
-    }
-
-    th {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      font-size: 16px;
-    }
-
-    tr:nth-child(even) {
-      background: rgba(31, 41, 55, 0.85);
-    }
-
-    .time {
+      padding: 40px 20px;
+      background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65));
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
     }
 
-    .time img {
-      width: 36px;
-      height: 36px;
-      object-fit: contain;
-      background: #000;
-      border-radius: 6px;
-      padding: 4px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-    }
-
-    .voltar {
-      display: block;
-      margin: 30px auto 0;
+    .content {
       text-align: center;
-      text-decoration: none;
-      color: #38bdf8;
-      font-weight: bold;
+      animation: fadeUp 1s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      max-width: 260px;
+      width: 80%;
+      margin-bottom: 20px;
+    }
+
+    h1 { font-size: 42px; margin: 10px 0; }
+
+    p { font-size: 18px; margin-bottom: 30px; }
+
+    .btn {
+      display: block;
+      width: 320px;
+      max-width: 100%;
+      padding: 18px;
+      margin: 12px auto;
       font-size: 18px;
+      font-weight: bold;
+      color: white;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: .2s;
     }
 
-    .voltar:hover {
-      text-decoration: underline;
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 10px 25px rgba(0,0,0,.6);
     }
 
-    /* MOBILE FINO */
-    @media (max-width: 480px) {
-      th, td {
-        padding: 10px;
-        font-size: 14px;
-      }
+    .btn-inscricao { background: linear-gradient(135deg,#22c55e,#16a34a); }
+    .btn-mix { background: linear-gradient(135deg,#0ea5e9,#0284c7); }
+    .btn-torneio { background: linear-gradient(135deg,#a855f7,#7c3aed); }
+    .btn-camp { background: linear-gradient(135deg,#f59e0b,#d97706); }
 
-      .time img {
-        width: 30px;
-        height: 30px;
-      }
-
-      .voltar {
-        font-size: 16px;
-      }
+    /* TELA DE INSCRIÇÃO */
+    .tela-inscricao {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
     }
+
+    footer { margin-top: 40px; font-size: 14px; opacity: .8; }
   </style>
 </head>
 
 <body>
-  <div class="overlay">
 
-    <h1>🏆 Times Cadastrados</h1>
+<!-- TELA PRINCIPAL -->
+<div class="overlay">
+  <div class="content">
 
-    <table>
-      <tr>
-        <th>#</th>
-        <th>Time</th>
-      </tr>
+    <img src="logo.png" class="logo" alt="Eventos SABR">
 
-      <tr>
-        <td>1</td>
-        <td class="time">
-          <img src="varzea.png">
-          <span>VÁRZEA</span>
-        </td>
-      </tr>
+    <h1>EVENTOS SABR</h1>
+    <p>GAMER SIGNAL Brasil</p>
 
-      <tr>
-        <td>2</td>
-        <td class="time">
-          <img src="GTS (1).png">
-          <span>.::GTS::.</span>
-        </td>
-      </tr>
+    <button class="btn btn-inscricao" onclick="abrirTela()">
+      📝 INSCREVER-SE
+    </button>
 
-      <tr>
-        <td>3</td>
-        <td class="time">
-          <img src="funny.png">
-          <span>FUNNY</span>
-        </td>
-      </tr>
+    <a href="tabela.html" class="btn btn-mix">📊 VER TABELA</a>
+    <a href="jornal.html" class="btn btn-torneio">📰 JORNAL SABR</a>
 
-      <tr>
-        <td>4</td>
-        <td class="time">
-          <img src="hyperX.png">
-          <span>Hyperx</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td>5</td>
-        <td class="time">
-          <img src="playcore.png">
-          <span>PlayCore</span>
-        </td>
-      </tr>
-
-      <!-- VAGAS -->
-      <tr><td>6</td><td class="time"><img src="HOMELLES.png"><span>homeless</span></td></tr>
-      <tr><td>7</td><td class="time"><img src="reaction.jpeg"><span>Reaction-</span></td></tr>
-      <tr><td>8</td><td class="time"><img src="theend.jpeg"><span>TheEndGaming</span></td></tr>
-      <tr><td>9</td><td class="time"><img src="ClassiC-.png"><span>ClassiC-</span></td></tr>
-      <tr><td>10</td><td class="time"><img src="avox.png"><span>Avoxy</span></td></tr>
-      <tr><td>11</td><td class="time"><img src="since.png"><span>Since</span></td></tr>
-      <tr><td>12</td><td class="time"><img src="unsharkble~.png"><span>Unshakable~</span></td></tr>
-      <tr><td>13</td><td class="time"><img src="yang.png"><span>YinYang</span></td></tr>
-      <tr><td>14</td><td class="time"><img src="undecided.png"><span>Undecided.</span></td></tr>
-      <tr><td>15</td><td class="time"><img src="king.png"><span>Kings-</span></td></tr>
-      <tr><td>16</td><td class="time"><img src="celtic.png"><span>Celtics</span></td></tr>
-    </table>
-
-    <a class="voltar" href="index.html">⬅ Voltar para o início</a>
+    <footer>
+      © 2026 • Eventos SABR • Todos os direitos reservados
+    </footer>
 
   </div>
+</div>
+
+<!-- TELA DE ESCOLHA -->
+<div id="telaInscricao" class="tela-inscricao">
+  <div class="content">
+
+    <h1>ESCOLHA A INSCRIÇÃO</h1>
+
+    <button class="btn btn-mix" onclick="selecionar('MIX')">
+      🎮 INSCRIÇÃO MIX
+    </button>
+
+    <button class="btn btn-torneio" onclick="selecionar('TORNEIO')">
+      🏆 INSCRIÇÃO TORNEIO
+    </button>
+
+    <button class="btn btn-camp" onclick="selecionar('CAMPEONATO')">
+      🥇 INSCRIÇÃO CAMPEONATO
+    </button>
+
+    <button class="btn" onclick="fecharTela()" style="background:#ef4444">
+      ❌ VOLTAR
+    </button>
+
+  </div>
+</div>
+
+<script>
+function abrirTela() {
+  document.getElementById("telaInscricao").style.display = "flex";
+}
+
+function fecharTela() {
+  document.getElementById("telaInscricao").style.display = "none";
+}
+
+function selecionar(tipo) {
+  alert("Você escolheu: " + tipo);
+  // PRÓXIMA ETAPA:
+  // aqui entra Série A / B ou formulário
+}
+</script>
+
 </body>
 </html>
