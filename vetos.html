@@ -39,7 +39,8 @@ button{
 button:disabled{ opacity:0.5; cursor:not-allowed; }
 .map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
 .map-item{ width:140px; text-align:center; cursor:pointer; }
-.map-item img{ width:100%; border-radius:8px; }
+.map-item img{ width:100%; border-radius:8px; transition:0.3s; }
+.map-item img:hover{ transform: scale(1.05); }
 </style>
 </head>
 <body>
@@ -126,6 +127,7 @@ let jogadorID = Math.random().toString(36).substring(2,8);
 let mapasVetados = [];
 let jogador1 = "";
 let jogador2 = "";
+let isMeuTurno = false;
 
 function abrirModo(){
   document.getElementById("telaInicial").style.display="none";
@@ -150,7 +152,8 @@ function gerarSala(sel){
   db.ref("salas/" + salaID).set({
     modo: modo,
     jogador1: jogadorID,
-    status: "aguardando"
+    status: "aguardando",
+    vetos: {}
   });
 }
 
@@ -181,11 +184,12 @@ function renderizarMapas(){
   mapas.forEach(m => {
     const div = document.createElement("div");
     div.className = "map-item";
-
     div.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
 
+    // aplica opacidade se já vetado ou não for a vez do jogador
     if(mapasVetados.includes(m.nome) || !isMeuTurno){
       div.querySelector("img").style.opacity = "0.4";
+      div.style.pointerEvents = "none";
     }
 
     div.onclick = () => {
@@ -199,6 +203,7 @@ function renderizarMapas(){
 }
 
 function vetoMapa(nome){
+  // adiciona veto no firebase
   db.ref("salas/" + salaID + "/vetos").push({
     mapa: nome,
     jogador: jogadorID
@@ -206,6 +211,7 @@ function vetoMapa(nome){
 }
 
 function inicializarFirebase(){
+  // Atualiza jogadores
   db.ref("salas/" + salaID).on("value", snap => {
     const sala = snap.val();
     if(!sala) return;
@@ -213,30 +219,29 @@ function inicializarFirebase(){
     jogador1 = sala.jogador1;
     jogador2 = sala.jogador2 || "";
 
+    // Se jogador2 ainda não existe e for outro jogador entrando
     if(!jogador2 && jogador1 !== jogadorID){
       db.ref("salas/" + salaID).update({ jogador2: jogadorID });
       jogador2 = jogadorID;
     }
-  });
 
-  db.ref("salas/" + salaID + "/vetos").on("value", snap => {
-    const vetos = snap.val() || {};
+    // Atualiza vetos e turno
+    const vetosObj = sala.vetos || {};
+    mapasVetados = Object.values(vetosObj).map(v => v.mapa);
 
-    mapasVetados = Object.values(vetos).map(v => v.mapa);
-
-    atualizarTurno(Object.keys(vetos).length);
+    atualizarTurno(Object.keys(vetosObj).length);
 
     renderizarMapas();
 
+    // Mostra resultado se já foram vetados mapas suficientes
     if(mapasVetados.length >= (mapas.length - modo)){
       mostrarTelaResultado();
     }
   });
 }
 
-let isMeuTurno = false;
-
 function atualizarTurno(totalVetos){
+  // alterna turno baseado na quantidade de vetos
   if(totalVetos % 2 === 0){
     isMeuTurno = (jogadorID === jogador1);
   } else {
