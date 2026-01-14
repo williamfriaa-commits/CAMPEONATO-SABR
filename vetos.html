@@ -14,8 +14,30 @@ body {
   margin:0;
   font-family:Arial,sans-serif;
   color:#fff;
-  /* background antigo removido para o vídeo */
 }
+
+/* Fundo com vídeo do YouTube */
+#yt-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;  /* atrás de tudo */
+  overflow: hidden;
+}
+#yt-bg iframe {
+  width: 177.77vh;  /* mantém proporção 16:9 */
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; /* não bloqueia cliques */
+}
+
 .tela{
   position:fixed;
   inset:0;
@@ -41,26 +63,19 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 .map-item{ width:140px; text-align:center; cursor:pointer; }
 .map-item img{ width:100%; border-radius:8px; transition:0.3s; }
 .map-item img:hover{ transform: scale(1.05); }
-
-/* Vídeo cobrindo todo o fundo */
-#videoFundo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* cobre toda a tela sem distorcer */
-  z-index: -1; /* fica atrás de tudo */
-}
 </style>
 </head>
 <body>
 
-<!-- Vídeo de fundo -->
-<video autoplay muted loop id="videoFundo">
-  <source src="seu-video.mp4" type="video/mp4">
-  Seu navegador não suporta vídeos HTML5.
-</video>
+<!-- Fundo com vídeo do YouTube -->
+<div id="yt-bg">
+  <iframe 
+    src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" 
+    frameborder="0"
+    allow="autoplay; fullscreen" 
+    allowfullscreen>
+  </iframe>
+</div>
 
 <!-- Tela inicial -->
 <div id="telaInicial" class="tela" style="display:flex;">
@@ -236,7 +251,6 @@ function vetoMapa(nome){
     mapa: nome,
     jogador: jogadorID
   }).then(() => {
-    // alterna turno para o outro jogador
     const proximoTurno = (jogadorID === jogador1) ? jogador2 : jogador1;
     db.ref("salas/" + salaID).update({ turno: proximoTurno });
   });
@@ -251,13 +265,11 @@ function inicializarFirebase(){
     jogador1 = sala.jogador1;
     jogador2 = sala.jogador2 || "";
 
-    // Registra jogador2 se ainda não existe
     if(!jogador2 && jogadorID !== jogador1){
       db.ref("salas/" + salaID).update({ jogador2: jogadorID });
       jogador2 = jogadorID;
     }
 
-    // Atualiza vetos e turno
     const vetosObj = sala.vetos || {};
     mapasVetados = Object.values(vetosObj).map(v => v.mapa);
 
@@ -267,7 +279,6 @@ function inicializarFirebase(){
 
     renderizarMapas();
 
-    // Mostra resultado se todos mapas vetados
     if(mapasVetados.length >= (mapas.length - modo)){
       mostrarTelaResultado();
     }
