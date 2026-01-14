@@ -14,7 +14,7 @@ body {
   margin:0;
   font-family:Arial,sans-serif;
   color:#fff;
-  background: url('fundo-vetos.jpg') center/cover no-repeat;
+  /* background antigo removido para o vídeo */
 }
 .tela{
   position:fixed;
@@ -41,9 +41,26 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 .map-item{ width:140px; text-align:center; cursor:pointer; }
 .map-item img{ width:100%; border-radius:8px; transition:0.3s; }
 .map-item img:hover{ transform: scale(1.05); }
+
+/* Vídeo cobrindo todo o fundo */
+#videoFundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cobre toda a tela sem distorcer */
+  z-index: -1; /* fica atrás de tudo */
+}
 </style>
 </head>
 <body>
+
+<!-- Vídeo de fundo -->
+<video autoplay muted loop id="videoFundo">
+  <source src="seu-video.mp4" type="video/mp4">
+  Seu navegador não suporta vídeos HTML5.
+</video>
 
 <!-- Tela inicial -->
 <div id="telaInicial" class="tela" style="display:flex;">
