@@ -23,7 +23,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;  /* atrás de tudo */
+  z-index: -1;
   overflow: hidden;
 }
 #yt-bg iframe {
@@ -35,7 +35,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: none; /* não bloqueia cliques */
+  pointer-events: none;
 }
 
 .tela{
@@ -170,7 +170,6 @@ if(salaParam && jogadorParam){
     salaID = salaParam;
     jogadorID = jogadorParam;
 
-    // entra direto na sala existente
     document.getElementById("telaInicial").style.display = "none";
     document.getElementById("telaModo").style.display = "none";
     document.getElementById("telaSala").style.display = "none";
@@ -180,29 +179,15 @@ if(salaParam && jogadorParam){
     renderizarMapas();
 }
 
-function abrirModo(){
-  document.getElementById("telaInicial").style.display="none";
-  document.getElementById("telaModo").style.display="flex";
-}
-
-function voltarTelaInicial(){
-  document.getElementById("telaModo").style.display="none";
-  document.getElementById("telaInicial").style.display="flex";
-}
+function abrirModo(){ document.getElementById("telaInicial").style.display="none"; document.getElementById("telaModo").style.display="flex"; }
+function voltarTelaInicial(){ document.getElementById("telaModo").style.display="none"; document.getElementById("telaInicial").style.display="flex"; }
 
 function gerarSala(sel){
   modo = sel;
   salaID = Math.random().toString(36).substring(2,8);
 
-  // cria sala no Firebase
-  db.ref("salas/" + salaID).set({
-    modo: modo,
-    jogador1: jogadorID,
-    vetos: {},
-    turno: jogadorID
-  });
+  db.ref("salas/" + salaID).set({ modo: modo, jogador1: jogadorID, vetos: {}, turno: jogadorID });
 
-  // gera link para enviar ao parceiro
   const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)}`;
   document.getElementById("linkSala").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
 
@@ -210,30 +195,31 @@ function gerarSala(sel){
   document.getElementById("telaSala").style.display="flex";
 }
 
-function copiarLink(){
-  navigator.clipboard.writeText(document.getElementById("linkSala").innerText);
-  alert("Link copiado!");
-}
-
-function iniciarVeto(){
-  document.getElementById("telaSala").style.display="none";
-  document.getElementById("telaVeto").style.display="flex";
-
-  inicializarFirebase();
-  renderizarMapas();
-}
+function copiarLink(){ navigator.clipboard.writeText(document.getElementById("linkSala").innerText); alert("Link copiado!"); }
+function iniciarVeto(){ document.getElementById("telaSala").style.display="none"; document.getElementById("telaVeto").style.display="flex"; inicializarFirebase(); renderizarMapas(); }
 
 // RENDERIZA MAPAS
 function renderizarMapas(){
   const c = document.getElementById("mapasContainer");
   c.innerHTML = "";
 
+  const mapasRestantes = mapas.length - mapasVetados.length;
+  const numeroFinal = modo; // MD1, MD3, MD5
+
+  // Mensagem de turno
+  if(mapasRestantes > numeroFinal){
+    document.getElementById("infoTurno").innerText =
+      isMeuTurno ? "Sua vez de vetar um mapa" : "Aguardando adversário...";
+  } else {
+    document.getElementById("infoTurno").innerText = "Veto finalizado!";
+  }
+
   mapas.forEach(m => {
     const div = document.createElement("div");
     div.className = "map-item";
     div.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
 
-    if(mapasVetados.includes(m.nome) || !isMeuTurno){
+    if(mapasVetados.includes(m.nome) || !isMeuTurno || mapasRestantes <= numeroFinal){
       div.querySelector("img").style.opacity = "0.4";
       div.style.pointerEvents = "none";
     }
@@ -245,12 +231,12 @@ function renderizarMapas(){
 
 // VETO DE MAPA
 function vetoMapa(nome){
-  if(!isMeuTurno) return;
+  const mapasRestantes = mapas.length - mapasVetados.length;
+  const numeroFinal = modo;
 
-  db.ref("salas/" + salaID + "/vetos").push({
-    mapa: nome,
-    jogador: jogadorID
-  }).then(() => {
+  if(!isMeuTurno || mapasRestantes <= numeroFinal) return;
+
+  db.ref("salas/" + salaID + "/vetos").push({ mapa: nome, jogador: jogadorID }).then(() => {
     const proximoTurno = (jogadorID === jogador1) ? jogador2 : jogador1;
     db.ref("salas/" + salaID).update({ turno: proximoTurno });
   });
@@ -265,18 +251,12 @@ function inicializarFirebase(){
     jogador1 = sala.jogador1;
     jogador2 = sala.jogador2 || "";
 
-    if(!jogador2 && jogadorID !== jogador1){
-      db.ref("salas/" + salaID).update({ jogador2: jogadorID });
-      jogador2 = jogadorID;
-    }
+    if(!jogador2 && jogadorID !== jogador1){ db.ref("salas/" + salaID).update({ jogador2: jogadorID }); jogador2 = jogadorID; }
 
     const vetosObj = sala.vetos || {};
     mapasVetados = Object.values(vetosObj).map(v => v.mapa);
 
     isMeuTurno = (sala.turno === jogadorID);
-    document.getElementById("infoTurno").innerText =
-      isMeuTurno ? "Sua vez!" : "Aguardando adversário...";
-
     renderizarMapas();
 
     if(mapasVetados.length >= (mapas.length - modo)){
