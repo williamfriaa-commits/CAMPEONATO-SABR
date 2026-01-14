@@ -40,12 +40,11 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 .map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
 .map-item{ width:140px; text-align:center; cursor:pointer; }
 .map-item img{ width:100%; border-radius:8px; }
-.copy-btn{ font-size:12px; padding:5px 10px; margin-top:5px; }
 </style>
 </head>
 <body>
 
-<!-- TELA INICIAL -->
+<!-- Tela inicial -->
 <div id="telaInicial" class="tela" style="display:flex;">
   <div class="box">
     <h1>Vetos de Mapas</h1>
@@ -53,7 +52,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- ESCOLHA DO MODO -->
+<!-- Escolha do modo -->
 <div id="telaModo" class="tela">
   <div class="box">
     <h1>Escolha o modo</h1>
@@ -64,17 +63,17 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- SALA E LINK -->
+<!-- Sala e link -->
 <div id="telaSala" class="tela">
   <div class="box">
     <h2>Link da sala</h2>
     <p id="linkSala"></p>
-    <button class="copy-btn" onclick="copiarLink()">Copiar Link</button>
+    <button onclick="copiarLink()">📋 Copiar Link</button>
     <button onclick="iniciarVeto()">Avançar / Esperar adversário</button>
   </div>
 </div>
 
-<!-- TELA DE VETO -->
+<!-- Tela de veto -->
 <div id="telaVeto" class="tela">
   <div class="box">
     <h1>Vetos de Mapas</h1>
@@ -83,7 +82,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- TELA RESULTADO -->
+<!-- Tela resultado -->
 <div id="telaResultado" class="tela">
   <div class="box">
     <h1>Mapas Escolhidos</h1>
@@ -107,15 +106,15 @@ const mapas = [
   {nome:'Cobblestone', img:'maps/cobblestone.jpg'}
 ];
 
-// --------- FIREBASE ---------
+// --------- CONFIGURAÇÃO DO FIREBASE ---------
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_DOMINIO.firebaseapp.com",
-  databaseURL: "https://SEU_DOMINIO.firebaseio.com",
-  projectId: "SEU_DOMINIO",
-  storageBucket: "SEU_DOMINIO.appspot.com",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID"
+  apiKey: "AIzaSyCk5TKmEJbeoyO4GunMmsAzHQksaY7FeNU",
+  authDomain: "vetos-de-mapas.firebaseapp.com",
+  databaseURL: "https://vetos-de-mapas-default-rtdb.firebaseio.com",
+  projectId: "vetos-de-mapas",
+  storageBucket: "vetos-de-mapas.firebasestorage.app,
+  messagingSenderId: "965916020174",
+  appId: "1:965916020174:web:676ae987f76b10631e6f9f"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -123,6 +122,7 @@ const db = firebase.database();
 // --------- VARIÁVEIS ---------
 let modo = 1;
 let salaID = '';
+let jogadorID = Math.random().toString(36).substring(2,8); // ID único do jogador
 let meuTurno = false;
 let mapasVetados = [];
 
@@ -136,32 +136,35 @@ function voltarTelaInicial(){
   document.getElementById('telaInicial').style.display='flex';
 }
 
-// Gerar sala e link
 function gerarSala(selecionado){
   modo = selecionado;
-  salaID = Math.random().toString(36).substring(2,8); 
-  const link = `${location.href}?sala=${salaID}&modo=${modo}`;
+  salaID = Math.random().toString(36).substring(2,8); // cria ID aleatório
+  const link = `${location.href}?sala=${salaID}&jogador=${jogadorID}`;
   document.getElementById('linkSala').innerHTML = `<a href='${link}' target='_blank'>${link}</a>`;
   document.getElementById('telaModo').style.display='none';
   document.getElementById('telaSala').style.display='flex';
 }
 
-// Copiar link
 function copiarLink(){
   const link = document.getElementById('linkSala').innerText;
-  navigator.clipboard.writeText(link).then(()=>{ alert('Link copiado!'); });
+  navigator.clipboard.writeText(link);
+  alert('Link copiado!');
 }
 
-// Iniciar veto
 function iniciarVeto(){
+  const params = new URLSearchParams(window.location.search);
+  const salaParam = params.get('sala');
+  const jogadorParam = params.get('jogador');
+  if(salaParam) salaID = salaParam;
+  if(jogadorParam) jogadorID = jogadorParam;
+
   document.getElementById('telaSala').style.display='none';
   document.getElementById('telaVeto').style.display='flex';
-  meuTurno = true;
   inicializarFirebase();
   renderizarMapas();
 }
 
-// Renderiza mapas na tela
+// Renderiza os mapas na tela
 function renderizarMapas(){
   const container = document.getElementById('mapasContainer');
   container.innerHTML='';
@@ -182,30 +185,33 @@ function renderizarMapas(){
 // Marca mapa vetado e envia para Firebase
 function vetoMapa(nome){
   meuTurno=false;
-  db.ref('salas/'+salaID+'/vetos').push(nome);
+  db.ref('salas/'+salaID+'/vetos').push({mapa:nome, jogador:jogadorID});
 }
 
-// Inicializa Firebase
+// Inicializa Firebase e escuta mudanças
 function inicializarFirebase(){
-  const params = new URLSearchParams(window.location.search);
-  const salaParam = params.get('sala');
-  const modoParam = params.get('modo');
-  if(salaParam){ salaID = salaParam; }
-  if(modoParam){ modo = parseInt(modoParam); }
-
   db.ref('salas/'+salaID+'/vetos').on('child_added',(snap)=>{
-    const mapa = snap.val();
-    if(!mapasVetados.includes(mapa)){ mapasVetados.push(mapa); }
-    meuTurno = !meuTurno;
+    const dado = snap.val();
+    const mapa = dado.mapa;
+    const autor = dado.jogador;
+
+    if(!mapasVetados.includes(mapa)) mapasVetados.push(mapa);
+
+    // Alterna turno: é minha vez se eu não fui quem vetou
+    meuTurno = (autor !== jogadorID);
+
     document.getElementById('infoTurno').innerText = meuTurno ? 'Sua vez!' : 'Aguardando adversário...';
+
     renderizarMapas();
+
+    // Verifica se terminou
     if(mapasVetados.length >= (mapas.length - modo)){
       mostrarTelaResultado();
     }
   });
 }
 
-// Mostrar mapas finais
+// Mostra os mapas finais
 function mostrarTelaResultado(){
   document.getElementById('telaVeto').style.display='none';
   const finais = mapas.filter(m => !mapasVetados.includes(m.nome));
@@ -219,12 +225,6 @@ function mostrarTelaResultado(){
   });
   document.getElementById('telaResultado').style.display='flex';
 }
-
-// Auto abrir tela de veto se já existe sala no link
-window.onload = ()=>{
-  const params = new URLSearchParams(window.location.search);
-  if(params.get('sala')){ iniciarVeto(); }
-};
 </script>
 
 </body>
