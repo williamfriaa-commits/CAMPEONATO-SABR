@@ -10,11 +10,12 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
+/* --------- ESTILO BÁSICO --------- */
 body {
   margin:0;
   font-family:Arial,sans-serif;
   color:#fff;
-  background: url('fundo-vetos.jpg') center/cover no-repeat;
+  background: url('fundo-vetos.jpg') center/cover no-repeat; /* Troque aqui o fundo */
 }
 .tela{
   position:fixed;
@@ -33,7 +34,9 @@ body {
   max-width:500px;
   text-align:center;
 }
-button{ padding:10px 20px; margin:5px; border:none; border-radius:8px; cursor:pointer; }
+button{
+  padding:10px 20px; margin:5px; border:none; border-radius:8px; cursor:pointer;
+}
 button:disabled{ opacity:0.5; cursor:not-allowed; }
 .map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
 .map-item{ width:140px; text-align:center; cursor:pointer; }
@@ -42,7 +45,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 </head>
 <body>
 
-<!-- Tela inicial -->
+<!-- --------- TELA INICIAL --------- -->
 <div id="telaInicial" class="tela" style="display:flex;">
   <div class="box">
     <h1>Vetos de Mapas</h1>
@@ -50,7 +53,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- Escolha do modo -->
+<!-- --------- ESCOLHA DO MODO --------- -->
 <div id="telaModo" class="tela">
   <div class="box">
     <h1>Escolha o modo</h1>
@@ -61,7 +64,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- Sala e link -->
+<!-- --------- SALA E LINK --------- -->
 <div id="telaSala" class="tela">
   <div class="box">
     <h2>Link da sala</h2>
@@ -70,7 +73,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- Tela de veto -->
+<!-- --------- TELA DE VETO --------- -->
 <div id="telaVeto" class="tela">
   <div class="box">
     <h1>Vetos de Mapas</h1>
@@ -79,7 +82,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- Tela resultado -->
+<!-- --------- TELA DE RESULTADO --------- -->
 <div id="telaResultado" class="tela">
   <div class="box">
     <h1>Mapas Escolhidos</h1>
@@ -102,9 +105,9 @@ const mapas = [
   {nome:'Cache', img:'maps/cache.jpg'},
   {nome:'Cobblestone', img:'maps/cobblestone.jpg'}
 ];
-const fundo = 'fundo-vetos.jpg'; // Troque a imagem do fundo aqui
+// Para trocar o fundo, altere a imagem acima (body background no CSS)
 
-// --------- Firebase ---------
+// --------- CONFIGURAÇÃO DO FIREBASE ---------
 const firebaseConfig = {
   apiKey: "SUA_API_KEY",
   authDomain: "SEU_DOMINIO.firebaseapp.com",
@@ -117,13 +120,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// --------- Variáveis ---------
+// --------- VARIÁVEIS ---------
 let modo = 1;
 let salaID = '';
 let meuTurno = false;
 let mapasVetados = [];
 
-// --------- Funções ---------
+// --------- FUNÇÕES ---------
 function abrirModo(){
   document.getElementById('telaInicial').style.display='none';
   document.getElementById('telaModo').style.display='flex';
@@ -135,7 +138,7 @@ function voltarTelaInicial(){
 
 function gerarSala(selecionado){
   modo = selecionado;
-  salaID = Math.random().toString(36).substring(2,8);
+  salaID = Math.random().toString(36).substring(2,8); // cria ID aleatório
   document.getElementById('linkSala').innerHTML = `<a href='${location.href}?sala=${salaID}' target='_blank'>${location.href}?sala=${salaID}</a>`;
   document.getElementById('telaModo').style.display='none';
   document.getElementById('telaSala').style.display='flex';
@@ -149,6 +152,7 @@ function iniciarVeto(){
   renderizarMapas();
 }
 
+// Renderiza os mapas na tela
 function renderizarMapas(){
   const container = document.getElementById('mapasContainer');
   container.innerHTML='';
@@ -156,17 +160,23 @@ function renderizarMapas(){
     const div = document.createElement('div');
     div.className='map-item';
     div.innerHTML=`<img src='${m.img}'><p>${m.nome}</p>`;
-    if(mapasVetados.includes(m.nome) || !meuTurno){ div.querySelector('img').style.opacity='0.4'; }
-    div.onclick = ()=>{ if(meuTurno && !mapasVetados.includes(m.nome)){ vetoMapa(m.nome); } };
+    if(mapasVetados.includes(m.nome) || !meuTurno){ 
+      div.querySelector('img').style.opacity='0.4'; 
+    }
+    div.onclick = ()=>{ 
+      if(meuTurno && !mapasVetados.includes(m.nome)){ vetoMapa(m.nome); } 
+    };
     container.appendChild(div);
   });
 }
 
+// Marca mapa vetado e envia para Firebase
 function vetoMapa(nome){
   meuTurno=false;
   db.ref('salas/'+salaID+'/vetos').push(nome);
 }
 
+// Inicializa Firebase e escuta mudanças
 function inicializarFirebase(){
   const salaParam = new URLSearchParams(window.location.search).get('sala');
   if(salaParam){ salaID = salaParam; }
@@ -176,12 +186,14 @@ function inicializarFirebase(){
     meuTurno = !meuTurno;
     document.getElementById('infoTurno').innerText = meuTurno ? 'Sua vez!' : 'Aguardando adversário...';
     renderizarMapas();
+    // Se todos os vetos realizados, mostra o resultado
     if(mapasVetados.length >= (mapas.length - modo)){
       mostrarTelaResultado();
     }
   });
 }
 
+// Mostra os mapas finais
 function mostrarTelaResultado(){
   document.getElementById('telaVeto').style.display='none';
   const finais = mapas.filter(m => !mapasVetados.includes(m.nome));
