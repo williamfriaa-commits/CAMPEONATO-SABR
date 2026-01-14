@@ -123,8 +123,9 @@ const db = firebase.database();
 let modo = 1;
 let salaID = "";
 let jogadorID = Math.random().toString(36).substring(2,8);
-let meuTurno = false;
 let mapasVetados = [];
+let jogador1 = "";
+let jogador2 = "";
 
 function abrirModo(){
   document.getElementById("telaInicial").style.display="none";
@@ -183,12 +184,12 @@ function renderizarMapas(){
 
     div.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
 
-    if(mapasVetados.includes(m.nome) || !meuTurno){
+    if(mapasVetados.includes(m.nome) || !isMeuTurno){
       div.querySelector("img").style.opacity = "0.4";
     }
 
     div.onclick = () => {
-      if(meuTurno && !mapasVetados.includes(m.nome)){
+      if(isMeuTurno && !mapasVetados.includes(m.nome)){
         vetoMapa(m.nome);
       }
     };
@@ -198,7 +199,6 @@ function renderizarMapas(){
 }
 
 function vetoMapa(nome){
-  meuTurno = false;
   db.ref("salas/" + salaID + "/vetos").push({
     mapa: nome,
     jogador: jogadorID
@@ -206,26 +206,26 @@ function vetoMapa(nome){
 }
 
 function inicializarFirebase(){
-  db.ref("salas/" + salaID).once("value").then(snap => {
+  db.ref("salas/" + salaID).on("value", snap => {
     const sala = snap.val();
+    if(!sala) return;
 
-    if(!sala.jogador2 && sala.jogador1 !== jogadorID){
+    jogador1 = sala.jogador1;
+    jogador2 = sala.jogador2 || "";
+
+    if(!jogador2 && jogador1 !== jogadorID){
       db.ref("salas/" + salaID).update({ jogador2: jogadorID });
+      jogador2 = jogadorID;
     }
-
-    meuTurno = (jogadorID === sala.jogador1);
-    atualizarInfoTurno();
   });
 
-  db.ref("salas/" + salaID + "/vetos").on("child_added", snap => {
-    const dado = snap.val();
+  db.ref("salas/" + salaID + "/vetos").on("value", snap => {
+    const vetos = snap.val() || {};
 
-    if(!mapasVetados.includes(dado.mapa)){
-      mapasVetados.push(dado.mapa);
-    }
+    mapasVetados = Object.values(vetos).map(v => v.mapa);
 
-    meuTurno = (dado.jogador !== jogadorID);
-    atualizarInfoTurno();
+    atualizarTurno(Object.keys(vetos).length);
+
     renderizarMapas();
 
     if(mapasVetados.length >= (mapas.length - modo)){
@@ -234,9 +234,17 @@ function inicializarFirebase(){
   });
 }
 
-function atualizarInfoTurno(){
+let isMeuTurno = false;
+
+function atualizarTurno(totalVetos){
+  if(totalVetos % 2 === 0){
+    isMeuTurno = (jogadorID === jogador1);
+  } else {
+    isMeuTurno = (jogadorID === jogador2);
+  }
+
   document.getElementById("infoTurno").innerText =
-    meuTurno ? "Sua vez!" : "Aguardando adversário...";
+    isMeuTurno ? "Sua vez!" : "Aguardando adversário...";
 }
 
 function mostrarTelaResultado(){
