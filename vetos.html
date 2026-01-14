@@ -14,23 +14,30 @@ body {
   margin:0;
   font-family:Arial,sans-serif;
   color:#fff;
-  background: #000;
 }
-/* Fundo com vídeo */
+
+/* Fundo com vídeo do YouTube */
 #yt-bg {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;  /* atrás de tudo */
   overflow: hidden;
 }
 #yt-bg iframe {
-  width: 177.77vh;  height: 100vh;
-  min-width: 100vw; min-height: 56.25vw;
-  position: absolute; top:50%; left:50%;
+  width: 177.77vh;  
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  pointer-events:none;
+  pointer-events: none;
 }
+
 .tela{
   position:fixed;
   inset:0;
@@ -53,22 +60,44 @@ button{
 }
 button:disabled{ opacity:0.5; cursor:not-allowed; }
 .map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
-.map-item{ width:140px; text-align:center; cursor:pointer; }
-.map-item img{ width:100%; border-radius:8px; transition:0.3s; }
-.map-item img:hover{ transform: scale(1.05); }
-/* Mensagem discreta do turno */
-#infoTurno{
-  font-size:14px;
-  color:#0f0;
-  margin-bottom:10px;
+.map-item{ 
+  width:140px; 
+  text-align:center; 
+  cursor:pointer; 
+  position:relative; 
+  transition:0.3s;
+}
+.map-item img{
+  width:100%; 
+  border-radius:8px; 
+  box-shadow: 0 0 15px #0ff; /* neon */
+  transition:0.3s; 
+}
+.map-item img:hover{ 
+  transform: scale(1.05); 
+}
+/* X sobre mapa vetado */
+.map-item .vetado {
+  position:absolute;
+  top:5px;
+  right:5px;
+  color:red;
+  font-weight:bold;
+  font-size:20px;
+  z-index:2;
 }
 </style>
 </head>
 <body>
 
-<!-- Fundo com vídeo -->
+<!-- Fundo com vídeo do YouTube -->
 <div id="yt-bg">
-  <iframe src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  <iframe 
+    src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" 
+    frameborder="0"
+    allow="autoplay; fullscreen" 
+    allowfullscreen>
+  </iframe>
 </div>
 
 <!-- Tela inicial -->
@@ -104,7 +133,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 <div id="telaVeto" class="tela">
   <div class="box">
     <h1>Vetos de Mapas</h1>
-    <p id="infoTurno">Aguardando adversário...</p>
+    <p id="infoTurno" style="font-size:14px; color:#0ff;">Sua vez de escolher / Sua vez de vetar</p>
     <div class="map-grid" id="mapasContainer"></div>
   </div>
 </div>
@@ -154,15 +183,7 @@ let mapasVetados = [];
 let mapasEscolhidos = [];
 let jogador1 = "";
 let jogador2 = "";
-let turnoIndex = 0; // índice do turno na sequência
-
-// sequência de turnos por modo
-function getSequenciaTurnos(modo){
-  if(modo===1) return ['vetar','vetar']; // MD1: apenas vetos até sobrar 1
-  if(modo===3) return ['escolher','vetar','vetar','escolher','escolher'];
-  if(modo===5) return ['escolher','vetar','vetar','escolher','vetar','vetar','escolher','vetar','escolher'];
-  return [];
-}
+let isMeuTurno = false;
 
 // Detecta se entrou por link
 const params = new URLSearchParams(window.location.search);
@@ -199,10 +220,9 @@ function gerarSala(sel){
   db.ref("salas/" + salaID).set({
     modo: modo,
     jogador1: jogadorID,
-    jogador2: "",
-    mapasVetados: [],
-    mapasEscolhidos: [],
-    turnoIndex: 0
+    vetos: {},
+    escolhidos: [],
+    turno: jogadorID
   });
 
   const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)}`;
@@ -220,99 +240,103 @@ function copiarLink(){
 function iniciarVeto(){
   document.getElementById("telaSala").style.display="none";
   document.getElementById("telaVeto").style.display="flex";
+
   inicializarFirebase();
+  renderizarMapas();
 }
 
-// renderiza mapas
+// RENDERIZA MAPAS
 function renderizarMapas(){
   const c = document.getElementById("mapasContainer");
   c.innerHTML = "";
 
   mapas.forEach(m => {
     const div = document.createElement("div");
-    div.className="map-item";
-    div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`;
+    div.className = "map-item";
+    div.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
 
-    if(mapasVetados.includes(m.nome) || mapasEscolhidos.includes(m.nome)){
-      div.querySelector("img").style.opacity="0.4";
-      div.style.pointerEvents="none";
+    if(mapasVetados.includes(m.nome)){
+      const x = document.createElement("div");
+      x.className="vetado";
+      x.innerText="X";
+      div.appendChild(x);
+      div.querySelector("img").style.opacity = "0.4";
+      div.style.pointerEvents = "none";
+    } else if(!isMeuTurno){
+      div.querySelector("img").style.opacity = "0.4";
+      div.style.pointerEvents = "none";
     }
 
-    div.onclick = () => { realizarAcao(m.nome); };
+    div.onclick = () => { vetoMapa(m.nome); };
     c.appendChild(div);
   });
 }
 
-// ação de veto ou escolha
-function realizarAcao(mapaNome){
-  db.ref("salas/"+salaID).once("value").then(snap=>{
-    const sala = snap.val();
-    const seq = getSequenciaTurnos(sala.modo);
-    const acaoAtual = seq[sala.turnoIndex];
+// VETO OU ESCOLHA
+function vetoMapa(nome){
+  if(!isMeuTurno) return;
 
-    if(acaoAtual==='vetar'){
-      const mapasV = sala.mapasVetados||[];
-      if(!mapasV.includes(mapaNome)){
-        mapasV.push(mapaNome);
-        db.ref("salas/"+salaID+"/mapasVetados").set(mapasV);
-        db.ref("salas/"+salaID).update({ turnoIndex: sala.turnoIndex+1 });
-      }
-    }
-    if(acaoAtual==='escolher'){
-      const mapasE = sala.mapasEscolhidos||[];
-      if(!mapasE.includes(mapaNome)){
-        mapasE.push(mapaNome);
-        db.ref("salas/"+salaID+"/mapasEscolhidos").set(mapasE);
-        db.ref("salas/"+salaID).update({ turnoIndex: sala.turnoIndex+1 });
-      }
-    }
-  });
+  // Alterna entre escolher e vetar
+  const acao = mapasEscolhidos.length % 2 === 0 ? 'escolher' : 'vetar';
+
+  if(acao === 'escolher'){
+    mapasEscolhidos.push(nome);
+    db.ref("salas/" + salaID + "/escolhidos").set(mapasEscolhidos);
+  } else {
+    mapasVetados.push(nome);
+    db.ref("salas/" + salaID + "/vetos").push({ mapa: nome, jogador: jogadorID });
+  }
+
+  // Alterna turno
+  const proximoTurno = (jogadorID === jogador1) ? jogador2 : jogador1;
+  db.ref("salas/" + salaID).update({ turno: proximoTurno });
 }
 
-// inicializa firebase
+// INICIALIZA FIREBASE
 function inicializarFirebase(){
-  db.ref("salas/"+salaID).on("value", snap=>{
+  db.ref("salas/" + salaID).on("value", snap => {
     const sala = snap.val();
     if(!sala) return;
 
     jogador1 = sala.jogador1;
     jogador2 = sala.jogador2 || "";
 
-    if(!jogador2 && jogadorID!==jogador1){
-      db.ref("salas/"+salaID).update({ jogador2:jogadorID });
+    if(!jogador2 && jogadorID !== jogador1){
+      db.ref("salas/" + salaID).update({ jogador2: jogadorID });
       jogador2 = jogadorID;
     }
 
-    mapasVetados = sala.mapasVetados||[];
-    mapasEscolhidos = sala.mapasEscolhidos||[];
-    turnoIndex = sala.turnoIndex||0;
+    const vetosObj = sala.vetos || {};
+    mapasVetados = Object.values(vetosObj).map(v => v.mapa);
+    mapasEscolhidos = sala.escolhidos || [];
 
-    const seq = getSequenciaTurnos(sala.modo);
-    if(turnoIndex>=seq.length){
-      mostrarTelaResultado();
-      return;
-    }
+    isMeuTurno = (sala.turno === jogadorID);
 
-    const acaoAtual = seq[turnoIndex];
-    const ehMinhaVez = (turnoIndex%2===0 && jogadorID===jogador1) || (turnoIndex%2===1 && jogadorID===jogador2);
-
-    if(acaoAtual==='vetar') document.getElementById("infoTurno").innerText = ehMinhaVez?"Sua vez de vetar":"Aguardando adversário...";
-    if(acaoAtual==='escolher') document.getElementById("infoTurno").innerText = ehMinhaVez?"Sua vez de escolher":"Aguardando adversário...";
+    const info = mapasEscolhidos.length % 2 === 0 ? "Sua vez de escolher" : "Sua vez de vetar";
+    document.getElementById("infoTurno").innerText = isMeuTurno ? info : "Aguardando adversário...";
 
     renderizarMapas();
+
+    if(mapasEscolhidos.length >= modo){
+      mostrarTelaResultado();
+    }
   });
 }
 
-// mostra resultado
+// MOSTRA RESULTADO FINAL
 function mostrarTelaResultado(){
   document.getElementById("telaVeto").style.display="none";
 
+  const finais = mapasEscolhidos.slice(0, modo); // exibe apenas os selecionados
   const c = document.getElementById("mapasFinais");
-  c.innerHTML="";
-  mapasEscolhidos.forEach(m=>{
-    const div=document.createElement("div");
+  c.innerHTML = "";
+
+  finais.forEach(m => {
+    const mapObj = mapas.find(x => x.nome === m);
+    if(!mapObj) return;
+    const div = document.createElement("div");
     div.className="map-item";
-    div.innerHTML=`<img src="${m}.png"><p>${m}</p>`;
+    div.innerHTML=`<img src="${mapObj.img}"><p>${mapObj.nome}</p>`;
     c.appendChild(div);
   });
 
