@@ -92,7 +92,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 </div>
 
 <script>
-// --------- CONFIGURAÇÃO DOS MAPAS ---------
+// --------- LISTA DE MAPAS ---------
 const mapas = [
   {nome:'Dust2', img:'maps/dust2.jpg'},
   {nome:'Mirage', img:'maps/mirage.jpg'},
@@ -106,7 +106,7 @@ const mapas = [
   {nome:'Cobblestone', img:'maps/cobblestone.jpg'}
 ];
 
-// --------- CONFIGURAÇÃO DO FIREBASE ---------
+// --------- FIREBASE ---------
 const firebaseConfig = {
   apiKey: "AIzaSyCk5TKmEJbeoyO4GunMmsAzHQksaY7FeNU",
   authDomain: "vetos-de-mapas.firebaseapp.com",
@@ -121,20 +121,21 @@ const db = firebase.database();
 
 // --------- VARIÁVEIS ---------
 let modo = 1;
-let salaID = '';
-let jogadorID = Math.random().toString(36).substring(2,8); 
+let salaID = "";
+let jogadorID = Math.random().toString(36).substring(2,8);
 let meuTurno = false;
 let mapasVetados = [];
 
 // --------- FUNÇÕES ---------
+
 function abrirModo(){
-  document.getElementById('telaInicial').style.display='none';
-  document.getElementById('telaModo').style.display='flex';
+  document.getElementById("telaInicial").style.display="none";
+  document.getElementById("telaModo").style.display="flex";
 }
 
 function voltarTelaInicial(){
-  document.getElementById('telaModo').style.display='none';
-  document.getElementById('telaInicial').style.display='flex';
+  document.getElementById("telaModo").style.display="none";
+  document.getElementById("telaInicial").style.display="flex";
 }
 
 function gerarSala(selecionado){
@@ -143,47 +144,54 @@ function gerarSala(selecionado){
 
   const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${jogadorID}`;
 
-  document.getElementById('linkSala').innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
-  document.getElementById('telaModo').style.display='none';
-  document.getElementById('telaSala').style.display='flex';
+  document.getElementById("linkSala").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+  document.getElementById("telaModo").style.display="none";
+  document.getElementById("telaSala").style.display="flex";
+
+  // Criar sala no Firebase
+  db.ref("salas/" + salaID).set({
+    modo: modo,
+    jogador1: jogadorID,
+    status: "aguardando"
+  });
 }
 
 function copiarLink(){
-  navigator.clipboard.writeText(document.getElementById('linkSala').innerText);
-  alert('Link copiado!');
+  navigator.clipboard.writeText(document.getElementById("linkSala").innerText);
+  alert("Link copiado!");
 }
 
 function iniciarVeto(){
   const params = new URLSearchParams(window.location.search);
-  const salaParam = params.get('sala');
-  const jogadorParam = params.get('jogador');
+  const salaParam = params.get("sala");
+  const jogadorParam = params.get("jogador");
 
   if(salaParam) salaID = salaParam;
   if(jogadorParam) jogadorID = jogadorParam;
 
-  document.getElementById('telaSala').style.display='none';
-  document.getElementById('telaVeto').style.display='flex';
+  document.getElementById("telaSala").style.display="none";
+  document.getElementById("telaVeto").style.display="flex";
 
   inicializarFirebase();
   renderizarMapas();
 }
 
 function renderizarMapas(){
-  const container = document.getElementById('mapasContainer');
-  container.innerHTML = '';
+  const container = document.getElementById("mapasContainer");
+  container.innerHTML = "";
 
-  mapas.forEach((m) => {
-    const div = document.createElement('div');
-    div.className = 'map-item';
+  mapas.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "map-item";
 
     div.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
 
-    if (mapasVetados.includes(m.nome) || !meuTurno) {
-      div.querySelector('img').style.opacity = '0.4';
+    if (mapasVetados.includes(m.nome) || !meuTurno){
+      div.querySelector("img").style.opacity = "0.4";
     }
 
     div.onclick = () => {
-      if (meuTurno && !mapasVetados.includes(m.nome)) {
+      if(meuTurno && !mapasVetados.includes(m.nome)){
         vetoMapa(m.nome);
       }
     };
@@ -194,49 +202,64 @@ function renderizarMapas(){
 
 function vetoMapa(nome){
   meuTurno = false;
-  db.ref('salas/' + salaID + '/vetos').push({
+  db.ref("salas/" + salaID + "/vetos").push({
     mapa: nome,
     jogador: jogadorID
   });
 }
 
 function inicializarFirebase(){
-  db.ref('salas/' + salaID + '/vetos').on('child_added', (snap) => {
+  // Identificar jogador 1 e 2
+  db.ref("salas/" + salaID).once("value").then(snap => {
+    const sala = snap.val();
+
+    if(!sala.jogador2 && sala.jogador1 !== jogadorID){
+      db.ref("salas/" + salaID).update({ jogador2: jogadorID });
+    }
+
+    meuTurno = (jogadorID === sala.jogador1);
+    atualizarInfoTurno();
+  });
+
+  // Listener de vetos
+  db.ref("salas/" + salaID + "/vetos").on("child_added", snap => {
     const dado = snap.val();
 
-    if (!mapasVetados.includes(dado.mapa)) {
+    if(!mapasVetados.includes(dado.mapa)){
       mapasVetados.push(dado.mapa);
     }
 
+    // alternar turno
     meuTurno = (dado.jogador !== jogadorID);
-
-    document.getElementById('infoTurno').innerText = 
-      meuTurno ? "Sua vez!" : "Aguardando adversário...";
-
+    atualizarInfoTurno();
     renderizarMapas();
 
-    if (mapasVetados.length >= (mapas.length - modo)) {
+    if (mapasVetados.length >= (mapas.length - modo)){
       mostrarTelaResultado();
     }
   });
 }
 
+function atualizarInfoTurno(){
+  document.getElementById("infoTurno").innerText =
+    meuTurno ? "Sua vez!" : "Aguardando adversário...";
+}
+
 function mostrarTelaResultado(){
-  document.getElementById('telaVeto').style.display='none';
+  document.getElementById("telaVeto").style.display="none";
 
   const finais = mapas.filter(m => !mapasVetados.includes(m.nome));
-  const container = document.getElementById('mapasFinais');
+  const container = document.getElementById("mapasFinais");
+  container.innerHTML = "";
 
-  container.innerHTML = '';
-
-  finais.forEach((m)=>{
-    const div = document.createElement('div');
-    div.className='map-item';
+  finais.forEach(m => {
+    const div = document.createElement("div");
+    div.className="map-item";
     div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`;
     container.appendChild(div);
   });
 
-  document.getElementById('telaResultado').style.display='flex';
+  document.getElementById("telaResultado").style.display="flex";
 }
 </script>
 
