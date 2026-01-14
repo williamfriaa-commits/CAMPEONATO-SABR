@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Vetos de Mapas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background: url('fundo-vetos.jpg') center/cover no-repeat;
+}
+.tela{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.box{
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:500px;
+  text-align:center;
+}
+button{ padding:10px 20px; margin:5px; border:none; border-radius:8px; cursor:pointer; }
+button:disabled{ opacity:0.5; cursor:not-allowed; }
+.map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
+.map-item{ width:140px; text-align:center; cursor:pointer; }
+.map-item img{ width:100%; border-radius:8px; }
+</style>
+</head>
+<body>
+
+<!-- Tela inicial -->
+<div id="telaInicial" class="tela" style="display:flex;">
+  <div class="box">
+    <h1>Vetos de Mapas</h1>
+    <button onclick="abrirModo()">Iniciar Vetos</button>
+  </div>
+</div>
+
+<!-- Escolha do modo -->
+<div id="telaModo" class="tela">
+  <div class="box">
+    <h1>Escolha o modo</h1>
+    <button onclick="gerarSala(1)">MD1</button>
+    <button onclick="gerarSala(3)">MD3</button>
+    <button onclick="gerarSala(5)">MD5</button>
+    <button onclick="voltarTelaInicial()">Voltar</button>
+  </div>
+</div>
+
+<!-- Sala e link -->
+<div id="telaSala" class="tela">
+  <div class="box">
+    <h2>Link da sala</h2>
+    <p id="linkSala"></p>
+    <button onclick="iniciarVeto()">Avançar / Esperar adversário</button>
+  </div>
+</div>
+
+<!-- Tela de veto -->
+<div id="telaVeto" class="tela">
+  <div class="box">
+    <h1>Vetos de Mapas</h1>
+    <p id="infoTurno">Aguardando vez...</p>
+    <div class="map-grid" id="mapasContainer"></div>
+  </div>
+</div>
+
+<!-- Tela resultado -->
+<div id="telaResultado" class="tela">
+  <div class="box">
+    <h1>Mapas Escolhidos</h1>
+    <div class="map-grid" id="mapasFinais"></div>
+    <button onclick="window.location.reload()">Voltar ao Início</button>
+  </div>
+</div>
+
+<script>
+// --------- CONFIGURAÇÃO FÁCIL ---------
+const mapas = [
+  {nome:'Dust2', img:'maps/dust2.jpg'},
+  {nome:'Mirage', img:'maps/mirage.jpg'},
+  {nome:'Inferno', img:'maps/inferno.jpg'},
+  {nome:'Nuke', img:'maps/nuke.jpg'},
+  {nome:'Train', img:'maps/train.jpg'},
+  {nome:'Overpass', img:'maps/overpass.jpg'},
+  {nome:'Vertigo', img:'maps/vertigo.jpg'},
+  {nome:'Ancient', img:'maps/ancient.jpg'},
+  {nome:'Cache', img:'maps/cache.jpg'},
+  {nome:'Cobblestone', img:'maps/cobblestone.jpg'}
+];
+const fundo = 'fundo-vetos.jpg'; // Troque a imagem do fundo aqui
+
+// --------- Firebase ---------
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_DOMINIO.firebaseapp.com",
+  databaseURL: "https://SEU_DOMINIO.firebaseio.com",
+  projectId: "SEU_DOMINIO",
+  storageBucket: "SEU_DOMINIO.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// --------- Variáveis ---------
+let modo = 1;
+let salaID = '';
+let meuTurno = false;
+let mapasVetados = [];
+
+// --------- Funções ---------
+function abrirModo(){
+  document.getElementById('telaInicial').style.display='none';
+  document.getElementById('telaModo').style.display='flex';
+}
+function voltarTelaInicial(){
+  document.getElementById('telaModo').style.display='none';
+  document.getElementById('telaInicial').style.display='flex';
+}
+
+function gerarSala(selecionado){
+  modo = selecionado;
+  salaID = Math.random().toString(36).substring(2,8);
+  document.getElementById('linkSala').innerHTML = `<a href='${location.href}?sala=${salaID}' target='_blank'>${location.href}?sala=${salaID}</a>`;
+  document.getElementById('telaModo').style.display='none';
+  document.getElementById('telaSala').style.display='flex';
+}
+
+function iniciarVeto(){
+  document.getElementById('telaSala').style.display='none';
+  document.getElementById('telaVeto').style.display='flex';
+  meuTurno = true;
+  inicializarFirebase();
+  renderizarMapas();
+}
+
+function renderizarMapas(){
+  const container = document.getElementById('mapasContainer');
+  container.innerHTML='';
+  mapas.forEach((m)=>{
+    const div = document.createElement('div');
+    div.className='map-item';
+    div.innerHTML=`<img src='${m.img}'><p>${m.nome}</p>`;
+    if(mapasVetados.includes(m.nome) || !meuTurno){ div.querySelector('img').style.opacity='0.4'; }
+    div.onclick = ()=>{ if(meuTurno && !mapasVetados.includes(m.nome)){ vetoMapa(m.nome); } };
+    container.appendChild(div);
+  });
+}
+
+function vetoMapa(nome){
+  meuTurno=false;
+  db.ref('salas/'+salaID+'/vetos').push(nome);
+}
+
+function inicializarFirebase(){
+  const salaParam = new URLSearchParams(window.location.search).get('sala');
+  if(salaParam){ salaID = salaParam; }
+  db.ref('salas/'+salaID+'/vetos').on('child_added',(snap)=>{
+    const mapa = snap.val();
+    if(!mapasVetados.includes(mapa)){ mapasVetados.push(mapa); }
+    meuTurno = !meuTurno;
+    document.getElementById('infoTurno').innerText = meuTurno ? 'Sua vez!' : 'Aguardando adversário...';
+    renderizarMapas();
+    if(mapasVetados.length >= (mapas.length - modo)){
+      mostrarTelaResultado();
+    }
+  });
+}
+
+function mostrarTelaResultado(){
+  document.getElementById('telaVeto').style.display='none';
+  const finais = mapas.filter(m => !mapasVetados.includes(m.nome));
+  const container = document.getElementById('mapasFinais');
+  container.innerHTML='';
+  finais.forEach((m)=>{
+    const div = document.createElement('div');
+    div.className='map-item';
+    div.innerHTML=`<img src='${m.img}'><p>${m.nome}</p>`;
+    container.appendChild(div);
+  });
+  document.getElementById('telaResultado').style.display='flex';
+}
+</script>
+
+</body>
+</html>
