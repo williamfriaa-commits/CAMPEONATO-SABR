@@ -112,7 +112,7 @@ const firebaseConfig = {
   authDomain: "vetos-de-mapas.firebaseapp.com",
   databaseURL: "https://vetos-de-mapas-default-rtdb.firebaseio.com",
   projectId: "vetos-de-mapas",
-  storageBucket: "vetos-de-mapas.firebasestorage.app,
+  storageBucket: "vetos-de-mapas.appspot.com",
   messagingSenderId: "965916020174",
   appId: "1:965916020174:web:676ae987f76b10631e6f9f"
 };
@@ -122,7 +122,7 @@ const db = firebase.database();
 // --------- VARIÁVEIS ---------
 let modo = 1;
 let salaID = '';
-let jogadorID = Math.random().toString(36).substring(2,8); // ID único do jogador
+let jogadorID = Math.random().toString(36).substring(2,8); 
 let meuTurno = false;
 let mapasVetados = [];
 
@@ -131,6 +131,7 @@ function abrirModo(){
   document.getElementById('telaInicial').style.display='none';
   document.getElementById('telaModo').style.display='flex';
 }
+
 function voltarTelaInicial(){
   document.getElementById('telaModo').style.display='none';
   document.getElementById('telaInicial').style.display='flex';
@@ -138,16 +139,17 @@ function voltarTelaInicial(){
 
 function gerarSala(selecionado){
   modo = selecionado;
-  salaID = Math.random().toString(36).substring(2,8); // cria ID aleatório
-  const link = `${location.href}?sala=${salaID}&jogador=${jogadorID}`;
-  document.getElementById('linkSala').innerHTML = `<a href='${link}' target='_blank'>${link}</a>`;
+  salaID = Math.random().toString(36).substring(2,8);
+
+  const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${jogadorID}`;
+
+  document.getElementById('linkSala').innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
   document.getElementById('telaModo').style.display='none';
   document.getElementById('telaSala').style.display='flex';
 }
 
 function copiarLink(){
-  const link = document.getElementById('linkSala').innerText;
-  navigator.clipboard.writeText(link);
+  navigator.clipboard.writeText(document.getElementById('linkSala').innerText);
   alert('Link copiado!');
 }
 
@@ -155,77 +157,88 @@ function iniciarVeto(){
   const params = new URLSearchParams(window.location.search);
   const salaParam = params.get('sala');
   const jogadorParam = params.get('jogador');
+
   if(salaParam) salaID = salaParam;
   if(jogadorParam) jogadorID = jogadorParam;
 
   document.getElementById('telaSala').style.display='none';
   document.getElementById('telaVeto').style.display='flex';
+
   inicializarFirebase();
   renderizarMapas();
 }
 
-// Renderiza os mapas na tela
 function renderizarMapas(){
   const container = document.getElementById('mapasContainer');
-  container.innerHTML='';
-  mapas.forEach((m)=>{
+  container.innerHTML = '';
+
+  mapas.forEach((m) => {
     const div = document.createElement('div');
-    div.className='map-item';
-    div.innerHTML=`<img src='${m.img}'><p>${m.nome}</p>`;
-    if(mapasVetados.includes(m.nome) || !meuTurno){ 
-      div.querySelector('img').style.opacity='0.4'; 
+    div.className = 'map-item';
+
+    div.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
+
+    if (mapasVetados.includes(m.nome) || !meuTurno) {
+      div.querySelector('img').style.opacity = '0.4';
     }
-    div.onclick = ()=>{ 
-      if(meuTurno && !mapasVetados.includes(m.nome)){ vetoMapa(m.nome); } 
+
+    div.onclick = () => {
+      if (meuTurno && !mapasVetados.includes(m.nome)) {
+        vetoMapa(m.nome);
+      }
     };
+
     container.appendChild(div);
   });
 }
 
-// Marca mapa vetado e envia para Firebase
 function vetoMapa(nome){
-  meuTurno=false;
-  db.ref('salas/'+salaID+'/vetos').push({mapa:nome, jogador:jogadorID});
+  meuTurno = false;
+  db.ref('salas/' + salaID + '/vetos').push({
+    mapa: nome,
+    jogador: jogadorID
+  });
 }
 
-// Inicializa Firebase e escuta mudanças
 function inicializarFirebase(){
-  db.ref('salas/'+salaID+'/vetos').on('child_added',(snap)=>{
+  db.ref('salas/' + salaID + '/vetos').on('child_added', (snap) => {
     const dado = snap.val();
-    const mapa = dado.mapa;
-    const autor = dado.jogador;
 
-    if(!mapasVetados.includes(mapa)) mapasVetados.push(mapa);
+    if (!mapasVetados.includes(dado.mapa)) {
+      mapasVetados.push(dado.mapa);
+    }
 
-    // Alterna turno: é minha vez se eu não fui quem vetou
-    meuTurno = (autor !== jogadorID);
+    meuTurno = (dado.jogador !== jogadorID);
 
-    document.getElementById('infoTurno').innerText = meuTurno ? 'Sua vez!' : 'Aguardando adversário...';
+    document.getElementById('infoTurno').innerText = 
+      meuTurno ? "Sua vez!" : "Aguardando adversário...";
 
     renderizarMapas();
 
-    // Verifica se terminou
-    if(mapasVetados.length >= (mapas.length - modo)){
+    if (mapasVetados.length >= (mapas.length - modo)) {
       mostrarTelaResultado();
     }
   });
 }
 
-// Mostra os mapas finais
 function mostrarTelaResultado(){
   document.getElementById('telaVeto').style.display='none';
+
   const finais = mapas.filter(m => !mapasVetados.includes(m.nome));
   const container = document.getElementById('mapasFinais');
-  container.innerHTML='';
+
+  container.innerHTML = '';
+
   finais.forEach((m)=>{
     const div = document.createElement('div');
     div.className='map-item';
-    div.innerHTML=`<img src='${m.img}'><p>${m.nome}</p>`;
+    div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`;
     container.appendChild(div);
   });
+
   document.getElementById('telaResultado').style.display='flex';
 }
-</script>
 
+</script>
 </body>
 </html>
