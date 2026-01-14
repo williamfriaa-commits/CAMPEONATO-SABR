@@ -14,8 +14,30 @@ body {
   margin:0;
   font-family:Arial,sans-serif;
   color:#fff;
-  background:#000;
 }
+
+/* Fundo com vídeo do YouTube */
+#yt-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+#yt-bg iframe {
+  width: 177.77vh;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
 .tela{
   position:fixed;
   inset:0;
@@ -50,6 +72,16 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 </style>
 </head>
 <body>
+
+<!-- Fundo com vídeo -->
+<div id="yt-bg">
+  <iframe 
+    src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" 
+    frameborder="0"
+    allow="autoplay; fullscreen" 
+    allowfullscreen>
+  </iframe>
+</div>
 
 <!-- Tela inicial -->
 <div id="telaInicial" class="tela" style="display:flex;">
@@ -136,7 +168,7 @@ let jogador2 = "";
 let mapasVetados = [];
 let mapasEscolhidos = [];
 let turno = "";
-let acaoAtual = ""; // "escolher" ou "vetar"
+let acaoAtual = "";
 
 // Detecta se entrou por link
 const params = new URLSearchParams(window.location.search);
