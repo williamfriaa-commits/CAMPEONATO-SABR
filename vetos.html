@@ -10,12 +10,11 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
-/* --------- ESTILO BÁSICO --------- */
 body {
   margin:0;
   font-family:Arial,sans-serif;
   color:#fff;
-  background: url('fundo-vetos.jpg') center/cover no-repeat; /* Troque aqui a imagem de fundo */
+  background: url('fundo-vetos.jpg') center/cover no-repeat; /* Troque aqui o fundo */
 }
 .tela{
   position:fixed;
@@ -45,7 +44,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 </head>
 <body>
 
-<!-- --------- TELA INICIAL --------- -->
+<!-- TELA INICIAL -->
 <div id="telaInicial" class="tela" style="display:flex;">
   <div class="box">
     <h1>Vetos de Mapas</h1>
@@ -53,7 +52,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- --------- ESCOLHA DO MODO --------- -->
+<!-- ESCOLHA DO MODO -->
 <div id="telaModo" class="tela">
   <div class="box">
     <h1>Escolha o modo</h1>
@@ -64,7 +63,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- --------- SALA E LINK --------- -->
+<!-- SALA E LINK -->
 <div id="telaSala" class="tela">
   <div class="box">
     <h2>Link da sala</h2>
@@ -73,7 +72,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- --------- TELA DE VETO --------- -->
+<!-- TELA DE VETO -->
 <div id="telaVeto" class="tela">
   <div class="box">
     <h1>Vetos de Mapas</h1>
@@ -82,7 +81,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
   </div>
 </div>
 
-<!-- --------- TELA DE RESULTADO --------- -->
+<!-- TELA DE RESULTADO -->
 <div id="telaResultado" class="tela">
   <div class="box">
     <h1>Mapas Escolhidos</h1>
@@ -93,7 +92,6 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 
 <script>
 // --------- CONFIGURAÇÃO FÁCIL ---------
-// Aqui você pode editar os nomes e imagens dos mapas
 const mapas = [
   {nome:'Dust2', img:'maps/dust2.jpg'},
   {nome:'Mirage', img:'maps/mirage.jpg'},
@@ -106,17 +104,17 @@ const mapas = [
   {nome:'Cache', img:'maps/cache.jpg'},
   {nome:'Cobblestone', img:'maps/cobblestone.jpg'}
 ];
+// Para trocar o fundo, altere a imagem acima (body background no CSS)
 
-// --------- FIREBASE CONFIGURAÇÃO ---------
-// Substitua pelas chaves do seu projeto Firebase
+// --------- CONFIGURAÇÃO DO FIREBASE ---------
 const firebaseConfig = {
-  apiKey: "COLE_AQUI_SUA_API_KEY",
-  authDomain: "COLE_AQUI_SEU_DOMINIO.firebaseapp.com",
+  apiKey: "AIzaSyCk5TKmEJbeoyO4GunMmsAzHQksaY7FeNU",
+  authDomain: "vetos-de-mapas.firebaseapp.com",
   databaseURL: "https://vetos-de-mapas-default-rtdb.firebaseio.com",
-  projectId: "COLE_AQUI_SEU_PROJECT_ID",
-  storageBucket: "COLE_AQUI_SEU_STORAGE_BUCKET",
-  messagingSenderId: "COLE_AQUI_SEU_SENDER_ID",
-  appId: "COLE_AQUI_SEU_APP_ID"
+  projectId: "vetos-de-mapas",
+  storageBucket: "vetos-de-mapas.firebasestorage.app",
+  messagingSenderId: "1:965916020174:web:e334b1462c33f6cf1e6f9f",
+  appId: "G-JG6JF7NXW5"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -136,6 +134,7 @@ function voltarTelaInicial(){
   document.getElementById('telaModo').style.display='none';
   document.getElementById('telaInicial').style.display='flex';
 }
+
 function gerarSala(selecionado){
   modo = selecionado;
   salaID = Math.random().toString(36).substring(2,8); // cria ID aleatório
@@ -143,6 +142,7 @@ function gerarSala(selecionado){
   document.getElementById('telaModo').style.display='none';
   document.getElementById('telaSala').style.display='flex';
 }
+
 function iniciarVeto(){
   document.getElementById('telaSala').style.display='none';
   document.getElementById('telaVeto').style.display='flex';
