@@ -17,11 +17,9 @@ body {
   overflow:hidden;
 }
 
-/* ------------------------- */
-/* FUNDO YOUTUBE + FUMAÇA   */
-/* ------------------------- */
+/* FUNDO YOUTUBE (SEM FUMAÇA) */
 #yt-bg {
-  position: fixed; inset:0; z-index:-3; overflow:hidden;
+  position: fixed; inset:0; z-index:-1; overflow:hidden;
 }
 #yt-bg iframe {
   width:177.7vh; height:100vh; 
@@ -31,23 +29,7 @@ body {
   pointer-events:none;
 }
 
-#smoke {
-  position:fixed; inset:0; z-index:-2;
-  pointer-events:none;
-  background: url("https://i.imgur.com/8fK4teH.png");
-  background-size:300%;
-  animation: smokeMove 25s infinite linear;
-  opacity:0.35;
-  filter: hue-rotate(-20deg) saturate(2);
-}
-@keyframes smokeMove {
-  0% { background-position:0 0; }
-  100% { background-position:2000px 2000px; }
-}
-
-/* ------------------------- */
-/* PARTÍCULAS VERMELHAS     */
-/* ------------------------- */
+/* PARTÍCULAS VERMELHAS */
 #particles {
   position:fixed; inset:0; z-index:-1; pointer-events:none;
 }
@@ -65,7 +47,7 @@ body {
   100% { transform: translateY(-150vh) scale(0.2); opacity:0; }
 }
 
-/* EXPLOSÕES */
+/* Explosões */
 .particle-burst {
   position:absolute;
   width:10px; height:10px;
@@ -79,9 +61,7 @@ body {
   100% { transform:scale(8); opacity:0; }
 }
 
-/* ------------------------- */
-/* TELAS / BOX               */
-/* ------------------------- */
+/* TELAS */
 .tela {
   position:fixed; inset:0;
   display:none;
@@ -100,9 +80,7 @@ body {
   box-shadow:0 0 15px #ff1e1e55;
 }
 
-/* ------------------------- */
-/* BOTÕES GAMER NEON        */
-/* ------------------------- */
+/* BOTÕES */
 button{
   padding:12px 25px;
   margin:7px;
@@ -133,9 +111,7 @@ button:disabled{
   cursor:not-allowed;
 }
 
-/* ------------------------- */
-/* MAPAS NEON AZUL          */
-/* ------------------------- */
+/* MAPAS */
 .map-grid{
   display:flex; flex-wrap:wrap;
   justify-content:center; gap:14px;
@@ -158,7 +134,7 @@ button:disabled{
   box-shadow:0 0 15px #00c8ff;
 }
 
-/* Escolhido glow */
+/* Glow */
 .escolhido{
   border:2px solid #00eaff !important;
   box-shadow:0 0 18px #00eaff;
@@ -172,7 +148,7 @@ button:disabled{
   pointer-events:none;
 }
 
-/* Texto turno */
+/* Turno */
 .turno-msg{
   font-size:18px;
   color:#0ff;
@@ -186,18 +162,16 @@ button:disabled{
 
 <!-- FUNDO -->
 <div id="yt-bg">
-  <iframe src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw"></iframe>
+  <iframe src="https://www.youtube.com/embed/CXNUc8gkaZw?autoplay=1&controls=0&loop=1&playlist=CXNUc8gkaZw"></iframe>
 </div>
 
-<div id="smoke"></div>
 <div id="particles"></div>
 
-<!-- JS partículas -->
+<!-- JS Partículas -->
 <script>
 function spawnParticles(){
   const area = document.getElementById("particles");
 
-  // pequenas
   for(let i=0;i<8;i++){
     let p=document.createElement("div");
     p.className="particle";
@@ -208,7 +182,6 @@ function spawnParticles(){
     setTimeout(()=>p.remove(),5000);
   }
 
-  // explosões ocasionais
   if(Math.random()<0.25){
     let b=document.createElement("div");
     b.className="particle-burst";
@@ -220,6 +193,7 @@ function spawnParticles(){
 }
 setInterval(spawnParticles, 600);
 </script>
+
 
 <!-- TELAS -->
 <div id="telaInicial" class="tela" style="display:flex;">
@@ -255,7 +229,7 @@ setInterval(spawnParticles, 600);
     <div class="turno-msg" id="infoTurno">Aguardando...</div>
 
     <div id="esperaTurno" style="display:none; margin:10px; color:#0ff;">
-      Aguardando o Jogador adversário...
+      Aguardando o adversário...
     </div>
 
     <button id="btnSuaVez" style="display:none; margin-bottom:10px;"
@@ -317,13 +291,11 @@ if(params.get("sala")){
   entrarDirect();
 }
 
-// TELAS
 function abrirModo(){ show("telaModo"); hide("telaInicial"); }
 function voltarTelaInicial(){ show("telaInicial"); hide("telaModo"); }
 function show(id){ document.getElementById(id).style.display="flex"; }
 function hide(id){ document.getElementById(id).style.display="none"; }
 
-// GERAR SALA
 function gerarSala(m){
   modo=m;
   salaID = Math.random().toString(36).substring(2,8);
@@ -338,8 +310,11 @@ function gerarSala(m){
     travado:true
   });
 
-  const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)}`;
-  document.getElementById("linkSala").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+  const link =
+`${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)}`;
+
+  document.getElementById("linkSala").innerHTML =
+  `<a href="${link}" target="_blank">${link}</a>`;
 
   hide("telaModo"); show("telaSala");
 }
@@ -360,7 +335,6 @@ function entrarDirect(){
   inicializar();
 }
 
-// RENDER MAPAS
 function renderizar(){
   const c=document.getElementById("mapasContainer");
   c.innerHTML="";
@@ -384,7 +358,6 @@ function renderizar(){
   });
 }
 
-// SELECIONAR
 function selecionar(nome){
   if(vez!==meuTime()) return;
   if(escolhas.includes(nome)) return;
@@ -396,19 +369,16 @@ function selecionar(nome){
   db.ref("salas/"+salaID+"/vez").set(oponente());
 }
 
-// CONTINUAR
 function liberarTurno(){
   db.ref("salas/"+salaID+"/travado").set(false);
   document.getElementById("btnSuaVez").style.display="none";
 }
 
-// MEU TIME
 function meuTime(){
   return jogadorID === salaDados.j1 ? "j1" : "j2";
 }
 function oponente(){ return meuTime()==="j1" ? "j2" : "j1"; }
 
-// FIREBASE
 let salaDados={};
 
 function inicializar(){
@@ -427,7 +397,6 @@ function inicializar(){
   });
 }
 
-// TURNO
 function atualizarTurno(){
   const msg = document.getElementById("infoTurno");
   const espera = document.getElementById("esperaTurno");
@@ -456,7 +425,6 @@ function atualizarTurno(){
   }
 }
 
-// RESULTADO
 function mostrarResultado(){
   hide("telaVeto"); show("telaResultado");
 
@@ -478,5 +446,6 @@ function encerrarSessao(){
   location.reload();
 }
 </script>
+
 </body>
 </html>
