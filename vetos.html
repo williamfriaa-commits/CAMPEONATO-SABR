@@ -15,6 +15,7 @@
         font-family:Arial;
         color:white;
         overflow:hidden;
+        background:#000;
     }
 
     /* FUNDO YOUTUBE */
@@ -35,7 +36,7 @@
         pointer-events:none;
     }
 
-    /* MENSAGEM VETO SUPER CHAMATIVA */
+    /* MENSAGEM VETO NEON */
     #msgVeto {
         position: fixed;
         top: 20px;
@@ -83,7 +84,7 @@
         box-shadow:0 0 15px #ff1e1e55;
     }
 
-    /* BOTÕES */
+    /* BOTÕES NEON */
     button{
         padding:12px 25px;
         margin:7px;
@@ -113,7 +114,7 @@
         cursor:not-allowed;
     }
 
-    /* MAPAS */
+    /* MAPAS NEON */
     .map-grid{
         display:flex;
         flex-wrap:wrap;
@@ -160,7 +161,7 @@
 
 <body>
 
-<!-- FUNDO YOUTUBE (MUDO) -->
+<!-- FUNDO YOUTUBE -->
 <div id="yt-bg">
     <iframe src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw"></iframe>
 </div>
@@ -202,20 +203,14 @@
     <div class="box">
         <h1>Escolha de Mapas</h1>
         <div class="turno-msg" id="infoTurno">Aguardando...</div>
-
         <div id="esperaTurno" style="display:none; margin:10px; color:#0ff;">
             Aguardando o Jogador adversário...
         </div>
-
         <button id="btnSuaVez" style="display:none; margin-bottom:10px;" onclick="liberarTurno()">
             CONTINUAR
         </button>
-
         <div class="map-grid" id="mapasContainer"></div>
-
-        <button id="encerrarBtn" style="display:none;" onclick="encerrarSessao()">
-            Encerrar Sessão
-        </button>
+        <button id="encerrarBtn" style="display:none;" onclick="encerrarSessao()">Encerrar Sessão</button>
     </div>
 </div>
 
@@ -260,6 +255,14 @@ let vez = "";
 let escolhas = [];
 let salaDados={};
 
+/* PARAMS SALA */
+const params = new URLSearchParams(location.search);
+if(params.get("sala")){
+    salaID = params.get("sala");
+    jogadorID = params.get("jogador");
+    entrarDirect();
+}
+
 /* TELAS */
 function abrirModo(){ show("telaModo"); hide("telaInicial"); }
 function voltarTelaInicial(){ show("telaInicial"); hide("telaModo"); }
@@ -295,25 +298,28 @@ function entrarSala(){
     inicializar();
 }
 
+function entrarDirect(){
+    hide("telaInicial");
+    hide("telaModo");
+    hide("telaSala");
+    show("telaVeto");
+    document.getElementById("msgVeto").style.display = "block"; // mostra mensagem chamativa
+    inicializar();
+}
+
 /* RENDER MAPAS */
 function renderizar(){
     const c=document.getElementById("mapasContainer");
     c.innerHTML="";
-
     mapas.forEach(m=>{
         const d=document.createElement("div");
         d.className="map-item";
-
-        let bloqueado = (vez!==meuTime());
-        if(bloqueado) d.classList.add("bloqueado");
-
-        d.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
-
-        if(escolhas.includes(m.nome)){
-            d.querySelector("img").classList.add("escolhido");
+        if(escolhas.includes(m.nome)) {
             d.classList.add("bloqueado");
         }
-
+        let bloqueado = (vez!==meuTime() || escolhas.includes(m.nome));
+        if(bloqueado) d.classList.add("bloqueado");
+        d.innerHTML = `<img src="${m.img}"><p>${m.nome}</p>`;
         d.onclick = ()=> selecionar(m.nome);
         c.appendChild(d);
     });
@@ -391,19 +397,13 @@ function atualizarTurno(){
 function mostrarResultado(){
     hide("telaVeto");
     show("telaResultado");
-    document.getElementById("msgVeto").style.display = "none"; // esconde a mensagem
+    document.getElementById("msgVeto").style.display = "none"; // esconde mensagem
 
     const c=document.getElementById("mapasFinais");
     c.innerHTML="";
-
     escolhas.forEach(n=>{
         const m = mapas.find(x=>x.nome===n);
-        c.innerHTML += `
-            <div class="map-item">
-                <img src="${m.img}">
-                <p>${m.nome}</p>
-            </div>
-        `;
+        c.innerHTML += `<div class="map-item"><img src="${m.img}"><p>${m.nome}</p></div>`;
     });
 }
 
