@@ -159,33 +159,8 @@
 </div>
 
 <!-- MÚSICA DE FUNDO -->
-<audio id="musicaFundo" src="TÁ FECHADO COM OS CARAS_ QUER ROUBAR MINHA MAKITA - MEME VIRAL - MC HK DA 7 (DJPEJOTA).mp3" loop></audio>
+<audio id="musicaFundo" src="musica.mp3" loop></audio>
 <button id="btnMusica">▶ Música</button>
-<script>
-const audio = document.getElementById("musicaFundo");
-const btnMusica = document.getElementById("btnMusica");
-audio.volume = 0.9; // volume alto
-
-// Play/Pause música
-btnMusica.addEventListener("click", ()=>{
-    if(audio.paused){
-        audio.play().catch(()=>{});
-        btnMusica.innerText="⏸ Música";
-    } else {
-        audio.pause();
-        btnMusica.innerText="▶ Música";
-    }
-});
-
-// Forçar play no primeiro clique ou toque na página
-function tentarTocar() {
-    audio.play().catch(()=>{});
-    document.removeEventListener("click", tentarTocar);
-    document.removeEventListener("touchstart", tentarTocar);
-}
-document.addEventListener("click", tentarTocar);
-document.addEventListener("touchstart", tentarTocar);
-</script>
 
 <!-- TELAS -->
 <div id="telaInicial" class="tela" style="display:flex;">
@@ -469,6 +444,26 @@ function stopTituloPiscar(){
     tituloInterval = null;
     document.title = "Vetos de Mapas - SABR";
 }
+
+/* BOTÃO MÚSICA FUNCIONANDO */
+const btnMusica = document.getElementById("btnMusica");
+btnMusica.addEventListener("click", ()=>{
+    if(audio.paused){
+        audio.play().catch(()=>{alert("Não foi possível tocar a música, verifique o arquivo.")});
+        btnMusica.innerText="⏸ Música";
+    } else {
+        audio.pause();
+        btnMusica.innerText="▶ Música";
+    }
+});
+
+// Tocar música no primeiro clique em qualquer lugar
+document.addEventListener("click", ()=>{
+    audio.play().catch(()=>{});
+});
+document.addEventListener("touchstart", ()=>{
+    audio.play().catch(()=>{});
+});
 </script>
 
 </body>
