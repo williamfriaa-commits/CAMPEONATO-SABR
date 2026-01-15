@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Vetos de Mapas</title>
+<title>Vetos de Mapas - SABR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Firebase SDK -->
@@ -27,7 +27,7 @@ body {
   overflow: hidden;
 }
 #yt-bg iframe {
-  width: 177.77vh;
+  width: 177.77vh;  
   height: 100vh;
   min-width: 100vw;
   min-height: 56.25vw;
@@ -52,24 +52,24 @@ body {
   padding:25px;
   border-radius:15px;
   width:100%;
-  max-width:550px;
+  max-width:500px;
   text-align:center;
 }
 button{
   padding:10px 20px; margin:5px; border:none; border-radius:8px; cursor:pointer;
 }
 button:disabled{ opacity:0.5; cursor:not-allowed; }
+
 .map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
-.map-item{ width:140px; text-align:center; cursor:pointer; position:relative; }
+.map-item{ width:140px; text-align:center; cursor:pointer; }
 .map-item img{ width:100%; border-radius:8px; transition:0.3s; }
 .map-item img:hover{ transform: scale(1.05); }
-.map-item .vetado{ 
-  position:absolute; top:5px; right:5px; 
-  color:#f00; font-weight:bold; font-size:24px; 
+
+.escolhido{
+  box-shadow: 0 0 10px #0ff;
+  border-radius:8px;
 }
-.map-item .escolhido{
-  box-shadow: 0 0 10px #0ff; border-radius:8px;
-}
+
 .turno-msg{
   font-size:16px; color:#0ff; margin-top:10px; font-weight:bold;
 }
@@ -77,7 +77,7 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 </head>
 <body>
 
-<!-- Fundo com vídeo -->
+<!-- Fundo com vídeo do YouTube -->
 <div id="yt-bg">
   <iframe 
     src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" 
@@ -109,25 +109,25 @@ button:disabled{ opacity:0.5; cursor:not-allowed; }
 <!-- Sala -->
 <div id="telaSala" class="tela">
   <div class="box">
-    <h2>Entre na Sala</h2>
-    <p>Copie o link abaixo para o jogador 2:</p>
-    <input type="text" id="linkSala" readonly style="width:90%;padding:5px;text-align:center;">
+    <h2>Sua Sala de Vetos</h2>
+    <p>Clique no botão para copiar o link para o Jogador 2:</p>
+    <p id="linkSala"></p>
     <button onclick="copiarLink()">📋 Copiar Link</button>
-    <button onclick="iniciarVeto()">Entrar na Sala</button>
+    <button onclick="entrarSala()">Entrar na Sala</button>
   </div>
 </div>
 
-<!-- Tela de veto -->
+<!-- Tela de escolha dos mapas -->
 <div id="telaVeto" class="tela">
   <div class="box">
-    <h1>Vetos de Mapas</h1>
-    <div class="turno-msg" id="infoTurno">Aguardando adversário...</div>
+    <h1>Escolha de Mapas</h1>
+    <div class="turno-msg" id="infoTurno">Aguardando...</div>
     <div class="map-grid" id="mapasContainer"></div>
     <button id="encerrarBtn" style="display:none;" onclick="encerrarSessao()">Encerrar Sessão</button>
   </div>
 </div>
 
-<!-- Tela resultado -->
+<!-- Tela final -->
 <div id="telaResultado" class="tela">
   <div class="box">
     <h1>Mapas Escolhidos</h1>
@@ -164,104 +164,126 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// VARIÁVEIS
-let modo=1, salaID="", jogadorID=Math.random().toString(36).substring(2,8);
-let mapasVetados=[], mapasEscolhidos=[];
-let jogador1="", jogador2="";
-let isMeuTurno=false;
+// Variáveis
+let modo = 1;
+let salaID = "";
+let jogadorID = Math.random().toString(36).substring(2,8);
+let mapasEscolhidos = [];
 
-// PARÂMETROS URL
+// Detecta se entrou por link
 const params = new URLSearchParams(window.location.search);
 const salaParam = params.get("sala");
 const jogadorParam = params.get("jogador");
 
-// SE JÁ ESTIVER NA SALA
 if(salaParam && jogadorParam){
-  salaID = salaParam; jogadorID = jogadorParam;
-  document.getElementById("telaInicial").style.display="none";
-  document.getElementById("telaModo").style.display="none";
-  document.getElementById("telaSala").style.display="none";
-  document.getElementById("telaVeto").style.display="flex";
-  inicializarFirebase();
-  renderizarMapas();
+    salaID = salaParam;
+    jogadorID = jogadorParam;
+    document.getElementById("telaInicial").style.display="none";
+    document.getElementById("telaModo").style.display="none";
+    document.getElementById("telaSala").style.display="none";
+    document.getElementById("telaVeto").style.display="flex";
+    inicializarFirebase();
+    renderizarMapas();
 }
 
 // FUNÇÕES DE TELA
-function abrirModo(){document.getElementById("telaInicial").style.display="none";document.getElementById("telaModo").style.display="flex";}
-function voltarTelaInicial(){document.getElementById("telaModo").style.display="none";document.getElementById("telaInicial").style.display="flex";}
+function abrirModo(){ document.getElementById("telaInicial").style.display="none"; document.getElementById("telaModo").style.display="flex";}
+function voltarTelaInicial(){ document.getElementById("telaModo").style.display="none"; document.getElementById("telaInicial").style.display="flex";}
 
 // GERAR SALA
 function gerarSala(sel){
-  modo=sel;
+  modo = sel;
   salaID = Math.random().toString(36).substring(2,8);
-  db.ref("salas/"+salaID).set({
-    modo:modo, jogador1:jogadorID, jogador2:"",
-    vetos:{}, escolhas:[], turno:jogadorID
+  db.ref("salas/" + salaID).set({
+    modo: modo,
+    jogador1: jogadorID,
+    jogador2: "",
+    escolhas: []
   });
-  const link = location.origin+location.pathname+"?sala="+salaID+"&jogador="+jogadorID;
-  document.getElementById("linkSala").value = link;
+  const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)}`;
+  document.getElementById("linkSala").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
   document.getElementById("telaModo").style.display="none";
   document.getElementById("telaSala").style.display="flex";
 }
 
-function copiarLink(){navigator.clipboard.writeText(document.getElementById("linkSala").value); alert("Link copiado!");}
-function iniciarVeto(){document.getElementById("telaSala").style.display="none";document.getElementById("telaVeto").style.display="flex";inicializarFirebase();renderizarMapas();}
+function copiarLink(){
+  navigator.clipboard.writeText(document.getElementById("linkSala").innerText);
+  alert("Link copiado!");
+}
+
+function entrarSala(){
+  document.getElementById("telaSala").style.display="none";
+  document.getElementById("telaVeto").style.display="flex";
+  inicializarFirebase();
+}
 
 // RENDERIZA MAPAS
 function renderizarMapas(){
-  const c=document.getElementById("mapasContainer"); c.innerHTML="";
+  const container = document.getElementById("mapasContainer");
+  container.innerHTML="";
   mapas.forEach(m=>{
-    const div=document.createElement("div"); div.className="map-item";
+    const div=document.createElement("div");
+    div.className="map-item";
     div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`;
-    if(mapasVetados.includes(m.nome)){div.querySelector("img").style.opacity="0.4"; div.innerHTML+=`<div class="vetado">X</div>`; div.style.pointerEvents="none";}
-    else if(mapasEscolhidos.includes(m.nome)){div.querySelector("img").classList.add("escolhido"); div.style.pointerEvents="none";}
-    else if(!isMeuTurno){div.style.pointerEvents="none"; div.querySelector("img").style.opacity="0.6";}
-    div.onclick=()=>{jogarMapa(m.nome);};
-    c.appendChild(div);
+    if(mapasEscolhidos.includes(m.nome)){
+      div.querySelector("img").classList.add("escolhido");
+      div.style.pointerEvents="none";
+    }
+    div.onclick=()=>escolherMapa(m.nome);
+    container.appendChild(div);
   });
 }
 
-// FUNÇÃO DE VETO / ESCOLHA
-function jogarMapa(nome){
-  if(!isMeuTurno) return;
-  db.ref("salas/"+salaID).get().then(snap=>{
-    const sala = snap.val();
-    let vezEscolher = (sala.escolhas.length % 2 === 0); // alterna escolha/veto
-    if(vezEscolher){db.ref("salas/"+salaID+"/escolhas").push(nome);}
-    else{db.ref("salas/"+salaID+"/vetos").push({mapa:nome});}
-    // alterna turno
-    const proximoTurno = (jogadorID === sala.jogador1)? sala.jogador2 : sala.jogador1;
-    db.ref("salas/"+salaID).update({turno:proximoTurno});
-  });
+// ESCOLHA DE MAPA
+function escolherMapa(nome){
+  if(mapasEscolhidos.length >= modo) return;
+
+  mapasEscolhidos.push(nome);
+  db.ref("salas/" + salaID + "/escolhas").set(mapasEscolhidos);
+
+  if(mapasEscolhidos.length === modo - 1){
+    // Sorteia último mapa automaticamente
+    const disponiveis = mapas.filter(m=>!mapasEscolhidos.includes(m.nome));
+    const sorteado = disponiveis[Math.floor(Math.random()*disponiveis.length)];
+    mapasEscolhidos.push(sorteado.nome);
+    db.ref("salas/" + salaID + "/escolhas").set(mapasEscolhidos);
+  }
 }
 
 // INICIALIZA FIREBASE
 function inicializarFirebase(){
-  db.ref("salas/"+salaID).on("value", snap=>{
-    const sala = snap.val(); if(!sala) return;
-    jogador1 = sala.jogador1; jogador2 = sala.jogador2||"";
-    mapasVetados = Object.values(sala.vetos||{}).map(v=>v.mapa);
-    mapasEscolhidos = Object.values(sala.escolhas||{});
-    if(!jogador2 && jogadorID!==jogador1){db.ref("salas/"+salaID).update({jogador2:jogadorID}); jogador2=jogadorID;}
-    isMeuTurno = (sala.turno===jogadorID);
-    const msg = isMeuTurno ? (sala.escolhas.length%2===0?"Sua vez de escolher":"Sua vez de vetar") : "Aguardando adversário...";
-    document.getElementById("infoTurno").innerText = msg;
+  db.ref("salas/" + salaID + "/escolhas").on("value", snap=>{
+    const val = snap.val()||[];
+    mapasEscolhidos = val;
     renderizarMapas();
-    if(mapasEscolhidos.length>=modo){document.getElementById("encerrarBtn").style.display="block"; mostrarTelaResultado();}
+
+    if(mapasEscolhidos.length===modo){
+      mostrarTelaResultado();
+      document.getElementById("encerrarBtn").style.display="block";
+    }
   });
 }
 
 // MOSTRA RESULTADO
 function mostrarTelaResultado(){
   document.getElementById("telaVeto").style.display="none";
-  const finais = mapas.filter(m=>mapasEscolhidos.includes(m.nome));
-  const c=document.getElementById("mapasFinais"); c.innerHTML="";
-  finais.forEach(m=>{const div=document.createElement("div"); div.className="map-item"; div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`; c.appendChild(div);});
+  const container = document.getElementById("mapasFinais");
+  container.innerHTML="";
+  mapasEscolhidos.forEach(nome=>{
+    const mapa = mapas.find(m=>m.nome===nome);
+    const div=document.createElement("div");
+    div.className="map-item";
+    div.innerHTML=`<img src="${mapa.img}"><p>${mapa.nome}</p>`;
+    container.appendChild(div);
+  });
   document.getElementById("telaResultado").style.display="flex";
 }
 
-// ENCERRAR
-function encerrarSessao(){db.ref("salas/"+salaID).remove(); window.location.reload();}
+// ENCERRAR SESSÃO
+function encerrarSessao(){
+  db.ref("salas/" + salaID).remove();
+  window.location.reload();
+}
 </script>
 
 </body>
