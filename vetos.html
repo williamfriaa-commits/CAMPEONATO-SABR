@@ -2,264 +2,289 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Vetos de Mapas</title>
+<title>Vetos de Mapas - SABR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Firebase -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #000;
-        color: #fff;
-    }
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
+}
 
-    .container {
-        max-width: 900px;
-        margin: auto;
-        padding: 20px;
-        text-align: center;
-    }
+/* Fundo com vídeo do YouTube */
+#yt-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+#yt-bg iframe {
+  width: 177.77vh;  
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
 
-    h1 { font-size: 28px; margin-bottom: 10px; }
-    h2 { color: #0f0; }
+.tela{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.box{
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:500px;
+  text-align:center;
+}
+button{
+  padding:10px 20px; margin:5px; border:none; border-radius:8px; cursor:pointer;
+}
+button:disabled{ opacity:0.5; cursor:not-allowed; }
 
-    .map-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin-top: 20px;
-    }
+.map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
+.map-item{ width:140px; text-align:center; cursor:pointer; }
+.map-item img{ width:100%; border-radius:8px; transition:0.3s; }
+.map-item img:hover{ transform: scale(1.05); }
 
-    .map {
-        background: #111;
-        padding: 10px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.2s;
-        border: 2px solid #333;
-    }
+.escolhido{
+  box-shadow: 0 0 10px #0ff;
+  border-radius:8px;
+}
 
-    .map img {
-        width: 100%;
-        border-radius: 6px;
-    }
-
-    .map.disabled {
-        opacity: 0.3;
-        pointer-events: none;
-    }
-
-    /* MODAL */
-    #modalConfirm {
-        display: none;
-        position: fixed;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    #modalBox {
-        background: #111;
-        padding: 20px;
-        width: 90%;
-        max-width: 350px;
-        border-radius: 12px;
-        border: 2px solid #0f0;
-    }
-
-    #modalBox img {
-        width: 100%;
-        border-radius: 10px;
-    }
-
-    #modalBox button {
-        background: #0f0;
-        padding: 10px 20px;
-        border: none;
-        margin-top: 15px;
-        border-radius: 6px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    #waiting {
-        display: none;
-        margin-top: 15px;
-        font-size: 16px;
-        color: #0f0;
-    }
+.turno-msg{
+  font-size:16px; color:#0ff; margin-top:10px; font-weight:bold;
+}
 </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Veto de Mapas</h1>
-    <h2 id="modeText">Modo: MD1</h2>
-    <h3 id="turnText">Aguardando turno...</h3>
-
-    <div class="map-grid" id="mapGrid"></div>
-
-    <div id="waiting">⏳ Aguardando o outro jogador confirmar...</div>
+<!-- Fundo com vídeo do YouTube -->
+<div id="yt-bg">
+  <iframe 
+    src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" 
+    frameborder="0"
+    allow="autoplay; fullscreen" 
+    allowfullscreen>
+  </iframe>
 </div>
 
-<!-- MODAL -->
-<div id="modalConfirm">
-    <div id="modalBox">
-        <h3 id="modalTitle">Mapa Selecionado</h3>
-        <img id="modalImg" src="">
-        <p id="modalName"></p>
-        <button onclick="confirmSelection()">OK</button>
-    </div>
+<!-- Tela inicial -->
+<div id="telaInicial" class="tela" style="display:flex;">
+  <div class="box">
+    <h1>Vetos de Mapas</h1>
+    <button onclick="abrirModo()">Iniciar Vetos</button>
+  </div>
+</div>
+
+<!-- Escolha do modo -->
+<div id="telaModo" class="tela">
+  <div class="box">
+    <h1>Escolha o modo</h1>
+    <button onclick="gerarSala(1)">MD1</button>
+    <button onclick="gerarSala(3)">MD3</button>
+    <button onclick="gerarSala(5)">MD5</button>
+    <button onclick="voltarTelaInicial()">Voltar</button>
+  </div>
+</div>
+
+<!-- Sala -->
+<div id="telaSala" class="tela">
+  <div class="box">
+    <h2>Sua Sala de Vetos</h2>
+    <p>Clique no botão para copiar o link para o Jogador 2:</p>
+    <p id="linkSala"></p>
+    <button onclick="copiarLink()">📋 Copiar Link</button>
+    <button onclick="entrarSala()">Entrar na Sala</button>
+  </div>
+</div>
+
+<!-- Tela de escolha dos mapas -->
+<div id="telaVeto" class="tela">
+  <div class="box">
+    <h1>Escolha de Mapas</h1>
+    <div class="turno-msg" id="infoTurno">Aguardando...</div>
+    <div class="map-grid" id="mapasContainer"></div>
+    <button id="encerrarBtn" style="display:none;" onclick="encerrarSessao()">Encerrar Sessão</button>
+  </div>
+</div>
+
+<!-- Tela final -->
+<div id="telaResultado" class="tela">
+  <div class="box">
+    <h1>Mapas Escolhidos</h1>
+    <div class="map-grid" id="mapasFinais"></div>
+    <button onclick="window.location.reload()">Voltar ao Início</button>
+  </div>
 </div>
 
 <script>
-/* ------------------------------------------
-   🔥 CONFIG FIREBASE
-------------------------------------------- */
-const firebaseConfig = {
-    apiKey: "AIzaSyXXXX",
-    authDomain: "xxxx.firebaseapp.com",
-    databaseURL: "https://xxxx-default-rtdb.firebaseio.com",
-    projectId: "xxxx",
-    storageBucket: "xxxx.appspot.com",
-    messagingSenderId: "xxxx",
-    appId: "xxxx"
-};
+// MAPAS
+const mapas = [
+  {nome:'5TH DEPOT', img:'dp5.mapa.png'},
+  {nome:'CROSSPORT', img:'crossport.png'},
+  {nome:'DESERT2', img:'desert2.png'},
+  {nome:'PROVENCE', img:'provence.png'},
+  {nome:'CITY CAT', img:'citycat.png'},
+  {nome:'WHITE SQUALL', img:'wihtiSqual.png'},
+  {nome:'OLD TOWM', img:'oldTowm.png'},
+  {nome:'DRAGONROAD', img:'dragonround.png'},
+  {nome:'TWOFACE', img:'TOWFACE.jpg'},
+  {nome:'DEPOT', img:'DEPOT.png'}
+];
 
+// FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyCk5TKmEJbeoyO4GunMmsAzHQksaY7FeNU",
+  authDomain: "vetos-de-mapas.firebaseapp.com",
+  databaseURL: "https://vetos-de-mapas-default-rtdb.firebaseio.com",
+  projectId: "vetos-de-mapas",
+  storageBucket: "vetos-de-mapas.appspot.com",
+  messagingSenderId: "965916020174",
+  appId: "1:965916020174:web:676ae987f76b10631e6f9f"
+};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* ------------------------------------------
-   🔥 LISTA DE MAPAS
-------------------------------------------- */
-const maps = [
-    { name: "Dust2", img: "https://i.imgur.com/tAeGQob.jpeg" },
-    { name: "Mirage", img: "https://i.imgur.com/ljUNkqs.jpeg" },
-    { name: "Nuke", img: "https://i.imgur.com/y6kTKoJ.jpeg" },
-    { name: "Inferno", img: "https://i.imgur.com/x7ZuSxF.jpeg" },
-    { name: "Train", img: "https://i.imgur.com/Nfz6I7C.jpeg" }
-];
+// Variáveis
+let modo = 1;
+let salaID = "";
+let jogadorID = Math.random().toString(36).substring(2,8);
+let mapasEscolhidos = [];
 
-/* ------------------------------------------
-   🔥 VARIÁVEIS
-------------------------------------------- */
-let player = null;
-let currentTurn = 1;
-let totalPicks = 0;
-let mdMode = "MD5"; // já trava no MD5 como você quer
-let selectedMapTemp = null;
+// Detecta se entrou por link
+const params = new URLSearchParams(window.location.search);
+const salaParam = params.get("sala");
+const jogadorParam = params.get("jogador");
 
-/* ------------------------------------------
-   🔥 ENTRAR NA SALA
-------------------------------------------- */
-db.ref("vetos/playerCount").once("value", snap => {
-    let count = snap.val() || 0;
-
-    player = count >= 1 ? 2 : 1;
-    db.ref("vetos/playerCount").set(player);
-
-    document.getElementById("turnText").innerHTML =
-        `Você é o Jogador ${player}`;
-});
-
-/* ------------------------------------------
-   🔥 DESENHAR MAPAS
-------------------------------------------- */
-function loadMaps() {
-    const grid = document.getElementById("mapGrid");
-    grid.innerHTML = "";
-
-    maps.forEach((m, index) => {
-        const div = document.createElement("div");
-        div.className = "map";
-        div.innerHTML = `
-            <img src="${m.img}">
-            <p>${m.name}</p>
-        `;
-        div.onclick = () => pickMap(index);
-
-        grid.appendChild(div);
-    });
-}
-loadMaps();
-
-/* ------------------------------------------
-   🔥 SELECIONAR MAPA (MOSTRA MODAL)
-------------------------------------------- */
-function pickMap(i) {
-    if (player !== currentTurn) return;
-
-    selectedMapTemp = i;
-
-    document.getElementById("modalImg").src = maps[i].img;
-    document.getElementById("modalName").innerHTML = maps[i].name;
-
-    document.getElementById("modalConfirm").style.display = "flex";
+if(salaParam && jogadorParam){
+    salaID = salaParam;
+    jogadorID = jogadorParam;
+    document.getElementById("telaInicial").style.display="none";
+    document.getElementById("telaModo").style.display="none";
+    document.getElementById("telaSala").style.display="none";
+    document.getElementById("telaVeto").style.display="flex";
+    inicializarFirebase();
+    renderizarMapas();
 }
 
-/* ------------------------------------------
-   🔥 JOGADOR CLICOU OK
-------------------------------------------- */
-function confirmSelection() {
-    db.ref("vetos/selection").set({
-        player: player,
-        map: selectedMapTemp,
-        ready: true
-    });
+// FUNÇÕES DE TELA
+function abrirModo(){ document.getElementById("telaInicial").style.display="none"; document.getElementById("telaModo").style.display="flex";}
+function voltarTelaInicial(){ document.getElementById("telaModo").style.display="none"; document.getElementById("telaInicial").style.display="flex";}
 
-    document.getElementById("modalConfirm").style.display = "none";
-    document.getElementById("waiting").style.display = "block";
+// GERAR SALA
+function gerarSala(sel){
+  modo = sel;
+  salaID = Math.random().toString(36).substring(2,8);
+  db.ref("salas/" + salaID).set({
+    modo: modo,
+    jogador1: jogadorID,
+    jogador2: "",
+    escolhas: []
+  });
+  const link = ${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)};
+  document.getElementById("linkSala").innerHTML = <a href="${link}" target="_blank">${link}</a>;
+  document.getElementById("telaModo").style.display="none";
+  document.getElementById("telaSala").style.display="flex";
 }
 
-/* ------------------------------------------
-   🔥 OUVIR SE AMBOS CONFIRMARAM
-------------------------------------------- */
-db.ref("vetos/selection").on("value", snap => {
-    const data = snap.val();
-    if (!data) return;
+function copiarLink(){
+  navigator.clipboard.writeText(document.getElementById("linkSala").innerText);
+  alert("Link copiado!");
+}
 
-    if (data.ready && data.player !== player) {
-        document.getElementById("waiting").style.display = "block";
+function entrarSala(){
+  document.getElementById("telaSala").style.display="none";
+  document.getElementById("telaVeto").style.display="flex";
+  inicializarFirebase();
+}
+
+// RENDERIZA MAPAS
+function renderizarMapas(){
+  const container = document.getElementById("mapasContainer");
+  container.innerHTML="";
+  mapas.forEach(m=>{
+    const div=document.createElement("div");
+    div.className="map-item";
+    div.innerHTML=<img src="${m.img}"><p>${m.nome}</p>;
+    if(mapasEscolhidos.includes(m.nome)){
+      div.querySelector("img").classList.add("escolhido");
+      div.style.pointerEvents="none";
     }
+    div.onclick=()=>escolherMapa(m.nome);
+    container.appendChild(div);
+  });
+}
 
-    db.ref("vetos/readyCheck").once("value", r => {
-        let ready = r.val() || 0;
-        ready++;
+// ESCOLHA DE MAPA
+function escolherMapa(nome){
+  if(mapasEscolhidos.length >= modo) return;
 
-        db.ref("vetos/readyCheck").set(ready);
+  mapasEscolhidos.push(nome);
+  db.ref("salas/" + salaID + "/escolhas").set(mapasEscolhidos);
 
-        if (ready >= 2) {
-            finalizeTurn(data.map);
-        }
-    });
-});
+  if(mapasEscolhidos.length === modo - 1){
+    // Sorteia último mapa automaticamente
+    const disponiveis = mapas.filter(m=>!mapasEscolhidos.includes(m.nome));
+    const sorteado = disponiveis[Math.floor(Math.random()*disponiveis.length)];
+    mapasEscolhidos.push(sorteado.nome);
+    db.ref("salas/" + salaID + "/escolhas").set(mapasEscolhidos);
+  }
+}
 
-/* ------------------------------------------
-   🔥 FINALIZAR TURNO
-------------------------------------------- */
-function finalizeTurn(mapIndex) {
-    document.getElementById("waiting").style.display = "none";
+// INICIALIZA FIREBASE
+function inicializarFirebase(){
+  db.ref("salas/" + salaID + "/escolhas").on("value", snap=>{
+    const val = snap.val()||[];
+    mapasEscolhidos = val;
+    renderizarMapas();
 
-    let allMaps = document.querySelectorAll(".map");
-    allMaps[mapIndex].classList.add("disabled");
+    if(mapasEscolhidos.length===modo){
+      mostrarTelaResultado();
+      document.getElementById("encerrarBtn").style.display="block";
+    }
+  });
+}
 
-    totalPicks++;
-    currentTurn = currentTurn === 1 ? 2 : 1;
+// MOSTRA RESULTADO
+function mostrarTelaResultado(){
+  document.getElementById("telaVeto").style.display="none";
+  const container = document.getElementById("mapasFinais");
+  container.innerHTML="";
+  mapasEscolhidos.forEach(nome=>{
+    const mapa = mapas.find(m=>m.nome===nome);
+    const div=document.createElement("div");
+    div.className="map-item";
+    div.innerHTML=<img src="${mapa.img}"><p>${mapa.nome}</p>;
+    container.appendChild(div);
+  });
+  document.getElementById("telaResultado").style.display="flex";
+}
 
-    document.getElementById("turnText").innerHTML =
-        `Agora é a vez do Jogador ${currentTurn}`;
-
-    db.ref("vetos/readyCheck").set(0);
-    db.ref("vetos/selection").set(null);
+// ENCERRAR SESSÃO
+function encerrarSessao(){
+  db.ref("salas/" + salaID).remove();
+  window.location.reload();
 }
 </script>
+
 </body>
 </html>
