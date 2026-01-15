@@ -140,15 +140,20 @@
 </div>
 
 <!-- MÚSICA DE FUNDO -->
-<audio id="musicaFundo" src="TÁ FECHADO COM OS CARAS_ QUER ROUBAR MINHA MAKITA - MEME VIRAL - MC HK DA 7 (DJPEJOTA).mp3" autoplay loop></audio>
+<audio id="musicaFundo" src="TÁ FECHADO COM OS CARAS_ QUER ROUBAR MINHA MAKITA - MEME VIRAL - MC HK DA 7 (DJPEJOTA).mp3" loop></audio>
 <script>
-  document.addEventListener("click", () => {
-      const audio = document.getElementById("musicaFundo");
-      if(audio.paused){
-          audio.volume = 0.4;
-          audio.play();
-      }
-  });
+  const audio = document.getElementById("musicaFundo");
+  audio.volume = 0.9; // volume alto
+
+  // Forçar play quando houver interação do usuário
+  function tentarTocar() {
+      audio.play().catch(()=>{}); // evita erro se não tocar imediatamente
+      document.removeEventListener("click", tentarTocar);
+      document.removeEventListener("touchstart", tentarTocar);
+  }
+
+  document.addEventListener("click", tentarTocar);
+  document.addEventListener("touchstart", tentarTocar);
 </script>
 
 <!-- TELAS -->
