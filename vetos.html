@@ -1,203 +1,269 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Mapa de Vetos - Sudden Attack</title>
-  <!-- Fonte moderna e grossa -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      color: #A020F0; /* roxo */
-      background-color: #000; /* preto */
-    }
-    header {
-      background-color: #111;
-      padding: 25px;
-      text-align: center;
-      cursor: pointer;
-      border-bottom: 3px solid #A020F0;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 40px;
-      font-weight: 700;
-      color: #A020F0;
-      letter-spacing: 2px;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #222;
-      padding: 20px;
-      gap: 20px;
-    }
-    nav button {
-      padding: 15px 25px;
-      cursor: pointer;
-      background: #A020F0;
-      border: none;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 18px;
-      color: #fff;
-      transition: 0.3s;
-    }
-    nav button:hover {
-      background: #8A2BE2;
-      transform: scale(1.05);
-    }
-    .maps {
-      display: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .map {
-      background: #111;
-      color: #A020F0;
-      padding: 20px;
-      border-radius: 10px;
-      width: 180px;
-      text-align: center;
-      cursor: pointer;
-      border: 2px solid #A020F0;
-      font-size: 20px;
-      font-weight: 700;
-      transition: 0.3s;
-    }
-    .map:hover { background: #222; }
-    .vetadoA { background:#333; color:#A020F0; text-decoration:line-through; border:2px solid #A020F0; }
-    .vetadoB { background:#111; color:#A020F0; text-decoration:line-through; border:2px solid red; }
-    .escolhido { background:#A020F0; color:#fff; font-weight:700; }
-    .info {
-      margin-top: 25px;
-      font-size: 22px;
-      text-align: center;
-      background: #111;
-      padding: 15px;
-      border-radius: 8px;
-      color: #A020F0;
-      font-weight: 700;
-    }
-    .contador {
-      margin-top: 20px;
-      font-size: 20px;
-      text-align: center;
-      background: #111;
-      padding: 12px;
-      border-radius: 8px;
-      color: #A020F0;
-      font-weight: 700;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Vetos de Mapas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
+}
+
+/* Fundo com vídeo do YouTube */
+#yt-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+#yt-bg iframe {
+  width: 177.77vh;
+  height: 100vh;
+  min-width: 100vw;
+  min-height: 56.25vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.tela{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.box{
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:550px;
+  text-align:center;
+}
+button{
+  padding:10px 20px; margin:5px; border:none; border-radius:8px; cursor:pointer;
+}
+button:disabled{ opacity:0.5; cursor:not-allowed; }
+.map-grid{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:15px; }
+.map-item{ width:140px; text-align:center; cursor:pointer; position:relative; }
+.map-item img{ width:100%; border-radius:8px; transition:0.3s; }
+.map-item img:hover{ transform: scale(1.05); }
+.map-item .vetado{ 
+  position:absolute; top:5px; right:5px; 
+  color:#f00; font-weight:bold; font-size:24px; 
+}
+.map-item .escolhido{
+  box-shadow: 0 0 10px #0ff; border-radius:8px;
+}
+.turno-msg{
+  font-size:16px; color:#0ff; margin-top:10px; font-weight:bold;
+}
+</style>
 </head>
 <body>
-  <header onclick="voltarMenu()">
-    <h1>Mapa de Vetos - Sudden Attack</h1>
-  </header>
 
-  <!-- Menu inicial -->
-  <nav id="menu">
-    <button onclick="setMD(1)">MD1</button>
-    <button onclick="setMD(3)">MD3</button>
-    <button onclick="setMD(5)">MD5</button>
-  </nav>
+<!-- Fundo com vídeo -->
+<div id="yt-bg">
+  <iframe 
+    src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw" 
+    frameborder="0"
+    allow="autoplay; fullscreen" 
+    allowfullscreen>
+  </iframe>
+</div>
 
-  <!-- Mapas -->
-  <div class="maps" id="maps">
-    <div class="map">Depot</div>
-    <div class="map">Depot5</div>
-    <div class="map">Crossport</div>
-    <div class="map">Provence</div>
-    <div class="map">Citcat</div>
-    <div class="map">Oldtown</div>
-    <div class="map">Dragon Road</div>
+<!-- Tela inicial -->
+<div id="telaInicial" class="tela" style="display:flex;">
+  <div class="box">
+    <h1>Vetos de Mapas</h1>
+    <button onclick="abrirModo()">Iniciar Vetos</button>
   </div>
+</div>
 
-  <div class="info" id="info">Clique em um modo para começar</div>
-
-  <div class="contador">
-    Vetos Equipe A: <span id="contadorA">0</span> | 
-    Vetos Equipe B: <span id="contadorB">0</span>
+<!-- Escolha do modo -->
+<div id="telaModo" class="tela">
+  <div class="box">
+    <h1>Escolha o modo</h1>
+    <button onclick="gerarSala(1)">MD1</button>
+    <button onclick="gerarSala(3)">MD3</button>
+    <button onclick="gerarSala(5)">MD5</button>
+    <button onclick="voltarTelaInicial()">Voltar</button>
   </div>
+</div>
 
-  <script>
-    let turno = 0;
-    let mdAtual = 0;
-    let escolhidos = [];
-    let contadorA = 0;
-    let contadorB = 0;
+<!-- Sala -->
+<div id="telaSala" class="tela">
+  <div class="box">
+    <h2>Entre na Sala</h2>
+    <p>Copie o link abaixo para o jogador 2:</p>
+    <input type="text" id="linkSala" readonly style="width:90%;padding:5px;text-align:center;">
+    <button onclick="copiarLink()">📋 Copiar Link</button>
+    <button onclick="iniciarVeto()">Entrar na Sala</button>
+  </div>
+</div>
 
-    function setMD(md) {
-      mdAtual = md;
-      turno = 1;
-      escolhidos = [];
-      contadorA = 0;
-      contadorB = 0;
-      document.getElementById('contadorA').textContent = contadorA;
-      document.getElementById('contadorB').textContent = contadorB;
-      document.querySelectorAll('.map').forEach(m => {
-        m.classList.remove('vetadoA','vetadoB','escolhido');
-      });
-      document.getElementById('maps').style.display = "flex"; 
-      document.getElementById('menu').style.display = "none"; 
-      document.getElementById('info').textContent = "MD"+md+" iniciado. Turno 1: Equipe A veta um mapa.";
-    }
+<!-- Tela de veto -->
+<div id="telaVeto" class="tela">
+  <div class="box">
+    <h1>Vetos de Mapas</h1>
+    <div class="turno-msg" id="infoTurno">Aguardando adversário...</div>
+    <div class="map-grid" id="mapasContainer"></div>
+    <button id="encerrarBtn" style="display:none;" onclick="encerrarSessao()">Encerrar Sessão</button>
+  </div>
+</div>
 
-    function voltarMenu() {
-      mdAtual = 0;
-      turno = 0;
-      escolhidos = [];
-      contadorA = 0;
-      contadorB = 0;
-      document.getElementById('contadorA').textContent = contadorA;
-      document.getElementById('contadorB').textContent = contadorB;
-      document.getElementById('maps').style.display = "none";
-      document.getElementById('menu').style.display = "flex";
-      document.getElementById('info').textContent = "Clique em um modo para começar";
-    }
+<!-- Tela resultado -->
+<div id="telaResultado" class="tela">
+  <div class="box">
+    <h1>Mapas Escolhidos</h1>
+    <div class="map-grid" id="mapasFinais"></div>
+    <button onclick="window.location.reload()">Voltar ao Início</button>
+  </div>
+</div>
 
-    document.querySelectorAll('.map').forEach(map => {
-      map.addEventListener('click', () => {
-        if(mdAtual === 0) { alert("Escolha MD1, MD3 ou MD5 primeiro!"); return; }
+<script>
+// MAPAS
+const mapas = [
+  {nome:'5TH DEPOT', img:'dp5.mapa.png'},
+  {nome:'CROSSPORT', img:'crossport.png'},
+  {nome:'DESERT2', img:'desert2.png'},
+  {nome:'PROVENCE', img:'provence.png'},
+  {nome:'CITY CAT', img:'citycat.png'},
+  {nome:'WHITE SQUALL', img:'wihtiSqual.png'},
+  {nome:'OLD TOWM', img:'oldTowm.png'},
+  {nome:'DRAGONROAD', img:'dragonround.png'},
+  {nome:'TWOFACE', img:'TOWFACE.jpg'},
+  {nome:'DEPOT', img:'DEPOT.png'}
+];
 
-        if(turno === 1 && !map.classList.contains('vetadoA')) {
-          map.classList.add('vetadoA');
-          contadorA++;
-          document.getElementById('contadorA').textContent = contadorA;
-          turno = 2;
-          document.getElementById('info').textContent = "Turno 2: Equipe B veta um mapa.";
-        }
-        else if(turno === 2 && !map.classList.contains('vetadoB')) {
-          map.classList.add('vetadoB');
-          contadorB++;
-          document.getElementById('contadorB').textContent = contadorB;
-          turno = 3;
-          document.getElementById('info').textContent = "Turno 3: Equipe A escolhe mapa para jogar.";
-        }
-        else if(turno === 3 && !map.classList.contains('vetadoA') && !map.classList.contains('vetadoB')) {
-          map.classList.add('escolhido');
-          escolhidos.push(map.textContent);
-          turno = 4;
-          document.getElementById('info').textContent = "Turno 4: Equipe B escolhe mapa.";
-        }
-        else if(turno === 4 && !map.classList.contains('vetadoA') && !map.classList.contains('vetadoB') && !map.classList.contains('escolhido')) {
-          map.classList.add('escolhido');
-          escolhidos.push(map.textContent);
+// FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyCk5TKmEJbeoyO4GunMmsAzHQksaY7FeNU",
+  authDomain: "vetos-de-mapas.firebaseapp.com",
+  databaseURL: "https://vetos-de-mapas-default-rtdb.firebaseio.com",
+  projectId: "vetos-de-mapas",
+  storageBucket: "vetos-de-mapas.appspot.com",
+  messagingSenderId: "965916020174",
+  appId: "1:965916020174:web:676ae987f76b10631e6f9f"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-          if(escolhidos.length >= mdAtual) {
-            document.getElementById('info').textContent = "Finalizado! Mapas escolhidos: " + escolhidos.join(", ");
-            turno = 0;
-          } else {
-            turno = 1; 
-            document.getElementById('info').textContent = "Novo ciclo - Turno 1: Equipe A veta um mapa.";
-          }
-        }
-      });
-    });
-  </script>
+// VARIÁVEIS
+let modo=1, salaID="", jogadorID=Math.random().toString(36).substring(2,8);
+let mapasVetados=[], mapasEscolhidos=[];
+let jogador1="", jogador2="";
+let isMeuTurno=false;
+
+// PARÂMETROS URL
+const params = new URLSearchParams(window.location.search);
+const salaParam = params.get("sala");
+const jogadorParam = params.get("jogador");
+
+// SE JÁ ESTIVER NA SALA
+if(salaParam && jogadorParam){
+  salaID = salaParam; jogadorID = jogadorParam;
+  document.getElementById("telaInicial").style.display="none";
+  document.getElementById("telaModo").style.display="none";
+  document.getElementById("telaSala").style.display="none";
+  document.getElementById("telaVeto").style.display="flex";
+  inicializarFirebase();
+  renderizarMapas();
+}
+
+// FUNÇÕES DE TELA
+function abrirModo(){document.getElementById("telaInicial").style.display="none";document.getElementById("telaModo").style.display="flex";}
+function voltarTelaInicial(){document.getElementById("telaModo").style.display="none";document.getElementById("telaInicial").style.display="flex";}
+
+// GERAR SALA
+function gerarSala(sel){
+  modo=sel;
+  salaID = Math.random().toString(36).substring(2,8);
+  db.ref("salas/"+salaID).set({
+    modo:modo, jogador1:jogadorID, jogador2:"",
+    vetos:{}, escolhas:[], turno:jogadorID
+  });
+  const link = location.origin+location.pathname+"?sala="+salaID+"&jogador="+jogadorID;
+  document.getElementById("linkSala").value = link;
+  document.getElementById("telaModo").style.display="none";
+  document.getElementById("telaSala").style.display="flex";
+}
+
+function copiarLink(){navigator.clipboard.writeText(document.getElementById("linkSala").value); alert("Link copiado!");}
+function iniciarVeto(){document.getElementById("telaSala").style.display="none";document.getElementById("telaVeto").style.display="flex";inicializarFirebase();renderizarMapas();}
+
+// RENDERIZA MAPAS
+function renderizarMapas(){
+  const c=document.getElementById("mapasContainer"); c.innerHTML="";
+  mapas.forEach(m=>{
+    const div=document.createElement("div"); div.className="map-item";
+    div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`;
+    if(mapasVetados.includes(m.nome)){div.querySelector("img").style.opacity="0.4"; div.innerHTML+=`<div class="vetado">X</div>`; div.style.pointerEvents="none";}
+    else if(mapasEscolhidos.includes(m.nome)){div.querySelector("img").classList.add("escolhido"); div.style.pointerEvents="none";}
+    else if(!isMeuTurno){div.style.pointerEvents="none"; div.querySelector("img").style.opacity="0.6";}
+    div.onclick=()=>{jogarMapa(m.nome);};
+    c.appendChild(div);
+  });
+}
+
+// FUNÇÃO DE VETO / ESCOLHA
+function jogarMapa(nome){
+  if(!isMeuTurno) return;
+  db.ref("salas/"+salaID).get().then(snap=>{
+    const sala = snap.val();
+    let vezEscolher = (sala.escolhas.length % 2 === 0); // alterna escolha/veto
+    if(vezEscolher){db.ref("salas/"+salaID+"/escolhas").push(nome);}
+    else{db.ref("salas/"+salaID+"/vetos").push({mapa:nome});}
+    // alterna turno
+    const proximoTurno = (jogadorID === sala.jogador1)? sala.jogador2 : sala.jogador1;
+    db.ref("salas/"+salaID).update({turno:proximoTurno});
+  });
+}
+
+// INICIALIZA FIREBASE
+function inicializarFirebase(){
+  db.ref("salas/"+salaID).on("value", snap=>{
+    const sala = snap.val(); if(!sala) return;
+    jogador1 = sala.jogador1; jogador2 = sala.jogador2||"";
+    mapasVetados = Object.values(sala.vetos||{}).map(v=>v.mapa);
+    mapasEscolhidos = Object.values(sala.escolhas||{});
+    if(!jogador2 && jogadorID!==jogador1){db.ref("salas/"+salaID).update({jogador2:jogadorID}); jogador2=jogadorID;}
+    isMeuTurno = (sala.turno===jogadorID);
+    const msg = isMeuTurno ? (sala.escolhas.length%2===0?"Sua vez de escolher":"Sua vez de vetar") : "Aguardando adversário...";
+    document.getElementById("infoTurno").innerText = msg;
+    renderizarMapas();
+    if(mapasEscolhidos.length>=modo){document.getElementById("encerrarBtn").style.display="block"; mostrarTelaResultado();}
+  });
+}
+
+// MOSTRA RESULTADO
+function mostrarTelaResultado(){
+  document.getElementById("telaVeto").style.display="none";
+  const finais = mapas.filter(m=>mapasEscolhidos.includes(m.nome));
+  const c=document.getElementById("mapasFinais"); c.innerHTML="";
+  finais.forEach(m=>{const div=document.createElement("div"); div.className="map-item"; div.innerHTML=`<img src="${m.img}"><p>${m.nome}</p>`; c.appendChild(div);});
+  document.getElementById("telaResultado").style.display="flex";
+}
+
+// ENCERRAR
+function encerrarSessao(){db.ref("salas/"+salaID).remove(); window.location.reload();}
+</script>
+
 </body>
 </html>
+
