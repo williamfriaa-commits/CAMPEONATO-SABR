@@ -35,23 +35,30 @@
         pointer-events:none;
     }
 
-    /* BOTÃO DE MÚSICA */
-    #btnMusica{
-        position:fixed;
-        bottom:20px;
-        right:20px;
-        padding:10px 15px;
-        background:#ff0000;
-        border:none;
-        border-radius:10px;
-        color:white;
-        cursor:pointer;
-        z-index:999;
-        box-shadow:0 0 10px #ff0000aa;
+    /* MENSAGEM VETO SUPER CHAMATIVA */
+    #msgVeto {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,0,0,0.9);
+        color: yellow;
+        font-size: 22px;
+        font-weight: bold;
+        padding: 15px 20px;
+        border-radius: 12px;
+        z-index: 999;
+        text-align: center;
+        box-shadow: 0 0 20px #ff0;
+        animation: piscarTremor 0.8s infinite;
+        pointer-events: none;
     }
-    #btnMusica:hover{
-        box-shadow:0 0 18px #ff0000ff;
-        transform:scale(1.05);
+
+    @keyframes piscarTremor {
+        0% {opacity:1; transform: translate(0,0);}
+        25% {opacity:0.5; transform: translate(-3px,-2px) rotate(-1deg);}
+        50% {opacity:1; transform: translate(3px,2px) rotate(1deg);}
+        75% {opacity:0.5; transform: translate(-2px,2px) rotate(-1deg);}
+        100% {opacity:1; transform: translate(0,0);}
     }
 
     /* TELAS */
@@ -158,9 +165,10 @@
     <iframe src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw"></iframe>
 </div>
 
-<!-- MÚSICA DE FUNDO -->
-<audio id="musicaFundo" src="musica.mp3" loop></audio>
-<button id="btnMusica">▶ Música</button>
+<!-- MENSAGEM VETO -->
+<div id="msgVeto" style="display:none;">
+⚠ Quem escolheu o mapa primeiro, o adversário escolhe o lado!
+</div>
 
 <!-- TELAS -->
 <div id="telaInicial" class="tela" style="display:flex;">
@@ -250,14 +258,7 @@ let salaID = "";
 let jogadorID = Math.random().toString(36).substring(2,8);
 let vez = "";
 let escolhas = [];
-let tituloInterval = null;
-
-const params = new URLSearchParams(location.search);
-if(params.get("sala")){
-    salaID = params.get("sala");
-    jogadorID = params.get("jogador");
-    entrarDirect();
-}
+let salaDados={};
 
 /* TELAS */
 function abrirModo(){ show("telaModo"); hide("telaInicial"); }
@@ -276,9 +277,7 @@ function gerarSala(m){
     });
 
     const link = `${location.origin}${location.pathname}?sala=${salaID}&jogador=${Math.random().toString(36).substring(2,8)}`;
-
-    document.getElementById("linkSala").innerHTML =
-        `<a href="${link}" target="_blank">${link}</a>`;
+    document.getElementById("linkSala").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
 
     hide("telaModo");
     show("telaSala");
@@ -292,14 +291,7 @@ function copiarLink(){
 function entrarSala(){
     hide("telaSala");
     show("telaVeto");
-    inicializar();
-}
-
-function entrarDirect(){
-    hide("telaInicial");
-    hide("telaModo");
-    hide("telaSala");
-    show("telaVeto");
+    document.getElementById("msgVeto").style.display = "block"; // mostra mensagem chamativa
     inicializar();
 }
 
@@ -350,8 +342,6 @@ function meuTime(){ return jogadorID === salaDados.j1 ? "j1" : "j2"; }
 function oponente(){ return meuTime()==="j1" ? "j2" : "j1"; }
 
 /* FIREBASE SYNC */
-let salaDados={};
-
 function inicializar(){
     db.ref("salas/"+salaID).on("value", snap=>{
         salaDados = snap.val();
@@ -363,11 +353,6 @@ function inicializar(){
 
         atualizarTurno();
         renderizar();
-
-        // Começa piscar título no veto
-        if(document.getElementById("telaVeto").style.display==="flex"){
-            startTituloPiscar();
-        }
 
         if(escolhas.length===modo) mostrarResultado();
     });
@@ -406,8 +391,7 @@ function atualizarTurno(){
 function mostrarResultado(){
     hide("telaVeto");
     show("telaResultado");
-
-    stopTituloPiscar();
+    document.getElementById("msgVeto").style.display = "none"; // esconde a mensagem
 
     const c=document.getElementById("mapasFinais");
     c.innerHTML="";
@@ -427,43 +411,6 @@ function encerrarSessao(){
     db.ref("salas/"+salaID).remove();
     location.reload();
 }
-
-/* TÍTULO PISCANDO */
-function startTituloPiscar(){
-    if(tituloInterval) return;
-    let showMensagem = true;
-    tituloInterval = setInterval(()=>{
-        document.title = showMensagem ? 
-            "⚠ Quem escolheu o mapa primeiro, o adversário escolhe o lado!" :
-            "Vetos de Mapas - SABR";
-        showMensagem = !showMensagem;
-    }, 800);
-}
-function stopTituloPiscar(){
-    clearInterval(tituloInterval);
-    tituloInterval = null;
-    document.title = "Vetos de Mapas - SABR";
-}
-
-/* BOTÃO MÚSICA FUNCIONANDO */
-const btnMusica = document.getElementById("btnMusica");
-btnMusica.addEventListener("click", ()=>{
-    if(audio.paused){
-        audio.play().catch(()=>{alert("Não foi possível tocar a música, verifique o arquivo.")});
-        btnMusica.innerText="⏸ Música";
-    } else {
-        audio.pause();
-        btnMusica.innerText="▶ Música";
-    }
-});
-
-// Tocar música no primeiro clique em qualquer lugar
-document.addEventListener("click", ()=>{
-    audio.play().catch(()=>{});
-});
-document.addEventListener("touchstart", ()=>{
-    audio.play().catch(()=>{});
-});
 </script>
 
 </body>
