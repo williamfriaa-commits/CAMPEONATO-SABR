@@ -35,6 +35,25 @@
         pointer-events:none;
     }
 
+    /* BOTÃO DE MÚSICA */
+    #btnMusica{
+        position:fixed;
+        bottom:20px;
+        right:20px;
+        padding:10px 15px;
+        background:#ff0000;
+        border:none;
+        border-radius:10px;
+        color:white;
+        cursor:pointer;
+        z-index:999;
+        box-shadow:0 0 10px #ff0000aa;
+    }
+    #btnMusica:hover{
+        box-shadow:0 0 18px #ff0000ff;
+        transform:scale(1.05);
+    }
+
     /* TELAS */
     .tela{
         position:fixed;
@@ -134,26 +153,38 @@
 
 <body>
 
-<!-- FUNDO YOUTUBE (MUDO + SEM MÚSICA) -->
+<!-- FUNDO YOUTUBE (MUDO) -->
 <div id="yt-bg">
     <iframe src="https://www.youtube.com/embed/bSapqDCxlgw?autoplay=1&mute=1&controls=0&loop=1&playlist=bSapqDCxlgw"></iframe>
 </div>
 
 <!-- MÚSICA DE FUNDO -->
 <audio id="musicaFundo" src="TÁ FECHADO COM OS CARAS_ QUER ROUBAR MINHA MAKITA - MEME VIRAL - MC HK DA 7 (DJPEJOTA).mp3" loop></audio>
+<button id="btnMusica">▶ Música</button>
 <script>
-  const audio = document.getElementById("musicaFundo");
-  audio.volume = 0.9; // volume alto
+const audio = document.getElementById("musicaFundo");
+const btnMusica = document.getElementById("btnMusica");
+audio.volume = 0.9; // volume alto
 
-  // Forçar play quando houver interação do usuário
-  function tentarTocar() {
-      audio.play().catch(()=>{}); // evita erro se não tocar imediatamente
-      document.removeEventListener("click", tentarTocar);
-      document.removeEventListener("touchstart", tentarTocar);
-  }
+// Play/Pause música
+btnMusica.addEventListener("click", ()=>{
+    if(audio.paused){
+        audio.play().catch(()=>{});
+        btnMusica.innerText="⏸ Música";
+    } else {
+        audio.pause();
+        btnMusica.innerText="▶ Música";
+    }
+});
 
-  document.addEventListener("click", tentarTocar);
-  document.addEventListener("touchstart", tentarTocar);
+// Forçar play no primeiro clique ou toque na página
+function tentarTocar() {
+    audio.play().catch(()=>{});
+    document.removeEventListener("click", tentarTocar);
+    document.removeEventListener("touchstart", tentarTocar);
+}
+document.addEventListener("click", tentarTocar);
+document.addEventListener("touchstart", tentarTocar);
 </script>
 
 <!-- TELAS -->
@@ -244,6 +275,7 @@ let salaID = "";
 let jogadorID = Math.random().toString(36).substring(2,8);
 let vez = "";
 let escolhas = [];
+let tituloInterval = null;
 
 const params = new URLSearchParams(location.search);
 if(params.get("sala")){
@@ -357,6 +389,11 @@ function inicializar(){
         atualizarTurno();
         renderizar();
 
+        // Começa piscar título no veto
+        if(document.getElementById("telaVeto").style.display==="flex"){
+            startTituloPiscar();
+        }
+
         if(escolhas.length===modo) mostrarResultado();
     });
 }
@@ -395,6 +432,8 @@ function mostrarResultado(){
     hide("telaVeto");
     show("telaResultado");
 
+    stopTituloPiscar();
+
     const c=document.getElementById("mapasFinais");
     c.innerHTML="";
 
@@ -412,6 +451,23 @@ function mostrarResultado(){
 function encerrarSessao(){
     db.ref("salas/"+salaID).remove();
     location.reload();
+}
+
+/* TÍTULO PISCANDO */
+function startTituloPiscar(){
+    if(tituloInterval) return;
+    let showMensagem = true;
+    tituloInterval = setInterval(()=>{
+        document.title = showMensagem ? 
+            "⚠ Quem escolheu o mapa primeiro, o adversário escolhe o lado!" :
+            "Vetos de Mapas - SABR";
+        showMensagem = !showMensagem;
+    }, 800);
+}
+function stopTituloPiscar(){
+    clearInterval(tituloInterval);
+    tituloInterval = null;
+    document.title = "Vetos de Mapas - SABR";
 }
 </script>
 
