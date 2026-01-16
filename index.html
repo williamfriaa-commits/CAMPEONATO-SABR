@@ -127,7 +127,6 @@ button:disabled{opacity:.5}
       📰 JORNAL SABR
     </a>
 
-    <!-- BOTÃO VETOS 2 -->
     <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">
       🎮 Vetos de Mapas
     </button>
@@ -144,7 +143,7 @@ button:disabled{opacity:.5}
     <h1>ESCOLHA A INSCRIÇÃO</h1>
 
     <button class="btn btn-mix" onclick="abrirMix()">🎮 INSCRIÇÃO MIX</button>
-    <button class="btn btn-torneio">🏆 INSCRIÇÃO TORNEIO</button>
+    <button class="btn btn-torneio" onclick="abrirTorneio()">🏆 INSCRIÇÃO TORNEIO</button>
     <button class="btn btn-camp">🥇 INSCRIÇÃO CAMPEONATO</button>
 
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
@@ -177,24 +176,51 @@ button:disabled{opacity:.5}
   </div>
 </div>
 
-<script>
-let jaGirou=false;
+<!-- TORNEIO -->
+<div id="telaTorneio" class="tela">
+  <div class="box">
+    <h1>TORNEIO SABR</h1>
+    <p>Preencha o questionário abaixo:</p>
 
+    <input id="nomeTorneio" placeholder="Digite seu nick">
+    <input id="emailTorneio" placeholder="Digite seu e-mail">
+    <input id="timeTorneio" placeholder="Nome do seu time">
+
+    <p><strong>PIX:</strong></p>
+    <p>SUA_CHAVE_PIX_AQUI</p>
+    <img src="qrcode-pix.png" width="150">
+
+    <button class="btn btn-torneio" onclick="liberarTorneio()">JÁ PAGUEI</button>
+
+    <div class="roleta" id="roletaTorneio">?</div>
+
+    <button class="btn btn-torneio" id="btnGirarTorneio" onclick="girarTorneio()" disabled>
+      🎯 FINALIZAR INSCRIÇÃO
+    </button>
+
+    <p id="resultadoTorneio"></p>
+
+    <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
+  </div>
+</div>
+
+<script>
+/* Funções Gerais */
 function abrirEscolha(){
   document.getElementById("telaEscolha").style.display="flex";
 }
 
-function abrirMix(){
-  document.getElementById("telaEscolha").style.display="none";
-  document.getElementById("telaMix").style.display="flex";
-}
-
 function fecharTudo(){
-  document.querySelectorAll(".tela").forEach(t=>t.style.display="none");
+  document.querySelectorAll(".tela").forEach(t => t.style.display="none");
 }
 
+/* MIX */
+let jaGirou=false;
 function liberar(){
-  if(!nome.value){
+  const nomeInput = document.getElementById("nome");
+  const btnGirar = document.getElementById("btnGirar");
+
+  if(!nomeInput.value){
     alert("Digite seu nick");
     return;
   }
@@ -205,6 +231,10 @@ function girar(){
   if(jaGirou) return;
 
   jaGirou=true;
+  const btnGirar = document.getElementById("btnGirar");
+  const roleta = document.getElementById("roleta");
+  const resultado = document.getElementById("resultado");
+
   btnGirar.disabled=true;
 
   let tempo=0;
@@ -213,10 +243,53 @@ function girar(){
     tempo+=100;
     if(tempo>=2000){
       clearInterval(anim);
-      resultado.innerHTML=
-        "✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
+      resultado.innerHTML="✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
     }
   },100);
+}
+
+/* TORNEIO */
+function abrirTorneio(){
+  fecharTudo();
+  document.getElementById("telaTorneio").style.display = "flex";
+}
+
+let jaGirouTorneio = false;
+function liberarTorneio(){
+  const nome = document.getElementById("nomeTorneio").value;
+  const email = document.getElementById("emailTorneio").value;
+  const time = document.getElementById("timeTorneio").value;
+  const btn = document.getElementById("btnGirarTorneio");
+
+  if(!nome || !email || !time){
+    alert("Preencha todos os campos!");
+    return;
+  }
+
+  btn.disabled = false;
+}
+
+function girarTorneio(){
+  if(jaGirouTorneio) return;
+
+  jaGirouTorneio = true;
+
+  const roleta = document.getElementById("roletaTorneio");
+  const resultado = document.getElementById("resultadoTorneio");
+  const btn = document.getElementById("btnGirarTorneio");
+
+  btn.disabled = true;
+
+  let tempo = 0;
+  const anim = setInterval(() => {
+    roleta.innerText = Math.floor(Math.random() * 8) + 1;
+    tempo += 100;
+
+    if (tempo >= 2000) {
+      clearInterval(anim);
+      resultado.innerHTML = "✅ Você ficou na <b>SALA " + roleta.innerText + "</b>";
+    }
+  }, 100);
 }
 </script>
 
