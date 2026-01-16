@@ -2,272 +2,94 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Eventos SABR</title>
+<title>Torneio SAGS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
-
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  color:#fff;
-  background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;
-}
-@media(max-width:768px){
-  body{background-image:url("fundo-mobile-1080x1920.png")}
-}
-
-.overlay{
-  min-height:100vh;
-  background:rgba(0,0,0,.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.content{text-align:center}
-
-.logo{
-  max-width:260px;
-  width:80%;
-  margin-bottom:20px
-}
-
-h1{font-size:38px;margin:10px 0}
-p{opacity:.9}
-
-.btn{
-  display:block;
-  width:320px;
-  max-width:100%;
-  padding:18px;
-  margin:12px auto;
-  border:none;
-  border-radius:12px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  color:#fff;
-}
-
-.btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
-.btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
-.btn-jornal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
-.btn-mix{background:linear-gradient(135deg,#0ea5e9,#0284c7)}
-.btn-torneio{background:linear-gradient(135deg,#a855f7,#7c3aed)}
-.btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
-.btn-vetos{background:linear-gradient(135deg,#facc15,#eab308)}
-.btn-voltar{background:#ef4444}
-
-.tela{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-
-.box{
-  background:#111;
-  padding:25px;
-  border-radius:15px;
-  width:100%;
-  max-width:420px;
-  text-align:center;
-}
-
-input{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:none;
-  margin-bottom:10px;
-}
-
-button:disabled{opacity:.5}
+body{margin:0;font-family:Arial,sans-serif;color:#fff;background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;}
+@media(max-width:768px){body{background-image:url("fundo-mobile-1080x1920.png")}}
+.overlay{min-height:100vh;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;}
+.content{text-align:center;}
+.logo{max-width:260px;width:80%;margin-bottom:20px;}
+h1{font-size:38px;margin:10px 0;}
+p{opacity:.9;}
+.btn{display:block;width:320px;max-width:100%;padding:18px;margin:12px auto;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;color:#fff;}
+.btn-voltar{background:#ef4444;}
+.btn-inscrever{background:linear-gradient(135deg,#22c55e,#16a34a);}
+.btn-pagar{background:linear-gradient(135deg,#0ea5e9,#0284c7);}
+.btn-wzap{background:linear-gradient(135deg,#3b82f6,#2563eb);}
+.btn-finalizar{background:linear-gradient(135deg,#f59e0b,#d97706);}
+.tela{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:999;}
+.box{background:#111;padding:25px;border-radius:15px;width:100%;max-width:420px;text-align:center;}
+input{width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px;}
+#qrcode,#btnCopiar,#btnWhats,#btnFinalizar{display:none;margin-top:10px;}
 </style>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 </head>
 <body>
 
-<!-- TELA PRINCIPAL -->
 <div class="overlay">
   <div class="content">
     <img src="logo.png" class="logo">
-    <h1>EVENTOS SABR</h1>
-    <p>GAMER SIGNAL Brasil</p>
-
-    <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
-    <a href="tabela.html" class="btn btn-tabela">📊 VER TABELA</a>
-    <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
-    <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">🎮 Vetos de Mapas</button>
-
-    <footer style="margin-top:30px;font-size:14px;opacity:.8">© 2026 • Eventos SABR</footer>
-  </div>
-</div>
-
-<!-- ESCOLHA DE INSCRIÇÃO -->
-<div id="telaEscolha" class="tela">
-  <div class="content">
-    <h1>ESCOLHA A INSCRIÇÃO</h1>
-    <button class="btn btn-mix" onclick="abrirMix()">🎮 INSCRIÇÃO MIX</button>
-    <button class="btn btn-torneio" onclick="abrirTorneio()">🏆 TORNEIO SAGS</button>
-    <button class="btn btn-camp">🥇 INSCRIÇÃO CAMPEONATO</button>
-    <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
-  </div>
-</div>
-
-<!-- MIX (mantém igual) -->
-<div id="telaMix" class="tela">
-  <div class="box">
-    <h1>MIX SA</h1>
-    <p><strong>Valor: R$ 4,00</strong></p>
-    <input id="nome" placeholder="Digite seu nick">
-    <p><strong>PIX:</strong></p>
-    <p>SUA_CHAVE_PIX_AQUI</p>
-    <img src="qrcode-pix.png" width="150">
-    <button class="btn btn-inscricao" onclick="liberar()">JÁ PAGUEI</button>
-    <div class="roleta" id="roleta">?</div>
-    <button class="btn btn-mix" id="btnGirar" onclick="girar()" disabled>🎯 GIRAR ROLETA</button>
-    <p id="resultado"></p>
-    <button class="btn btn-voltar" onclick="fecharTudo()">❌ SAIR</button>
-  </div>
-</div>
-
-<!-- TORNEIO SAGS -->
-<div id="telaTorneio" class="tela">
-  <div class="box">
     <h1>TORNEIO SAGS</h1>
-    <input id="nickTorneio" placeholder="Digite seu nick">
-    <input id="clanTorneio" placeholder="Nome do seu Clan">
+    <p>Inscreva seu Clan</p>
 
-    <p><strong>PIX:</strong></p>
-    <p id="pixKey">SUA_CHAVE_PIX_AQUI</p>
-    <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
-    <img src="qrcode-pix.png" width="150">
+    <input id="nick" placeholder="Digite seu nick">
+    <input id="clan" placeholder="Digite o nome do seu clan">
 
-    <p id="tempoPagar">⏱ 02:00</p>
-    <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ CONTINUAR</button>
+    <button class="btn btn-inscrever" onclick="inscrever()">Inscrever</button>
 
-    <div id="comprovanteDiv" style="display:none; margin-top:15px;">
-      <button class="btn btn-torneio" onclick="abrirZap()">📩 ENVIAR COMPROVANTE</button>
+    <div class="box">
+      <img id="qrcode" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0601c368-3f42-4cef-82b5-5d64bbcb49ff" alt="QR Code PIX">
+      <button id="btnCopiar" class="btn btn-pagar" onclick="copiarChave()">📋 Copiar chave PIX</button>
+      <p id="cronometro"></p>
+      <button id="btnWhats" class="btn btn-wzap" onclick="window.open('https://w.app/8mysvz','_blank')">Enviar comprovante pelo WhatsApp</button>
+      <button id="btnFinalizar" class="btn btn-finalizar" onclick="finalizar()">✅ Finalizar inscrição</button>
+      <p id="resultado"></p>
     </div>
-
-    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
-
-    <p id="resultadoTorneio"></p>
-    <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
 
 <script>
-// Firebase
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SUA_SENDER_ID",
-  appId: "SUA_APP_ID"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+let tempo = 60; // 1 minuto
+let intervalId;
 
-// Funções Gerais
-function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
-function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
+function inscrever(){
+  const nick = document.getElementById('nick').value;
+  const clan = document.getElementById('clan').value;
+  if(!nick || !clan){ alert("Preencha Nick e Clan!"); return; }
 
-// MIX (mantém igual)
-let jaGirou=false;
-function liberar(){
-  const nomeInput = document.getElementById("nome");
-  const btnGirar = document.getElementById("btnGirar");
-  if(!nomeInput.value){ alert("Digite seu nick"); return; }
-  btnGirar.disabled=false;
-}
-function girar(){
-  if(jaGirou) return;
-  jaGirou=true;
-  const btnGirar = document.getElementById("btnGirar");
-  const roleta = document.getElementById("roleta");
-  const resultado = document.getElementById("resultado");
-  btnGirar.disabled=true;
-  let tempo=0;
-  let anim=setInterval(()=>{
-    roleta.innerText=Math.floor(Math.random()*8)+1;
-    tempo+=100;
-    if(tempo>=2000){
-      clearInterval(anim);
-      resultado.innerHTML="✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
-    }
-  },100);
-}
+  // Mostrar QR code e botão copiar
+  document.getElementById('qrcode').style.display='block';
+  document.getElementById('btnCopiar').style.display='block';
+  document.getElementById('resultado').innerHTML = `Olá ${nick} do clan ${clan}, faça o pagamento do PIX abaixo:`;
 
-// TORNEIO
-function abrirTorneio(){
-  fecharTudo();
-  document.getElementById("telaTorneio").style.display="flex";
-  startTimer(120);
-}
-
-function copiarPix(){
-  const pixKey = document.getElementById("pixKey").innerText;
-  navigator.clipboard.writeText(pixKey);
-  alert("PIX copiado!");
-}
-
-let timerInterval;
-function startTimer(segundos){
-  let tempo = segundos;
-  const tempoPagar = document.getElementById("tempoPagar");
-  const btnContinuar = document.getElementById("btnContinuar");
-  tempoPagar.style.display = "block";
-  timerInterval = setInterval(()=>{
-    let min = String(Math.floor(tempo/60)).padStart(2,'0');
-    let sec = String(tempo%60).padStart(2,'0');
-    tempoPagar.innerText = `⏱ ${min}:${sec}`;
-    if(tempo<=0){
-      clearInterval(timerInterval);
-      btnContinuar.style.display="block";
-      tempoPagar.style.display="none";
-    }
+  // Iniciar cronômetro
+  tempo = 60;
+  document.getElementById('cronometro').style.display='block';
+  intervalId = setInterval(() => {
+    let min = Math.floor(tempo/60);
+    let seg = tempo%60;
+    document.getElementById('cronometro').innerText = `Tempo restante para pagamento: ${min}:${seg<10?'0'+seg:seg}`;
     tempo--;
+    if(tempo < 0){
+      clearInterval(intervalId);
+      document.getElementById('cronometro').innerText = "Tempo esgotado!";
+      document.getElementById('btnWhats').style.display='block';
+    }
   },1000);
 }
 
-function mostrarComprovante(){
-  document.getElementById("comprovanteDiv").style.display="block";
+function copiarChave(){
+  const chave = '0601c368-3f42-4cef-82b5-5d64bbcb49ff';
+  navigator.clipboard.writeText(chave);
+  alert("Chave PIX copiada!");
 }
 
-function abrirZap(){
-  const nick = document.getElementById("nickTorneio").value;
-  const clan = document.getElementById("clanTorneio").value;
-  const zapLink = `https://wa.me/SEU_NUMERO?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:%20${encodeURIComponent(nick)}%20Clan:%20${encodeURIComponent(clan)}`;
-  window.open(zapLink, "_blank");
-  document.getElementById("btnFinalizarTorneio").disabled = false;
-}
-
-function finalizarTorneio(){
-  const nick = document.getElementById("nickTorneio").value;
-  const clan = document.getElementById("clanTorneio").value;
-  if(!nick || !clan){ alert("Preencha os campos antes de finalizar!"); return; }
-  db.collection("inscricoes").add({
-    nick: nick,
-    clan: clan,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(()=>{
-    document.getElementById("resultadoTorneio").innerHTML = `✅ ${nick} do Clan ${clan} inscrito com sucesso!`;
-  }).catch(err=>{
-    alert("Erro ao enviar inscrição: "+err);
-  });
+function finalizar(){
+  const nick = document.getElementById('nick').value;
+  const clan = document.getElementById('clan').value;
+  document.getElementById('resultado').innerHTML = `✅ ${nick} do clan ${clan} inscrito com sucesso!`;
+  document.getElementById('btnFinalizar').style.display='none';
 }
 </script>
 
