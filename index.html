@@ -132,7 +132,9 @@ button:disabled{opacity:.5}
     <h1>EVENTOS SABR</h1>
     <p>GAMER SIGNAL Brasil</p>
 
+    <!-- Botão INSCREVER-SE agora abre a tela de escolha -->
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
+
     <a href="ranking.html" class="btn btn-tabela">📊 RANKING DE CLANS</a>
     <a href="tabelas-sags.html" class="btn btn-torneio">📊 TABELAS SAGS</a>
     <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
@@ -217,8 +219,9 @@ const db = firebase.firestore();
 
 // Funções Gerais
 function abrirEscolha(){
-    // ✅ Novo ajuste: garante que a tela de escolha abra sem conflitos
+    // Fecha todas as telas abertas
     fecharTudo();
+    // Mostra a tela de escolha (MIX / TORNEIO SAGS / CAMPEONATO)
     document.getElementById("telaEscolha").style.display = "flex";
 }
 
@@ -282,7 +285,6 @@ function startTimer(segundos){
   },1000);
 }
 
-// Abrir WhatsApp e liberar FINALIZAR
 function abrirZapFinalizar(){
   const nick = document.getElementById("nickTorneio").value.trim();
   const clan = document.getElementById("clanTorneio").value.trim();
