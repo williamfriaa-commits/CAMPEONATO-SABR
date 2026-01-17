@@ -37,7 +37,7 @@ body {
 /* SLOT */
 .slot {
     position: absolute;
-    width: 320px;
+    width: 180px;
     height: 85px;
     border: 2px solid #6fd6ff;
     box-sizing: border-box;
@@ -72,31 +72,17 @@ body {
 #s7 { top: 830px; left: 140px; }
 #s8 { top: 940px; left: 140px; }
 
-/* ===== SEMI-FINAL ===== */
-#q1 { top: 208px; left: 540px; }
-#q2 { top: 358px; left: 540px; }
-#q3 { top: 508px; left: 540px; }
-#q4 { top: 658px; left: 540px; }
+/* ===== SEMI FINAL ===== */
+#q1 { top: 225px; left: 540px; }
+#q2 { top: 445px; left: 540px; }
 
-/* ===== FINAL (AFASTADA O DOBRO) ===== */
-#final1 { top: 433px; left: 980px; }
-#final2 { top: 488px; left: 980px; }
+/* ⬇️ AJUSTE PEDIDO: descer os 2 últimos */
+#q3 { top: 685px; left: 540px; }
+#q4 { top: 905px; left: 540px; }
 
-/* ===== LINHAS HORIZONTAIS ===== */
-.lh1 { top: 202px; left: 330px; width: 50px; }
-.lh2 { top: 352px; left: 330px; width: 50px; }
-.lh3 { top: 502px; left: 330px; width: 50px; }
-.lh4 { top: 652px; left: 330px; width: 50px; }
-
-.lhf1 { top: 455px; left: 650px; width: 50px; }
-
-/* ===== LINHAS VERTICAIS ===== */
-.lv1 { top: 202px; left: 330px; height: 88px; }
-.lv2 { top: 352px; left: 330px; height: 88px; }
-.lv3 { top: 502px; left: 330px; height: 88px; }
-.lv4 { top: 652px; left: 330px; height: 88px; }
-
-.lvf { top: 455px; left: 650px; height: 88px; }
+/* ===== FINAL ===== */
+#final1 { top: 500px; left: 980px; }
+#final2 { top: 585px; left: 980px; }
 
 </style>
 </head>
@@ -115,7 +101,7 @@ body {
 <div class="slot" id="s7"></div>
 <div class="slot" id="s8"></div>
 
-<!-- SEMI-FINAL -->
+<!-- SEMI FINAL -->
 <div class="slot" id="q1"></div>
 <div class="slot" id="q2"></div>
 <div class="slot" id="q3"></div>
@@ -124,20 +110,6 @@ body {
 <!-- FINAL -->
 <div class="slot" id="final1"></div>
 <div class="slot" id="final2"></div>
-
-<!-- LINHAS -->
-<div class="linha-h lh1"></div>
-<div class="linha-h lh2"></div>
-<div class="linha-h lh3"></div>
-<div class="linha-h lh4"></div>
-
-<div class="linha-v lv1"></div>
-<div class="linha-v lv2"></div>
-<div class="linha-v lv3"></div>
-<div class="linha-v lv4"></div>
-
-<div class="linha-h lhf1"></div>
-<div class="linha-v lvf"></div>
 
 </body>
 </html>
