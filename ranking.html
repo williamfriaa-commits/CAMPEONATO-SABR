@@ -3,277 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ranking de Clans</title>
+<title>Ranking de Clans - Eventos SABR</title>
 <style>
 body {
   margin:0;
-  font-family: Arial, sans-serif;
-  background:#111 url("fundo-ranking.webp") center/cover no-repeat;
+  font-family:Arial,sans-serif;
+  background:#111;
   color:#fff;
-  overflow-x:hidden;
+  overflow-y: scroll;
 }
+
 h1 {
   text-align:center;
   margin:20px 0;
   font-size:28px;
   text-shadow: 2px 2px 5px #000;
 }
-.ranking-container {
-  max-width:1200px;
-  margin:0 auto;
-  padding:20px;
-  overflow-x:auto;
-}
+
 table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:1100px;
+  width:90%;
+  max-width:1200px;
+  margin: 0 auto 40px auto;
+  border-collapse: collapse;
 }
+
 th, td {
-  padding:10px;
+  padding:12px;
   text-align:center;
-  border:1px solid #FFD700;
+  border: 2px solid #FFD700;
+  font-size:16px;
 }
+
 th {
   background:#222;
-  font-size:16px;
   color:#FFD700;
   text-shadow: 0 0 5px #FFD700;
 }
-tr:nth-child(even) {background: rgba(255,215,0,0.05);}
-tr:hover {background: rgba(255,215,0,0.15);}
-.clan-logo img {
-  width:175px;
-  height:168px;
+
+td {
+  background:#111;
+  color:#fff;
+}
+
+td img {
+  width:165px; /* Ajustado para caber todas */
+  height:160px;
   object-fit:cover;
   border-radius:8px;
 }
 
-/* Neon hover nos botões */
-.btn {
-  display:inline-block;
-  margin:20px auto;
-  padding:12px 25px;
-  font-size:16px;
-  font-weight:bold;
-  color:#fff;
-  background:#ff073a;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  box-shadow:0 0 5px #ff073a,0 0 15px #ff073a inset;
-  transition:0.3s;
+.scroll-table {
+  max-height: 100vh;
+  overflow-y: auto;
 }
-.btn:hover {
-  box-shadow:0 0 15px #ff073a,0 0 35px #ff073a inset;
-  filter: brightness(1.3);
+
+/* Neon efeito nos cabeçalhos */
+@keyframes neonPulse {
+  0%,100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff; }
+  50% { text-shadow: 0 0 15px #ff073a, 0 0 30px #ff073a; }
+}
+th {
+  animation: neonPulse 1.5s infinite;
 }
 </style>
 </head>
 <body>
 
-<h1>🏆 RANKING DE CLANS 🏆</h1>
+<h1>RANKING DE CLANS - EVENTOS SABR</h1>
 
-<div style="text-align:center;">
-  <button class="btn" onclick="window.location.href='index.html'">⬅ VOLTAR</button>
-</div>
-
-<div class="ranking-container">
-  <table>
-    <thead>
-      <tr>
-        <th>POSIÇÃO</th>
-        <th>CLAN</th>
-        <th>LOGO</th>
-        <th>VITÓRIAS</th>
-        <th>V. MIX</th>
-        <th>V. TORNEIO</th>
-        <th>V. CAMPEONATO</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>.:GTS::.</td>
-        <td class="clan-logo"><img src="GTS (1).png" alt="GTS"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>VISION</td>
-        <td class="clan-logo"><img src="vision.png" alt="VISION"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>PLAY CORE</td>
-        <td class="clan-logo"><img src="playcore.png" alt="PLAY CORE"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>VÁRZEA</td>
-        <td class="clan-logo"><img src="varzea.png" alt="VARZEA"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>CLASSIC</td>
-        <td class="clan-logo"><img src="ClassiC-.png" alt="CLASSIC"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>YINYANG</td>
-        <td class="clan-logo"><img src="yang.png" alt="YINYANG"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>CELTICS</td>
-        <td class="clan-logo"><img src="celtic.png" alt="CELTICS"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>THEENDGAAMING</td>
-        <td class="clan-logo"><img src="theend.jpeg" alt="THEENDGAAMING"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>UNDECIDE</td>
-        <td class="clan-logo"><img src="undecided.png" alt="UNDECIDE"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>KINGS</td>
-        <td class="clan-logo"><img src="king.png" alt="KINGS"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>11</td>
-        <td>SINCE</td>
-        <td class="clan-logo"><img src="since.png" alt="SINCE"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>12</td>
-        <td>FUNNY</td>
-        <td class="clan-logo"><img src="funny.png" alt="FUNNY"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>13</td>
-        <td>UNSHAKABLE~</td>
-        <td class="clan-logo"><img src="unsharkble~.png" alt="UNSHAKABLE~"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>14</td>
-        <td>BETANO</td>
-        <td class="clan-logo"><img src="BETANO.png" alt="BETANO"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>15</td>
-        <td>ONJACKTALBECK</td>
-        <td class="clan-logo"><img src="ONJACKTALBECK.png" alt="ONJACKTALBECK"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>16</td>
-        <td>BANDNEWSPANDA</td>
-        <td class="clan-logo"><img src="BANDNEWS.png" alt="BANDNEWSPANDA"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>17</td>
-        <td>NULBORN</td>
-        <td class="clan-logo"><img src="NULBORN.png" alt="NULBORN"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>18</td>
-        <td>REACTION</td>
-        <td class="clan-logo"><img src="reaction.jpeg" alt="REACTION"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>19</td>
-        <td>HYPERX-</td>
-        <td class="clan-logo"><img src="hyperX.png" alt="HYPERX-"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-      <tr>
-        <td>20</td>
-        <td>AVOXY</td>
-        <td class="clan-logo"><img src="avox.png" alt="AVOXY"></td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="scroll-table">
+<table>
+  <thead>
+    <tr>
+      <th>POSIÇÃO</th>
+      <th>CLAN</th>
+      <th>IMAGEM</th>
+      <th>VITÓRIAS</th>
+      <th>V. MIX</th>
+      <th>V. TORNEIO</th>
+      <th>V. CAMPEONATO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>.:GTS::.</td>
+      <td><img src="GTS (1).png" alt="GTS"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>VISION</td>
+      <td><img src="vision.png" alt="VISION"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>PLAY CORE</td>
+      <td><img src="playcore.png" alt="PLAY CORE"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>VÁRZEA</td>
+      <td><img src="varzea.png" alt="VARZEA"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>CLASSIC</td>
+      <td><img src="ClassiC-.png" alt="CLASSIC"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>YINYANG</td>
+      <td><img src="yang.png" alt="YINYANG"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>CELTICS</td>
+      <td><img src="celtic.png" alt="CELTICS"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>THEENDGAAMING</td>
+      <td><img src="theend.jpeg" alt="THEENDGAAMING"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>UNDECIDE</td>
+      <td><img src="undecided.png" alt="UNDECIDE"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>KINGS</td>
+      <td><img src="king.png" alt="KINGS"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>SINCE</td>
+      <td><img src="since.png" alt="SINCE"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>FUNNY</td>
+      <td><img src="funny.png" alt="FUNNY"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>UNSHAKABLE~</td>
+      <td><img src="unsharkble~.png" alt="UNSHAKABLE~"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>BETANO</td>
+      <td><img src="BETANO.png" alt="BETANO"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>ONJACKTALBECK</td>
+      <td><img src="ONJACKTALBECK.png" alt="ONJACKTALBECK"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>BANDNEWSPANDA</td>
+      <td><img src="BANDNEWS.png" alt="BANDNEWSPANDA"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td>NULBORN</td>
+      <td><img src="NULBORN.png" alt="NULBORN"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td>REACTION</td>
+      <td><img src="reaction.jpeg" alt="REACTION"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td>HYPERX-</td>
+      <td><img src="hyperX.png" alt="HYPERX"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td>AVOXY</td>
+      <td><img src="avox.png" alt="AVOXY"></td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+      <td contenteditable="true">0</td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
 </body>
