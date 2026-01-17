@@ -1,209 +1,152 @@
-<!DOCTYPE html>
+d<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Play-off Bracket</title>
+<title>Chaveamento Playoff</title>
 
 <style>
-:root{
-  --line:#6fb6ff;
-  --box-bg: rgba(10,20,35,.9);
+body {
+  margin: 0;
+  background: url("FUNDO DOS CAMP.png") center/cover no-repeat;
+  font-family: Arial, sans-serif;
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family: Arial, Helvetica, sans-serif;
-  background:#000 url("FUNDO DOS CAMP.png") center/cover no-repeat;
-  color:#fff;
+.bracket {
+  display: grid;
+  grid-template-columns: 320px 220px 220px;
+  height: 100vh;
+  align-items: center;
+  padding-left: 40px;
 }
 
-/* ===== TÍTULO ===== */
-.header{
-  position:absolute;
-  top:40px;
-  left:60px;
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
 }
 
-.header h1{
-  font-size:38px;
-  margin:0;
+.match {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.header p{
-  margin:6px 0 0 0;
-  opacity:.75;
+/* QUADRADOS */
+.slot {
+  width: 260px;
+  height: 52px;
+  border: 1.5px solid #3aaaff;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  padding-left: 12px;
+  color: white;
 }
 
-/* ===== BRACKET ===== */
-.bracket{
-  position:absolute;
-  top:160px;
-  left:60px;
-  right:60px;
-  bottom:80px;
-  display:grid;
-  grid-template-columns: 320px 260px 260px;
-  gap:120px;
+/* LINHAS */
+.line-right {
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  width: 40px;
+  height: 1.5px;
+  background: #3aaaff;
 }
 
-/* ===== COLUNAS ===== */
-.round{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+.line-left {
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  width: 40px;
+  height: 1.5px;
+  background: #3aaaff;
 }
 
-/* ===== BOX ===== */
-.match{
-  height:56px;
-  background:var(--box-bg);
-  border:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  padding:0 14px;
-  gap:12px;
+.vertical {
+  position: absolute;
+  right: -40px;
+  width: 1.5px;
+  background: #3aaaff;
 }
 
-/* VAZIO PRA EDITAR */
-.name{
-  flex:1;
-  outline:none;
+.match.quarter .vertical {
+  height: 120px;
+  top: 26px;
 }
 
-/* LOGO */
-.logo{
-  width:34px;
-  height:34px;
-  background:#111;
-  border:1px solid #333;
+/* AJUSTE SEMI */
+.match.semi {
+  margin-top: 60px;
 }
 
-/* ===== LINHAS ===== */
-.connector{
-  position:absolute;
-  right:-60px;
-  width:60px;
-  height:2px;
-  background:var(--line);
-}
-
-.vertical{
-  position:absolute;
-  right:-60px;
-  width:2px;
-  background:var(--line);
-}
-
-/* ===== TÍTULOS ===== */
-.round-title{
-  position:absolute;
-  bottom:-40px;
-  width:100%;
-  text-align:center;
-  font-size:14px;
-  opacity:.7;
+/* FINAL */
+.match.final {
+  margin-top: 140px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <h1>Play-off Bracket</h1>
-  <p>Campeonato FPS</p>
-</div>
-
 <div class="bracket">
 
-  <!-- ===== QUARTAS ===== -->
-  <div class="round">
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+  <!-- QUARTAS -->
+  <div class="column">
+    <div class="match quarter">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-right"></div>
+      <div class="vertical"></div>
     </div>
 
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+    <div class="match quarter">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-right"></div>
+      <div class="vertical"></div>
     </div>
 
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+    <div class="match quarter">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-right"></div>
+      <div class="vertical"></div>
     </div>
 
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+    <div class="match quarter">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-right"></div>
+      <div class="vertical"></div>
     </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="round-title">QUARTER-FINALS</div>
   </div>
 
-  <!-- ===== SEMI ===== -->
-  <div class="round">
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+  <!-- SEMI -->
+  <div class="column">
+    <div class="match semi">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-right"></div>
+      <div class="line-left"></div>
     </div>
 
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+    <div class="match semi">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-right"></div>
+      <div class="line-left"></div>
     </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="round-title">SEMI-FINALS</div>
   </div>
 
-  <!-- ===== FINAL ===== -->
-  <div class="round">
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
+  <!-- FINAL -->
+  <div class="column">
+    <div class="match final">
+      <div class="slot"></div>
+      <div class="slot"></div>
+      <div class="line-left"></div>
     </div>
-
-    <div class="match">
-      <div class="logo"></div>
-      <div class="name" contenteditable></div>
-    </div>
-
-    <div class="round-title">GRAND FINAL</div>
   </div>
 
 </div>
