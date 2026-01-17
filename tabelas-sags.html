@@ -2,221 +2,210 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Playoff Bracket</title>
+<title>Play-off Bracket</title>
 
 <style>
 :root{
-  --line:#5aa7ff;
-  --box-bg: rgba(15,25,45,.88);
+  --line:#6fb6ff;
+  --box-bg: rgba(10,20,35,.9);
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background: #000 url("img/fundo.jpg") center/cover no-repeat;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#000 url("fundo.jpg") center/cover no-repeat;
   color:#fff;
 }
 
-.wrapper{
-  max-width:1400px;
-  margin:auto;
-  padding:30px;
+/* ===== TÍTULO ===== */
+.header{
+  position:absolute;
+  top:40px;
+  left:60px;
 }
 
-h1{
-  font-size:36px;
+.header h1{
+  font-size:38px;
   margin:0;
 }
 
-h2{
-  font-size:18px;
-  opacity:.7;
-  margin-top:4px;
+.header p{
+  margin:6px 0 0 0;
+  opacity:.75;
 }
 
 /* ===== BRACKET ===== */
 .bracket{
+  position:absolute;
+  top:160px;
+  left:60px;
+  right:60px;
+  bottom:80px;
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:80px;
-  margin-top:80px;
-  position:relative;
+  grid-template-columns: 320px 260px 260px;
+  gap:120px;
 }
 
-/* ===== ROUNDS ===== */
+/* ===== COLUNAS ===== */
 .round{
+  position:relative;
   display:flex;
   flex-direction:column;
-  justify-content:space-around;
-  position:relative;
+  justify-content:space-between;
 }
 
-.round-title{
-  text-align:center;
-  margin-top:20px;
-  opacity:.7;
-}
-
-/* ===== MATCH BOX ===== */
+/* ===== BOX ===== */
 .match{
+  height:56px;
   background:var(--box-bg);
   border:1px solid var(--line);
-  padding:8px 12px;
-  height:54px;
   display:flex;
   align-items:center;
-  gap:10px;
-  cursor:pointer;
-  transition:.3s;
+  padding:0 14px;
+  gap:12px;
 }
 
-.match:hover{
-  box-shadow:0 0 12px var(--line);
-}
-
-.match.winner{
-  animation:winGlow 1s infinite alternate;
-}
-
-/* ===== LOGO ===== */
-.logo{
-  width:28px;
-  height:28px;
-  object-fit:contain;
-}
-
-/* ===== FLAG ===== */
-.flag{
-  width:22px;
-  height:14px;
-  object-fit:cover;
-  border-radius:2px;
-}
-
-/* ===== NAME ===== */
+/* VAZIO PRA EDITAR */
 .name{
   flex:1;
   outline:none;
 }
 
-/* ===== LINES ===== */
-.round:not(:last-child)::after{
-  content:"";
+/* LOGO */
+.logo{
+  width:34px;
+  height:34px;
+  background:#111;
+  border:1px solid #333;
+}
+
+/* ===== LINHAS ===== */
+.connector{
   position:absolute;
-  right:-40px;
-  top:50%;
-  width:40px;
+  right:-60px;
+  width:60px;
   height:2px;
   background:var(--line);
 }
 
-/* ===== CURVED CONNECTORS ===== */
-.curve{
+.vertical{
   position:absolute;
-  width:40px;
-  height:120px;
-  border-right:2px solid var(--line);
-  border-top:2px solid var(--line);
-  right:-40px;
+  right:-60px;
+  width:2px;
+  background:var(--line);
 }
 
-.curve.down{
-  top:50%;
-  transform:translateY(-10px);
-}
-
-.curve.up{
-  bottom:50%;
-  transform:translateY(10px) scaleY(-1);
-}
-
-/* ===== ANIMATION ===== */
-@keyframes winGlow{
-  from{box-shadow:0 0 5px #5aa7ff}
-  to{box-shadow:0 0 20px #5aa7ff}
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1100px){
-  .bracket{
-    transform:scale(.85);
-    transform-origin:top center;
-  }
-}
-
-@media(max-width:800px){
-  .bracket{
-    grid-template-columns:1fr;
-    gap:40px;
-  }
+/* ===== TÍTULOS ===== */
+.round-title{
+  position:absolute;
+  bottom:-40px;
+  width:100%;
+  text-align:center;
+  font-size:14px;
+  opacity:.7;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="header">
   <h1>Play-off Bracket</h1>
-  <h2>Campeonato FPS</h2>
+  <p>Campeonato FPS</p>
+</div>
 
-  <div class="bracket">
+<div class="bracket">
 
-    <!-- QUARTAS -->
-    <div class="round">
-      <div class="match">
-        <img class="logo" src="img/team1.png">
-        <span class="name" contenteditable>TIME 1</span>
-        <img class="flag" src="img/flag-br.png">
-      </div>
+  <!-- ===== QUARTAS ===== -->
+  <div class="round">
 
-      <div class="match">
-        <img class="logo" src="img/team2.png">
-        <span class="name" contenteditable>TIME 2</span>
-        <img class="flag" src="img/flag-us.png">
-      </div>
-
-      <div class="match">
-        <img class="logo" src="img/team3.png">
-        <span class="name" contenteditable>TIME 3</span>
-        <img class="flag" src="img/flag-br.png">
-      </div>
-
-      <div class="match">
-        <img class="logo" src="img/team4.png">
-        <span class="name" contenteditable>TIME 4</span>
-        <img class="flag" src="img/flag-us.png">
-      </div>
-
-      <div class="round-title">QUARTER-FINALS</div>
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
     </div>
 
-    <!-- SEMI -->
-    <div class="round">
-      <div class="match"></div>
-      <div class="match"></div>
-
-      <div class="curve down"></div>
-      <div class="curve up"></div>
-
-      <div class="round-title">SEMI-FINALS</div>
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
     </div>
 
-    <!-- FINAL -->
-    <div class="round">
-      <div class="match"></div>
-      <div class="round-title">GRAND FINAL</div>
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
     </div>
 
-    <!-- CAMPEÃO -->
-    <div class="round">
-      <div class="match winner">
-        🏆 <span class="name" contenteditable>CAMPEÃO</span>
-      </div>
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
     </div>
 
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="round-title">QUARTER-FINALS</div>
   </div>
+
+  <!-- ===== SEMI ===== -->
+  <div class="round">
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="round-title">SEMI-FINALS</div>
+  </div>
+
+  <!-- ===== FINAL ===== -->
+  <div class="round">
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="match">
+      <div class="logo"></div>
+      <div class="name" contenteditable></div>
+    </div>
+
+    <div class="round-title">GRAND FINAL</div>
+  </div>
+
 </div>
 
 </body>
