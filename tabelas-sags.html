@@ -2,216 +2,221 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tabelas SAGS - Eventos SABR</title>
+<title>Playoff Bracket</title>
+
 <style>
-/* -------------------------------
-   Mude o fundo aqui
----------------------------------*/
 :root{
-  --background-image: url("DEACKTMATH.png"); /* Coloque aqui a sua imagem de fundo */
+  --line:#5aa7ff;
+  --box-bg: rgba(15,25,45,.88);
 }
-/* ------------------------------- */
+
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#111 var(--background-image) center/cover no-repeat;
+  font-family:Arial, Helvetica, sans-serif;
+  background: #000 url("img/fundo.jpg") center/cover no-repeat;
   color:#fff;
+}
+
+.wrapper{
+  max-width:1400px;
+  margin:auto;
+  padding:30px;
 }
 
 h1{
+  font-size:36px;
+  margin:0;
+}
+
+h2{
+  font-size:18px;
+  opacity:.7;
+  margin-top:4px;
+}
+
+/* ===== BRACKET ===== */
+.bracket{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:80px;
+  margin-top:80px;
+  position:relative;
+}
+
+/* ===== ROUNDS ===== */
+.round{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+  position:relative;
+}
+
+.round-title{
   text-align:center;
-  margin:20px 0;
-  font-size:32px;
-  text-shadow: 2px 2px 5px #000;
+  margin-top:20px;
+  opacity:.7;
 }
 
-table{
-  width:90%;
-  max-width:1200px;
-  margin: 20px auto 40px auto;
-  border-collapse: collapse;
-  background: rgba(0,0,0,0.4);
+/* ===== MATCH BOX ===== */
+.match{
+  background:var(--box-bg);
+  border:1px solid var(--line);
+  padding:8px 12px;
+  height:54px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  transition:.3s;
 }
 
-th, td{
-  padding:12px;
-  text-align:center;
-  border: 2px solid #FFD700;
-  font-size:16px;
+.match:hover{
+  box-shadow:0 0 12px var(--line);
 }
 
-th{
-  background: rgba(0,0,0,0.6);
-  color:#FFD700;
-  text-shadow:0 0 5px #FFD700;
-  animation: neonPulse 1.5s infinite;
+.match.winner{
+  animation:winGlow 1s infinite alternate;
 }
 
-td{
-  background: rgba(0,0,0,0.3);
-  color:#fff;
+/* ===== LOGO ===== */
+.logo{
+  width:28px;
+  height:28px;
+  object-fit:contain;
 }
 
-td img{
-  width:130px;
-  height:125px;
-  object-fit:cover;
-  border-radius:8px;
-}
-
+/* ===== FLAG ===== */
 .flag{
-  width:80px;
-  height:50px;
+  width:22px;
+  height:14px;
   object-fit:cover;
-  border-radius:4px;
+  border-radius:2px;
 }
 
-.scroll-table{
-  max-height: 90vh;
-  overflow-y:auto;
-  margin-bottom:30px;
+/* ===== NAME ===== */
+.name{
+  flex:1;
+  outline:none;
 }
 
-/* Neon pulsante */
-@keyframes neonPulse{
-  0%,100%{ text-shadow:0 0 5px #fff,0 0 10px #fff; }
-  50%{ text-shadow:0 0 15px #ff073a,0 0 30px #ff073a; }
+/* ===== LINES ===== */
+.round:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  right:-40px;
+  top:50%;
+  width:40px;
+  height:2px;
+  background:var(--line);
 }
 
-.section-title{
-  text-align:center;
-  font-size:24px;
-  margin:30px 0 10px 0;
-  text-shadow: 2px 2px 8px #ff073a;
+/* ===== CURVED CONNECTORS ===== */
+.curve{
+  position:absolute;
+  width:40px;
+  height:120px;
+  border-right:2px solid var(--line);
+  border-top:2px solid var(--line);
+  right:-40px;
 }
 
+.curve.down{
+  top:50%;
+  transform:translateY(-10px);
+}
+
+.curve.up{
+  bottom:50%;
+  transform:translateY(10px) scaleY(-1);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes winGlow{
+  from{box-shadow:0 0 5px #5aa7ff}
+  to{box-shadow:0 0 20px #5aa7ff}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1100px){
+  .bracket{
+    transform:scale(.85);
+    transform-origin:top center;
+  }
+}
+
+@media(max-width:800px){
+  .bracket{
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<h1>TABELAS SAGS - 8 TIMES</h1>
+<div class="wrapper">
+  <h1>Play-off Bracket</h1>
+  <h2>Campeonato FPS</h2>
 
-<div class="scroll-table">
-  <table>
-    <thead>
-      <tr>
-        <th>POSIÇÃO</th>
-        <th>CLAN</th>
-        <th>BANDEIRA</th>
-        <th>VAGAS</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td contenteditable="true">CLAN 1</td>
-        <td><img src="flag1.png" alt="Bandeira 1" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td contenteditable="true">CLAN 2</td>
-        <td><img src="flag2.png" alt="Bandeira 2" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td contenteditable="true">CLAN 3</td>
-        <td><img src="flag3.png" alt="Bandeira 3" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td contenteditable="true">CLAN 4</td>
-        <td><img src="flag4.png" alt="Bandeira 4" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td contenteditable="true">CLAN 5</td>
-        <td><img src="flag5.png" alt="Bandeira 5" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td contenteditable="true">CLAN 6</td>
-        <td><img src="flag6.png" alt="Bandeira 6" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td contenteditable="true">CLAN 7</td>
-        <td><img src="flag7.png" alt="Bandeira 7" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td contenteditable="true">CLAN 8</td>
-        <td><img src="flag8.png" alt="Bandeira 8" class="flag"></td>
-        <td contenteditable="true">0</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <div class="bracket">
 
-<div class="section-title">SEMIFINAL</div>
-<div class="scroll-table">
-  <table>
-    <thead>
-      <tr>
-        <th>PARTIDA</th>
-        <th>CLAN 1</th>
-        <th>BANDEIRA</th>
-        <th>CLAN 2</th>
-        <th>BANDEIRA</th>
-        <th>VENCEDOR</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td contenteditable="true">CLAN A</td>
-        <td><img src="flagA.png" alt="Bandeira A" class="flag"></td>
-        <td contenteditable="true">CLAN B</td>
-        <td><img src="flagB.png" alt="Bandeira B" class="flag"></td>
-        <td contenteditable="true">---</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td contenteditable="true">CLAN C</td>
-        <td><img src="flagC.png" alt="Bandeira C" class="flag"></td>
-        <td contenteditable="true">CLAN D</td>
-        <td><img src="flagD.png" alt="Bandeira D" class="flag"></td>
-        <td contenteditable="true">---</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <!-- QUARTAS -->
+    <div class="round">
+      <div class="match">
+        <img class="logo" src="img/team1.png">
+        <span class="name" contenteditable>TIME 1</span>
+        <img class="flag" src="img/flag-br.png">
+      </div>
 
-<div class="section-title">FINAL</div>
-<div class="scroll-table">
-  <table>
-    <thead>
-      <tr>
-        <th>CLAN 1</th>
-        <th>BANDEIRA</th>
-        <th>CLAN 2</th>
-        <th>BANDEIRA</th>
-        <th>VENCEDOR</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td contenteditable="true">SEMIFINAL 1</td>
-        <td><img src="flagSemi1.png" alt="Bandeira Semi1" class="flag"></td>
-        <td contenteditable="true">SEMIFINAL 2</td>
-        <td><img src="flagSemi2.png" alt="Bandeira Semi2" class="flag"></td>
-        <td contenteditable="true">---</td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="match">
+        <img class="logo" src="img/team2.png">
+        <span class="name" contenteditable>TIME 2</span>
+        <img class="flag" src="img/flag-us.png">
+      </div>
+
+      <div class="match">
+        <img class="logo" src="img/team3.png">
+        <span class="name" contenteditable>TIME 3</span>
+        <img class="flag" src="img/flag-br.png">
+      </div>
+
+      <div class="match">
+        <img class="logo" src="img/team4.png">
+        <span class="name" contenteditable>TIME 4</span>
+        <img class="flag" src="img/flag-us.png">
+      </div>
+
+      <div class="round-title">QUARTER-FINALS</div>
+    </div>
+
+    <!-- SEMI -->
+    <div class="round">
+      <div class="match"></div>
+      <div class="match"></div>
+
+      <div class="curve down"></div>
+      <div class="curve up"></div>
+
+      <div class="round-title">SEMI-FINALS</div>
+    </div>
+
+    <!-- FINAL -->
+    <div class="round">
+      <div class="match"></div>
+      <div class="round-title">GRAND FINAL</div>
+    </div>
+
+    <!-- CAMPEÃO -->
+    <div class="round">
+      <div class="match winner">
+        🏆 <span class="name" contenteditable>CAMPEÃO</span>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 </body>
