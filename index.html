@@ -88,19 +88,6 @@ input{
   margin-bottom:10px;
 }
 
-.roleta{
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  border:8px solid #22c55e;
-  margin:15px auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36px;
-  font-weight:bold;
-}
-
 button:disabled{opacity:.5}
 
 #popUpSucesso{
@@ -114,6 +101,8 @@ button:disabled{opacity:.5}
   text-align:center;
   padding-top:40vh;
   z-index:1000;
+  opacity:0;
+  transition: opacity 0.5s ease-in-out;
 }
 </style>
 
@@ -161,6 +150,7 @@ button:disabled{opacity:.5}
     <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
     <img src="qrcode-pix.png" width="150" style="display:none;" id="qrcodeTorneio">
     <button class="btn btn-torneio" onclick="liberarTorneio()">📝 INSCREVER</button>
+    <button class="btn btn-torneio" id="btnCopiarPix" onclick="copiarPix()" style="display:none;">📋 COPIAR PIX</button>
 
     <p id="tempoPagar" style="display:none;">⏱ 01:00</p>
     <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ CONTINUAR</button>
@@ -196,46 +186,59 @@ const db = firebase.firestore();
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
-// TORNEIO SAGS
-let timerTorneio;
+// TORNEIO
 function abrirTorneio(){ fecharTudo(); document.getElementById("telaTorneio").style.display="flex"; }
 function liberarTorneio(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
   if(!nick || !clan){ alert("Preencha os campos"); return; }
   document.getElementById("qrcodeTorneio").style.display="block";
+  document.getElementById("btnCopiarPix").style.display="block";
   document.getElementById("tempoPagar").style.display="block";
   startTimerGeneric("tempoPagar","btnContinuar",60);
 }
+function copiarPix(){ const pix=document.getElementById("pixKey").innerText; navigator.clipboard.writeText(pix); alert("PIX copiado!"); }
 function mostrarComprovante(){ document.getElementById("comprovanteDiv").style.display="block"; }
-function abrirZap(){ window.open("https://w.app/8mysvz", "_blank"); document.getElementById("btnFinalizarTorneio").disabled=false; }
+function abrirZap(){ window.open("https://w.app/8mysvz","_blank"); document.getElementById("btnFinalizarTorneio").disabled=false; }
 function finalizarTorneio(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
   if(!nick || !clan){ alert("Preencha os campos"); return; }
-  db.collection("inscricoes").add({
-    nick: nick,
-    clan: clan,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(()=>{
-    document.getElementById("popUpSucesso").style.display="block";
-    setTimeout(()=>{ document.getElementById("popUpSucesso").style.display="none"; }, 5000);
-  }).catch(err=>{ alert("Erro ao enviar inscrição: "+err); });
+  
+  db.collection("inscricoes").add({nick,clan,timestamp:firebase.firestore.FieldValue.serverTimestamp()})
+  .then(()=>{
+    mostrarPopUp(); // Mostra pop-up só aqui
+  })
+  .catch(err=>alert("Erro ao enviar inscrição: "+err));
+}
+
+// POP-UP COM ANIMAÇÃO
+function mostrarPopUp(){
+  const pop = document.getElementById("popUpSucesso");
+  pop.style.display="block";
+  setTimeout(()=>{ pop.style.opacity=1; },10); // fade-in rápido
+  setTimeout(()=>{
+    pop.style.opacity=0; // fade-out depois de 4 segundos
+    setTimeout(()=>{ pop.style.display="none"; },500);
+  },4000);
 }
 
 // Timer genérico
 function startTimerGeneric(tempoId, btnId, segundos){
-  let tempo = segundos;
-  const display = document.getElementById(tempoId);
-  const btn = document.getElementById(btnId);
-  const interval = setInterval(()=>{
-    let min = String(Math.floor(tempo/60)).padStart(2,'0');
-    let sec = String(tempo%60).padStart(2,'0');
-    display.innerText = `⏱ ${min}:${sec}`;
+  let tempo=segundos;
+  const display=document.getElementById(tempoId);
+  const btn=document.getElementById(btnId);
+  const interval=setInterval(()=>{
+    let min=String(Math.floor(tempo/60)).padStart(2,'0');
+    let sec=String(tempo%60).padStart(2,'0');
+    display.innerText=`⏱ ${min}:${sec}`;
     if(tempo<=0){ clearInterval(interval); btn.style.display="block"; display.style.display="none"; }
     tempo--;
   },1000);
 }
+
+// Campeonato placeholder
+function abrirCampeonato(){ alert("Inscrição de Campeonato ainda não implementada"); }
 </script>
 
 </body>
