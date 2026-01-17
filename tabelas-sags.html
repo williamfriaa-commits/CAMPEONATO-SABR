@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabelas SAGS - Eventos SABR</title>
+<style>
+/* -------------------------------
+   Mude o fundo aqui
+---------------------------------*/
+:root{
+  --background-image: url("DEACKTMATH.png"); /* Coloque aqui a sua imagem de fundo */
+}
+/* ------------------------------- */
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#111 var(--background-image) center/cover no-repeat;
+  color:#fff;
+}
+
+h1{
+  text-align:center;
+  margin:20px 0;
+  font-size:32px;
+  text-shadow: 2px 2px 5px #000;
+}
+
+table{
+  width:90%;
+  max-width:1200px;
+  margin: 20px auto 40px auto;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.4);
+}
+
+th, td{
+  padding:12px;
+  text-align:center;
+  border: 2px solid #FFD700;
+  font-size:16px;
+}
+
+th{
+  background: rgba(0,0,0,0.6);
+  color:#FFD700;
+  text-shadow:0 0 5px #FFD700;
+  animation: neonPulse 1.5s infinite;
+}
+
+td{
+  background: rgba(0,0,0,0.3);
+  color:#fff;
+}
+
+td img{
+  width:130px;
+  height:125px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.flag{
+  width:80px;
+  height:50px;
+  object-fit:cover;
+  border-radius:4px;
+}
+
+.scroll-table{
+  max-height: 90vh;
+  overflow-y:auto;
+  margin-bottom:30px;
+}
+
+/* Neon pulsante */
+@keyframes neonPulse{
+  0%,100%{ text-shadow:0 0 5px #fff,0 0 10px #fff; }
+  50%{ text-shadow:0 0 15px #ff073a,0 0 30px #ff073a; }
+}
+
+.section-title{
+  text-align:center;
+  font-size:24px;
+  margin:30px 0 10px 0;
+  text-shadow: 2px 2px 8px #ff073a;
+}
+
+</style>
+</head>
+<body>
+
+<h1>TABELAS SAGS - 8 TIMES</h1>
+
+<div class="scroll-table">
+  <table>
+    <thead>
+      <tr>
+        <th>POSIÇÃO</th>
+        <th>CLAN</th>
+        <th>BANDEIRA</th>
+        <th>VAGAS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td contenteditable="true">CLAN 1</td>
+        <td><img src="flag1.png" alt="Bandeira 1" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td contenteditable="true">CLAN 2</td>
+        <td><img src="flag2.png" alt="Bandeira 2" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td contenteditable="true">CLAN 3</td>
+        <td><img src="flag3.png" alt="Bandeira 3" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td contenteditable="true">CLAN 4</td>
+        <td><img src="flag4.png" alt="Bandeira 4" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td contenteditable="true">CLAN 5</td>
+        <td><img src="flag5.png" alt="Bandeira 5" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td contenteditable="true">CLAN 6</td>
+        <td><img src="flag6.png" alt="Bandeira 6" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td contenteditable="true">CLAN 7</td>
+        <td><img src="flag7.png" alt="Bandeira 7" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td contenteditable="true">CLAN 8</td>
+        <td><img src="flag8.png" alt="Bandeira 8" class="flag"></td>
+        <td contenteditable="true">0</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-title">SEMIFINAL</div>
+<div class="scroll-table">
+  <table>
+    <thead>
+      <tr>
+        <th>PARTIDA</th>
+        <th>CLAN 1</th>
+        <th>BANDEIRA</th>
+        <th>CLAN 2</th>
+        <th>BANDEIRA</th>
+        <th>VENCEDOR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td contenteditable="true">CLAN A</td>
+        <td><img src="flagA.png" alt="Bandeira A" class="flag"></td>
+        <td contenteditable="true">CLAN B</td>
+        <td><img src="flagB.png" alt="Bandeira B" class="flag"></td>
+        <td contenteditable="true">---</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td contenteditable="true">CLAN C</td>
+        <td><img src="flagC.png" alt="Bandeira C" class="flag"></td>
+        <td contenteditable="true">CLAN D</td>
+        <td><img src="flagD.png" alt="Bandeira D" class="flag"></td>
+        <td contenteditable="true">---</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section-title">FINAL</div>
+<div class="scroll-table">
+  <table>
+    <thead>
+      <tr>
+        <th>CLAN 1</th>
+        <th>BANDEIRA</th>
+        <th>CLAN 2</th>
+        <th>BANDEIRA</th>
+        <th>VENCEDOR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td contenteditable="true">SEMIFINAL 1</td>
+        <td><img src="flagSemi1.png" alt="Bandeira Semi1" class="flag"></td>
+        <td contenteditable="true">SEMIFINAL 2</td>
+        <td><img src="flagSemi2.png" alt="Bandeira Semi2" class="flag"></td>
+        <td contenteditable="true">---</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
