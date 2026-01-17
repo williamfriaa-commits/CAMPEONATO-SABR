@@ -8,7 +8,7 @@
 body{
   margin:0;
   font-family: Arial, sans-serif;
-  background:#111 url("seu-fundo.jpg") center/cover no-repeat;
+  background:#111 url("fundo-ranking.jpg") center/cover no-repeat;
   color:#fff;
 }
 
@@ -19,44 +19,57 @@ h1{
   text-shadow: 2px 2px 5px #000;
 }
 
-.table-container{
+table{
   width:90%;
   max-width:1200px;
   margin:20px auto;
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  background: rgba(20,20,20,0.9);
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.7);
   box-shadow: 0 0 15px #ff073a, 0 0 30px #ff073a inset;
 }
 
 th, td{
-  padding:12px 8px;
+  padding:12px;
   text-align:center;
-  border: 1px solid #FFD700;
+  border:1px solid #FFD700;
 }
 
 th{
   background:#222;
-  color:#FFD700;
   font-size:16px;
+  text-shadow: 0 0 5px #FFD700;
 }
 
-td img{
-  width:30px;
-  height:30px;
+tr:hover{
+  background: rgba(255,0,0,0.2);
+}
+
+.clan-img{
+  width:32px;
+  height:32px;
   object-fit:cover;
-  border-radius:4px;
+  border-radius:50%;
+  vertical-align:middle;
+  margin-right:8px;
 }
 
-td.clan-name{
-  display:flex;
-  align-items:center;
-  gap:8px;
+button{
+  display:block;
+  margin:20px auto;
+  padding:12px 20px;
+  font-size:16px;
   font-weight:bold;
+  background:#ff073a;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow: 0 0 10px #ff073a, 0 0 20px #ff073a inset;
+  transition: 0.3s;
+}
+
+button:hover{
+  filter: brightness(1.3);
 }
 </style>
 </head>
@@ -64,8 +77,7 @@ td.clan-name{
 
 <h1>RANKING DE CLANS</h1>
 
-<div class="table-container">
-<table>
+<table id="rankingTable">
   <thead>
     <tr>
       <th>POSIÇÃO</th>
@@ -77,177 +89,198 @@ td.clan-name{
     </tr>
   </thead>
   <tbody>
+    <!-- Linha modelo, é só editar os valores e imagem -->
     <tr>
       <td>1</td>
-      <td class="clan-name"><img src="flags/gts.png" alt="GTS">.:GTS::.</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="gts.png" class="clan-img">.:GTS::.</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>2</td>
-      <td class="clan-name"><img src="flags/vision.png" alt="VISION">VISION</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="vision.png" class="clan-img">VISION</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>3</td>
-      <td class="clan-name"><img src="flags/playcore.png" alt="PLAY CORE">PLAY CORE</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="playcore.png" class="clan-img">PLAY CORE</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>4</td>
-      <td class="clan-name"><img src="flags/varzea.png" alt="VARZEA">VARZEA</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="varzea.png" class="clan-img">VARZEA</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>5</td>
-      <td class="clan-name"><img src="flags/classic.png" alt="CLASSIC">CLASSIC</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="classic.png" class="clan-img">CLASSIC</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>6</td>
-      <td class="clan-name"><img src="flags/yinyang.png" alt="YINYANG">YINYANG</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="yinyang.png" class="clan-img">YINYANG</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>7</td>
-      <td class="clan-name"><img src="flags/celtics.png" alt="CELTICS">CELTICS</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="celtics.png" class="clan-img">CELTICS</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>8</td>
-      <td class="clan-name"><img src="flags/theendgaming.png" alt="THEENDGAAMING">THEENDGAAMING</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="theendgaming.png" class="clan-img">THEENDGAAMING</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>9</td>
-      <td class="clan-name"><img src="flags/undecide.png" alt="UNDECIDE">UNDECIDE</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="undecide.png" class="clan-img">UNDECIDE</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>10</td>
-      <td class="clan-name"><img src="flags/kings.png" alt="KINGS">KINGS</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="kings.png" class="clan-img">KINGS</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>11</td>
-      <td class="clan-name"><img src="flags/since.png" alt="SINCE">SINCE</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="since.png" class="clan-img">SINCE</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>12</td>
-      <td class="clan-name"><img src="flags/funny.png" alt="FUNNY">FUNNY</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="funny.png" class="clan-img">FUNNY</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>13</td>
-      <td class="clan-name"><img src="flags/unshakable.png" alt="UNSHAKABLE~">UNSHAKABLE~</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="unshakable.png" class="clan-img">UNSHAKABLE~</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>14</td>
-      <td class="clan-name"><img src="flags/betano.png" alt="BETANO">BETANO</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="betano.png" class="clan-img">BETANO</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>15</td>
-      <td class="clan-name"><img src="flags/onjacktalbeck.png" alt="ONJACKTALBECK">ONJACKTALBECK</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="onjacktalbeck.png" class="clan-img">ONJACKTALBECK</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>16</td>
-      <td class="clan-name"><img src="flags/bandnewspanda.png" alt="BANDNEWSPANDA">BANDNEWSPANDA</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="bandnewspanda.png" class="clan-img">BANDNEWSPANDA</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>17</td>
-      <td class="clan-name"><img src="flags/nulborn.png" alt="NULBORN">NULBORN</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="nulborn.png" class="clan-img">NULBORN</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>18</td>
-      <td class="clan-name"><img src="flags/reaction.png" alt="REACTION">REACTION</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="reaction.png" class="clan-img">REACTION</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>19</td>
-      <td class="clan-name"><img src="flags/hyperx.png" alt="HYPERX-">HYPERX-</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="hyperx.png" class="clan-img">HYPERX-</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
     <tr>
       <td>20</td>
-      <td class="clan-name"><img src="flags/avoxy.png" alt="AVOXY">AVOXY</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>21</td>
-      <td class="clan-name"><img src="flags/homelles.png" alt="HOMELLES">HOMELLES</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
+      <td><img src="avoxy.png" class="clan-img">AVOXY</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
     </tr>
   </tbody>
 </table>
-</div>
+
+<button onclick="atualizarRanking()">ATUALIZAR RANKING</button>
+
+<script>
+function atualizarRanking(){
+  const table = document.getElementById("rankingTable").getElementsByTagName('tbody')[0];
+  const rows = Array.from(table.rows);
+
+  // Calcula total de vitórias por linha
+  rows.forEach(row=>{
+    const mix = parseInt(row.querySelector('.mix').innerText) || 0;
+    const torneio = parseInt(row.querySelector('.torneio').innerText) || 0;
+    const camp = parseInt(row.querySelector('.camp').innerText) || 0;
+    const total = mix + torneio + camp;
+    row.querySelector('.total').innerText = total;
+  });
+
+  // Ordena linhas pelo total
+  rows.sort((a,b)=>{
+    return parseInt(b.querySelector('.total').innerText) - parseInt(a.querySelector('.total').innerText);
+  });
+
+  // Reatribui ao tbody e atualiza posições
+  rows.forEach((row,index)=>{
+    row.cells[0].innerText = index + 1;
+    table.appendChild(row);
+  });
+}
+</script>
 
 </body>
 </html>
