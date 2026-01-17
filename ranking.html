@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranking de Clans</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#111 url("dd.webp") center/cover no-repeat;
+  color:#fff;
+}
+
+h1 {
+  text-align:center;
+  margin:20px 0;
+  font-size:28px;
+  text-shadow: 2px 2px 5px #000;
+}
+
+/* Tabela estilizada */
+table {
+  width: 90%;
+  margin: 0 auto 30px auto;
+  border-collapse: collapse;
+  background: rgba(20,20,20,0.9);
+  box-shadow: 0 0 10px #ff073a;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #FFD700;
+  color:#fff;
+}
+
+th {
+  background: #ff073a;
+  color:#fff;
+  text-shadow: 0 0 5px #000;
+}
+
+tr:hover {
+  background: rgba(255, 7, 58, 0.3);
+}
+
+.btn-voltar {
+  display:block;
+  width:200px;
+  margin:20px auto;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#ff073a;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow: 0 0 15px #ff073a, 0 0 30px #ff073a inset;
+  transition:0.3s;
+}
+
+.btn-voltar:hover {
+  filter: brightness(1.3);
+}
+</style>
+</head>
+<body>
+
+<h1>RANKING DE CLANS</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Posição</th>
+      <th>Clan</th>
+      <th>Pontos</th>
+      <th>Vitórias</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>HYPERX-</td>
+      <td>50</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>REACTION-</td>
+      <td>45</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>AVOXY</td>
+      <td>42</td>
+      <td>8</td>
+    </tr>
+    <!-- Continue preenchendo os outros clans -->
+  </tbody>
+</table>
+
+<button class="btn-voltar" onclick="window.history.back()">❌ VOLTAR</button>
+
+</body>
+</html>
