@@ -133,8 +133,7 @@ button:disabled{opacity:.5}
     <p>GAMER SIGNAL Brasil</p>
 
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
-    <a href="ranking.html" class="btn btn-tabela">📊 TABELAS SAGS</a>
-    <a href="tabelas-sags.html" class="btn btn-torneio">📊RANKING DE CLANS</a>
+    <a href="ranking.html" class="btn btn-tabela" target="_blank">📊 RANKING DE CLANS</a>
     <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
     <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">🎮 Vetos de Mapas</button>
 
@@ -305,9 +304,10 @@ function finalizarTorneio(){
   });
 }
 
-// Funções placeholders para os botões ainda não implementados
-function abrirMix(){ document.getElementById("telaMix").style.display="flex"; }
-function abrirCamp(){ alert("Inscrição Campeonato em construção"); }
+// Função placeholder para campeonato
+function abrirCamp(){
+  alert("Inscrição de campeonato ainda não implementada.");
+}
 </script>
 
 </body>
