@@ -4,16 +4,54 @@
 <meta charset="UTF-8">
 <title>Eventos SABR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;color:#fff;background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;}
-@media(max-width:768px){body{background-image:url("fundo-mobile-1080x1920.png")}}
-.overlay{min-height:100vh;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;
+}
+@media(max-width:768px){
+  body{background-image:url("fundo-mobile-1080x1920.png")}
+}
+
+.overlay{
+  min-height:100vh;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
 .content{text-align:center}
-.logo{max-width:260px;width:80%;margin-bottom:20px}
+
+.logo{
+  max-width:260px;
+  width:80%;
+  margin-bottom:20px
+}
+
 h1{font-size:38px;margin:10px 0}
 p{opacity:.9}
-.btn{display:block;width:320px;max-width:100%;padding:18px;margin:12px auto;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;color:#fff;}
+
+.btn{
+  display:block;
+  width:320px;
+  max-width:100%;
+  padding:18px;
+  margin:12px auto;
+  border:none;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  color:#fff;
+}
+
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
 .btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
 .btn-jornal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
@@ -22,19 +60,71 @@ p{opacity:.9}
 .btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
 .btn-vetos{background:linear-gradient(135deg,#facc15,#eab308)}
 .btn-voltar{background:#ef4444}
-.tela{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999;}
-.box{background:#111;padding:25px;border-radius:15px;width:100%;max-width:420px;text-align:center;}
-input{width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px;}
+
+.tela{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.box{
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:420px;
+  text-align:center;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  margin-bottom:10px;
+}
+
+.roleta{
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  border:8px solid #22c55e;
+  margin:15px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  font-weight:bold;
+}
+
 button:disabled{opacity:.5}
-#popupSucesso{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;z-index:1000;}
-#popupSucesso .box{background:#222;padding:30px;border-radius:15px;animation:popupAnim 0.5s ease-out;}
-@keyframes popupAnim{0%{transform:scale(0);}100%{transform:scale(1);}}
+
+#popUpSucesso{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  color:#fff;
+  font-size:20px;
+  font-weight:bold;
+  text-align:center;
+  padding-top:40vh;
+  z-index:1000;
+}
 </style>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 </head>
 <body>
 
 <!-- TELA PRINCIPAL -->
-<div class="overlay" id="telaPrincipal">
+<div class="overlay">
   <div class="content">
     <img src="logo.png" class="logo">
     <h1>EVENTOS SABR</h1>
@@ -55,8 +145,8 @@ button:disabled{opacity:.5}
     <h1>ESCOLHA A INSCRIÇÃO</h1>
     <button class="btn btn-mix" onclick="abrirMix()">🎮 INSCRIÇÃO MIX</button>
     <button class="btn btn-torneio" onclick="abrirTorneio()">🏆 TORNEIO SAGS</button>
-    <button class="btn btn-camp">🥇 INSCRIÇÃO CAMPEONATO</button>
-    <button class="btn btn-voltar" onclick="fecharEscolha()">❌ VOLTAR</button>
+    <button class="btn btn-camp" onclick="abrirCampeonato()">🥇 INSCRIÇÃO CAMPEONATO</button>
+    <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
 
@@ -66,97 +156,85 @@ button:disabled{opacity:.5}
     <h1>TORNEIO SAGS</h1>
     <input id="nickTorneio" placeholder="Digite seu nick">
     <input id="clanTorneio" placeholder="Nome do seu Clan">
-    <button class="btn btn-torneio" onclick="mostrarPix()">CADASTRAR</button>
 
-    <div id="pixContainer" style="display:none;">
-      <p><strong>PIX:</strong></p>
-      <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
-      <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
-      <img src="qrcode-pix.png" width="150">
-      <p id="tempoPagar">⏱ 01:00</p>
-    </div>
+    <p><strong>PIX:</strong></p>
+    <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
+    <img src="qrcode-pix.png" width="150" style="display:none;" id="qrcodeTorneio">
+    <button class="btn btn-torneio" onclick="liberarTorneio()">📝 INSCREVER</button>
 
-    <div id="comprovanteDiv" style="display:none;margin-top:15px;">
+    <p id="tempoPagar" style="display:none;">⏱ 01:00</p>
+    <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ CONTINUAR</button>
+
+    <div id="comprovanteDiv" style="display:none; margin-top:15px;">
       <button class="btn btn-torneio" onclick="abrirZap()">📩 ENVIAR COMPROVANTE</button>
-      <p id="tempoFinal">⏱ 10s</p>
     </div>
 
-    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()">✅ FINALIZAR INSCRIÇÃO</button>
-    <p id="mensagemFinal"></p>
-    <button class="btn btn-voltar" onclick="fecharTorneio()">❌ VOLTAR</button>
+    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
+
+    <p id="resultadoTorneio"></p>
+    <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
 
-<!-- POPUP SUCESSO -->
-<div id="popupSucesso" class="tela">
-  <div class="box">
-    <h2>✅ Cadastro concluído!</h2>
-    <p>O vaga só será validada após envio do comprovante.</p>
-    <button class="btn btn-torneio" onclick="fecharPopup()">Fechar</button>
-  </div>
-</div>
+<!-- POP-UP SUCESSO -->
+<div id="popUpSucesso">✅ Cadastrado com sucesso!<br> Só será confirmado quando chegar o comprovante no WhatsApp.</div>
 
 <script>
-function abrirEscolha(){document.getElementById('telaEscolha').style.display='flex';document.getElementById('telaPrincipal').style.display='none';}
-function fecharEscolha(){document.getElementById('telaEscolha').style.display='none';document.getElementById('telaPrincipal').style.display='flex';}
-function abrirTorneio(){document.getElementById('telaTorneio').style.display='flex';document.getElementById('telaEscolha').style.display='none';document.getElementById('pixContainer').style.display='none';document.getElementById('comprovanteDiv').style.display='none';document.getElementById('mensagemFinal').innerText='';}
-function fecharTorneio(){document.getElementById('telaTorneio').style.display='none';document.getElementById('telaEscolha').style.display='flex';}
+// Firebase
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SUA_SENDER_ID",
+  appId: "SUA_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-function mostrarPix(){
-  const nick=document.getElementById('nickTorneio').value;
-  const clan=document.getElementById('clanTorneio').value;
-  if(!nick||!clan){alert('Preencha Nick e Clan!');return;}
-  document.getElementById('pixContainer').style.display='block';
-  document.getElementById('comprovanteDiv').style.display='none';
-  document.getElementById('btnFinalizarTorneio').disabled=true;
-  startTimerPagar(60);
+// Funções Gerais
+function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
+function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
+
+// TORNEIO SAGS
+let timerTorneio;
+function abrirTorneio(){ fecharTudo(); document.getElementById("telaTorneio").style.display="flex"; }
+function liberarTorneio(){
+  const nick = document.getElementById("nickTorneio").value;
+  const clan = document.getElementById("clanTorneio").value;
+  if(!nick || !clan){ alert("Preencha os campos"); return; }
+  document.getElementById("qrcodeTorneio").style.display="block";
+  document.getElementById("tempoPagar").style.display="block";
+  startTimerGeneric("tempoPagar","btnContinuar",60);
 }
-
-function copiarPix(){navigator.clipboard.writeText(document.getElementById('pixKey').innerText);alert('PIX copiado!');}
-
-let timerPagar,timerFinal;
-
-function startTimerPagar(segundos){
-  let tempo=segundos;
-  const tempoPagar=document.getElementById('tempoPagar');
-  const comprovanteDiv=document.getElementById('comprovanteDiv');
-  tempoPagar.style.display='block';
-  timerPagar=setInterval(()=>{
-    let min=String(Math.floor(tempo/60)).padStart(2,'0');
-    let sec=String(tempo%60).padStart(2,'0');
-    tempoPagar.innerText=`⏱ ${min}:${sec}`;
-    if(tempo<=0){clearInterval(timerPagar);comprovanteDiv.style.display='block';tempoPagar.style.display='none';startTimerFinal(10);}
-    tempo--;
-  },1000);
-}
-
-function abrirZap(){
-  const nick=document.getElementById('nickTorneio').value;
-  const clan=document.getElementById('clanTorneio').value;
-  const zapLink=`https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:%20${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
-  window.open(zapLink,'_blank');
-  document.getElementById('btnFinalizarTorneio').disabled=false;
-  document.getElementById('mensagemFinal').innerText='Só será confirmado quando chegar o comprovante no WhatsApp.';
-}
-
-function startTimerFinal(segundos){
-  let tempo=segundos;
-  const tempoFinal=document.getElementById('tempoFinal');
-  tempoFinal.style.display='block';
-  timerFinal=setInterval(()=>{
-    tempoFinal.innerText=`⏱ ${tempo}s`;
-    if(tempo<=0){clearInterval(timerFinal);tempoFinal.style.display='none';}
-    tempo--;
-  },1000);
-}
-
+function mostrarComprovante(){ document.getElementById("comprovanteDiv").style.display="block"; }
+function abrirZap(){ window.open("https://w.app/8mysvz", "_blank"); document.getElementById("btnFinalizarTorneio").disabled=false; }
 function finalizarTorneio(){
-  document.getElementById('popupSucesso').style.display='flex';
+  const nick = document.getElementById("nickTorneio").value;
+  const clan = document.getElementById("clanTorneio").value;
+  if(!nick || !clan){ alert("Preencha os campos"); return; }
+  db.collection("inscricoes").add({
+    nick: nick,
+    clan: clan,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(()=>{
+    document.getElementById("popUpSucesso").style.display="block";
+    setTimeout(()=>{ document.getElementById("popUpSucesso").style.display="none"; }, 5000);
+  }).catch(err=>{ alert("Erro ao enviar inscrição: "+err); });
 }
 
-function fecharPopup(){
-  document.getElementById('popupSucesso').style.display='none';
-  fecharTorneio();
+// Timer genérico
+function startTimerGeneric(tempoId, btnId, segundos){
+  let tempo = segundos;
+  const display = document.getElementById(tempoId);
+  const btn = document.getElementById(btnId);
+  const interval = setInterval(()=>{
+    let min = String(Math.floor(tempo/60)).padStart(2,'0');
+    let sec = String(tempo%60).padStart(2,'0');
+    display.innerText = `⏱ ${min}:${sec}`;
+    if(tempo<=0){ clearInterval(interval); btn.style.display="block"; display.style.display="none"; }
+    tempo--;
+  },1000);
 }
 </script>
 
