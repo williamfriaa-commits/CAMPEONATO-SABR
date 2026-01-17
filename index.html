@@ -132,7 +132,7 @@ button:disabled{opacity:.5}
     <h1>EVENTOS SABR</h1>
     <p>GAMER SIGNAL Brasil</p>
 
-    <!-- BOTÃO INSCREVER-SE FUNCIONANDO -->
+    <!-- BOTÃO INSCREVER-SE -->
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
 
     <a href="ranking.html" class="btn btn-tabela">📊 RANKING DE CLANS</a>
@@ -176,7 +176,6 @@ button:disabled{opacity:.5}
 <div id="telaTorneio" class="tela">
   <div class="box">
     <h1>TORNEIO SAGS</h1>
-
     <p id="avisoPremiacao" style="margin:10px 0; font-size:16px; color:#ffdc00; font-weight:bold; text-shadow:0 0 4px #ff073a;">
       🏆 Prêmio entregue no término do torneio, sendo 10% da CASA.<br>
       Inscrição até dia 13 (terça-feira). Torneio na quarta-feira às 21h!<br>
@@ -192,13 +191,10 @@ button:disabled{opacity:.5}
     <img src="qrcode50.png" width="150">
 
     <p id="tempoPagar">⏱ 01:00</p>
-
     <div id="comprovanteDiv" style="display:none; margin-top:15px;">
       <button class="btn btn-torneio" id="btnEnviarComprovante" onclick="abrirZapFinalizar()">📩 ENVIAR COMPROVANTE</button>
     </div>
-
     <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
-
     <p id="resultadoTorneio" style="margin-top:15px;"></p>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
@@ -212,7 +208,7 @@ const firebaseConfig = {
   projectId: "torneio-sags",
   storageBucket: "torneio-sags.firebasestorage.app",
   messagingSenderId: "892896599237",
-  appId: 1:892896599237:web:d4638d2aedda0c5e2324ac"
+  appId: "1:892896599237:web:d4638d2aedda0c5e2324ac"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -221,7 +217,7 @@ const db = firebase.firestore();
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 function abrirEscolha(){
     fecharTudo();
-    document.getElementById("telaEscolha").style.display="flex";
+    document.getElementById("telaEscolha").style.display = "flex";
 }
 
 // MIX
