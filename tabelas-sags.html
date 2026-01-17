@@ -2,150 +2,139 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Playoff Bracket</title>
+<title>SAGS ALL MD3</title>
 
 <style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-  margin: 0;
-  background: url("FUNDO DOS CAMP.png") center/cover no-repeat;
-  font-family: Arial, sans-serif;
+    background: url("fundo.png") no-repeat center center;
+    background-size: cover;
 }
 
-.bracket {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+/* TÍTULO */
+.titulo {
+    position: absolute;
+    top: 35px;
+    width: 100%;
+    text-align: center;
+    font-size: 54px;
+    font-weight: bold;
+    color: white;
+    text-shadow:
+        0 0 6px #7fdcff,
+        0 0 12px #7fdcff,
+        0 0 18px #7fdcff;
 }
 
-/* ---------- GERAL ---------- */
+/* SLOT */
 .slot {
-  width: 300px;
-  height: 55px;
-  border: 1.5px solid #3aaaff;
-  background: rgba(0,0,0,0.35);
-  display: flex;
-  align-items: center;
-  padding-left: 12px;
-  color: white;
+    position: absolute;
+    width: 250px;
+    height: 44px;
+    border: 2px solid #6fd6ff;
+    box-sizing: border-box;
 }
 
-/* ---------- QUARTAS ---------- */
-.quarters {
-  position: absolute;
-  left: 60px;
-  top: 120px;
+/* LINHAS */
+.linha-h {
+    position: absolute;
+    height: 2px;
+    background: #6fd6ff;
 }
 
-.q-match {
-  margin-bottom: 70px;
+.linha-v {
+    position: absolute;
+    width: 2px;
+    background: #6fd6ff;
 }
 
-.q-match .slot {
-  margin-bottom: 12px;
-}
+/* ===== ESQUERDA ===== */
+#s1 { top: 180px; left: 80px; }
+#s2 { top: 235px; left: 80px; }
 
-/* ---------- SEMIS ---------- */
-.semis {
-  position: absolute;
-  left: 420px;
-  top: 185px;
-}
+#s3 { top: 330px; left: 80px; }
+#s4 { top: 385px; left: 80px; }
 
-.s-match {
-  margin-bottom: 210px;
-}
+#s5 { top: 480px; left: 80px; }
+#s6 { top: 535px; left: 80px; }
 
-.s-match .slot {
-  margin-bottom: 12px;
-}
+#s7 { top: 630px; left: 80px; }
+#s8 { top: 685px; left: 80px; }
 
-/* ---------- FINAL ---------- */
-.final {
-  position: absolute;
-  left: 780px;
-  top: 320px;
-}
+/* ===== MEIO ESQUERDA ===== */
+#q1 { top: 208px; left: 380px; }
+#q2 { top: 358px; left: 380px; }
+#q3 { top: 508px; left: 380px; }
+#q4 { top: 658px; left: 380px; }
 
-.final .slot {
-  margin-bottom: 12px;
-}
+/* ===== FINAL ===== */
+#final1 { top: 433px; left: 700px; }
+#final2 { top: 488px; left: 700px; }
 
-/* ---------- LINHAS ---------- */
-.line-h {
-  position: absolute;
-  height: 1.5px;
-  background: #3aaaff;
-}
+/* ===== LINHAS HORIZONTAIS ===== */
+.lh1 { top: 202px; left: 330px; width: 50px; }
+.lh2 { top: 352px; left: 330px; width: 50px; }
+.lh3 { top: 502px; left: 330px; width: 50px; }
+.lh4 { top: 652px; left: 330px; width: 50px; }
 
-.line-v {
-  position: absolute;
-  width: 1.5px;
-  background: #3aaaff;
-}
+.lhf1 { top: 455px; left: 650px; width: 50px; }
+
+/* ===== LINHAS VERTICAIS ===== */
+.lv1 { top: 202px; left: 330px; height: 88px; }
+.lv2 { top: 352px; left: 330px; height: 88px; }
+.lv3 { top: 502px; left: 330px; height: 88px; }
+.lv4 { top: 652px; left: 330px; height: 88px; }
+
+.lvf { top: 455px; left: 650px; height: 88px; }
+
 </style>
 </head>
 
 <body>
 
-<div class="bracket">
+<div class="titulo">SAGS ALL MD3</div>
 
-  <!-- QUARTAS -->
-  <div class="quarters">
-    <div class="q-match">
-      <div class="slot"></div>
-      <div class="slot"></div>
-    </div>
+<!-- ESQUERDA -->
+<div class="slot" id="s1"></div>
+<div class="slot" id="s2"></div>
+<div class="slot" id="s3"></div>
+<div class="slot" id="s4"></div>
+<div class="slot" id="s5"></div>
+<div class="slot" id="s6"></div>
+<div class="slot" id="s7"></div>
+<div class="slot" id="s8"></div>
 
-    <div class="q-match">
-      <div class="slot"></div>
-      <div class="slot"></div>
-    </div>
+<!-- QUARTAS -->
+<div class="slot" id="q1"></div>
+<div class="slot" id="q2"></div>
+<div class="slot" id="q3"></div>
+<div class="slot" id="q4"></div>
 
-    <div class="q-match">
-      <div class="slot"></div>
-      <div class="slot"></div>
-    </div>
+<!-- FINAL -->
+<div class="slot" id="final1"></div>
+<div class="slot" id="final2"></div>
 
-    <div class="q-match">
-      <div class="slot"></div>
-      <div class="slot"></div>
-    </div>
-  </div>
+<!-- LINHAS -->
+<div class="linha-h lh1"></div>
+<div class="linha-h lh2"></div>
+<div class="linha-h lh3"></div>
+<div class="linha-h lh4"></div>
 
-  <!-- SEMIS -->
-  <div class="semis">
-    <div class="s-match">
-      <div class="slot"></div>
-      <div class="slot"></div>
-    </div>
+<div class="linha-v lv1"></div>
+<div class="linha-v lv2"></div>
+<div class="linha-v lv3"></div>
+<div class="linha-v lv4"></div>
 
-    <div class="s-match">
-      <div class="slot"></div>
-      <div class="slot"></div>
-    </div>
-  </div>
-
-  <!-- FINAL -->
-  <div class="final">
-    <div class="slot"></div>
-    <div class="slot"></div>
-  </div>
-
-  <!-- LINHAS QUARTAS → SEMI -->
-  <div class="line-h" style="left:360px; top:160px; width:60px;"></div>
-  <div class="line-h" style="left:360px; top:232px; width:60px;"></div>
-  <div class="line-v" style="left:420px; top:160px; height:72px;"></div>
-
-  <div class="line-h" style="left:360px; top:372px; width:60px;"></div>
-  <div class="line-h" style="left:360px; top:444px; width:60px;"></div>
-  <div class="line-v" style="left:420px; top:372px; height:72px;"></div>
-
-  <!-- LINHAS SEMI → FINAL -->
-  <div class="line-h" style="left:720px; top:350px; width:60px;"></div>
-  <div class="line-h" style="left:720px; top:422px; width:60px;"></div>
-  <div class="line-v" style="left:780px; top:350px; height:72px;"></div>
-
-</div>
+<div class="linha-h lhf1"></div>
+<div class="linha-v lvf"></div>
 
 </body>
 </html>
