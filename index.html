@@ -175,7 +175,6 @@ button:disabled{opacity:.5}
   <div class="box">
     <h1>TORNEIO SAGS</h1>
 
-    <!-- Aviso da premiação -->
     <p id="avisoPremiacao" style="margin:10px 0; font-size:16px; color:#ffdc00; font-weight:bold; text-shadow:0 0 4px #ff073a;">
       🏆 Prêmio entregue no término do torneio, sendo 10% da CASA.<br>
       Inscrição até dia 13 (terça-feira). Torneio na quarta-feira às 21h!<br>
@@ -192,12 +191,10 @@ button:disabled{opacity:.5}
 
     <p id="tempoPagar">⏱ 01:00</p>
 
-    <!-- Botão ENVIAR COMPROVANTE -->
     <div id="comprovanteDiv" style="display:none; margin-top:15px;">
       <button class="btn btn-torneio" id="btnEnviarComprovante" onclick="abrirZapFinalizar()">📩 ENVIAR COMPROVANTE</button>
     </div>
 
-    <!-- Botão FINALIZAR INSCRIÇÃO -->
     <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
 
     <p id="resultadoTorneio" style="margin-top:15px;"></p>
@@ -219,7 +216,12 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Funções Gerais
-function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
+function abrirEscolha(){
+    // ✅ Novo ajuste: garante que a tela de escolha abra sem conflitos
+    fecharTudo();
+    document.getElementById("telaEscolha").style.display = "flex";
+}
+
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
 // MIX
@@ -290,16 +292,13 @@ function abrirZapFinalizar(){
     return;
   }
 
-  // Abre link do WhatsApp
   const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
   window.open(zapLink, "_blank");
 
-  // Libera botão FINALIZAR INSCRIÇÃO
   document.getElementById("btnFinalizarTorneio").disabled = false;
   alert("✅ Agora você pode FINALIZAR INSCRIÇÃO");
 }
 
-// Finalizar inscrição
 function finalizarTorneio(){
   const nick = document.getElementById("nickTorneio").value.trim();
   const clan = document.getElementById("clanTorneio").value.trim();
