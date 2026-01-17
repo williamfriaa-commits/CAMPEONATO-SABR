@@ -11,8 +11,7 @@ body{margin:0;font-family:Arial,sans-serif;color:#fff;background:#000 url("fundo
 .overlay{min-height:100vh;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;}
 .content{text-align:center}
 .logo{max-width:260px;width:80%;margin-bottom:20px}
-h1{font-size:38px;margin:10px 0}
-p{opacity:.9}
+h1{font-size:38px;margin:10px 0} p{opacity:.9}
 .btn{display:block;width:320px;max-width:100%;padding:18px;margin:12px auto;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;color:#fff;}
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
 .btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
@@ -25,9 +24,17 @@ p{opacity:.9}
 .tela{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999;}
 .box{background:#111;padding:25px;border-radius:15px;width:100%;max-width:420px;text-align:center;}
 input{width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px;}
-button:disabled{opacity:.5}
-#popUpSucesso{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;z-index:9999;text-align:center;padding:20px;}
+button:disabled{opacity:.5;}
+.pop-up{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:#22c55e;color:#fff;padding:15px 25px;border-radius:12px;
+  font-size:16px;font-weight:bold;opacity:0;transition:opacity .5s;
+}
 </style>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -44,13 +51,13 @@ button:disabled{opacity:.5}
   </div>
 </div>
 
-<!-- ESCOLHA DE INSCRIÇÃO -->
+<!-- ESCOLHA -->
 <div id="telaEscolha" class="tela">
   <div class="content">
     <h1>ESCOLHA A INSCRIÇÃO</h1>
     <button class="btn btn-mix" onclick="abrirMix()">🎮 INSCRIÇÃO MIX</button>
     <button class="btn btn-torneio" onclick="abrirTorneio()">🏆 TORNEIO SAGS</button>
-    <button class="btn btn-camp" onclick="abrirCamp()">🥇 INSCRIÇÃO CAMPEONATO</button>
+    <button class="btn btn-camp" onclick="alert('Em breve!')">🥇 INSCRIÇÃO CAMPEONATO</button>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
@@ -65,12 +72,12 @@ button:disabled{opacity:.5}
     <p id="pixMix">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
     <button class="btn btn-torneio" onclick="copiarPix('pixMix')">📋 COPIAR PIX</button>
     <img src="qrcode-pix.png" width="150">
-    <button class="btn btn-inscricao" onclick="iniciarMix()">INSCREVER</button>
-    <p id="timerMix">⏱ 01:00</p>
-    <div id="comprovanteMix" style="display:none; margin-top:15px;">
+    <button class="btn btn-inscricao" onclick="iniciarMix()">📌 INSCREVER</button>
+    <p id="tempoMix"></p>
+    <div id="comprovanteMix" style="display:none;">
       <button class="btn btn-torneio" onclick="abrirZapMix()">📩 ENVIAR COMPROVANTE</button>
     </div>
-    <button class="btn btn-torneio" id="finalizarMix" onclick="finalizarMix()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
+    <button class="btn btn-torneio" id="btnFinalizarMix" onclick="finalizarMix()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
@@ -85,20 +92,33 @@ button:disabled{opacity:.5}
     <p id="pixTorneio">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
     <button class="btn btn-torneio" onclick="copiarPix('pixTorneio')">📋 COPIAR PIX</button>
     <img src="qrcode-pix.png" width="150">
-    <button class="btn btn-torneio" onclick="iniciarTorneio()">INSCREVER</button>
-    <p id="timerTorneio">⏱ 01:00</p>
-    <div id="comprovanteTorneio" style="display:none; margin-top:15px;">
+    <p id="tempoTorneio"></p>
+    <button class="btn btn-torneio" id="btnContinuarTorneio" onclick="mostrarComprovanteTorneio()" style="display:none;">➡ CONTINUAR</button>
+    <div id="comprovanteTorneioDiv" style="display:none; margin-top:15px;">
       <button class="btn btn-torneio" onclick="abrirZapTorneio()">📩 ENVIAR COMPROVANTE</button>
     </div>
-    <button class="btn btn-torneio" id="finalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
+    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
+    <p id="resultadoTorneio"></p>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
 
-<div id="popUpSucesso">✅ Cadastrado com sucesso! <br> Só será confirmado quando chegar o comprovante no WhatsApp.</div>
+<div id="popUp" class="pop-up"></div>
 
 <script>
-// Funções gerais
+// Firebase Config
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SUA_SENDER_ID",
+  appId: "SUA_APP_ID"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Gerais
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
@@ -109,37 +129,62 @@ function copiarPix(id){
   alert("PIX copiado!");
 }
 
-// Cronômetro
-function startTimer(segundos, timerId, btnContinuarId){
-  let tempo = segundos;
-  const timerEl = document.getElementById(timerId);
-  const btnContinuar = document.getElementById(btnContinuarId);
-  timerEl.style.display='block';
-  const interval = setInterval(()=>{
+// Timer TORNEIO
+let timerTorneio;
+function startTimer(idElemento, duracao, botaoContinuar){
+  let tempo = duracao;
+  const elem = document.getElementById(idElemento);
+  timerTorneio = setInterval(()=>{
     let min = String(Math.floor(tempo/60)).padStart(2,'0');
     let sec = String(tempo%60).padStart(2,'0');
-    timerEl.innerText=`⏱ ${min}:${sec}`;
-    if(tempo<=0){ clearInterval(interval); timerEl.style.display='none'; btnContinuar.style.display='block'; }
+    elem.innerText = `⏱ ${min}:${sec}`;
+    if(tempo<=0){
+      clearInterval(timerTorneio);
+      document.getElementById(botaoContinuar).style.display="block";
+      elem.style.display="none";
+    }
     tempo--;
   },1000);
 }
 
-// MIX
-function abrirMix(){ fecharTudo(); document.getElementById("telaMix").style.display="flex"; }
-function iniciarMix(){ document.getElementById("comprovanteMix").style.display='block'; startTimer(60,'timerMix','finalizarMix'); document.getElementById("finalizarMix").disabled=false; }
-function abrirZapMix(){ window.open("https://w.app/8mysvz","_blank"); }
-function finalizarMix(){ document.getElementById("popUpSucesso").style.display='flex'; setTimeout(()=>{ document.getElementById("popUpSucesso").style.display='none'; fecharTudo(); },4000); }
-
 // TORNEIO
-function abrirTorneio(){ fecharTudo(); document.getElementById("telaTorneio").style.display="flex"; }
-function iniciarTorneio(){ document.getElementById("comprovanteTorneio").style.display='block'; startTimer(60,'timerTorneio','finalizarTorneio'); document.getElementById("finalizarTorneio").disabled=false; }
-function abrirZapTorneio(){ window.open("https://w.app/8mysvz","_blank"); }
-function finalizarTorneio(){ document.getElementById("popUpSucesso").style.display='flex'; setTimeout(()=>{ document.getElementById("popUpSucesso").style.display='none'; fecharTudo(); },4000); }
+function abrirTorneio(){
+  fecharTudo();
+  document.getElementById("telaTorneio").style.display="flex";
+  startTimer('tempoTorneio',60,'btnContinuarTorneio');
+}
+function mostrarComprovanteTorneio(){
+  document.getElementById("comprovanteTorneioDiv").style.display="block";
+}
+function abrirZapTorneio(){
+  const nick = document.getElementById("nickTorneio").value;
+  const clan = document.getElementById("clanTorneio").value;
+  const zapLink = `https://w.app/8mysvz`;
+  window.open(zapLink, "_blank");
+  document.getElementById("btnFinalizarTorneio").disabled = false;
+}
+function finalizarTorneio(){
+  const nick = document.getElementById("nickTorneio").value;
+  const clan = document.getElementById("clanTorneio").value;
+  if(!nick||!clan){alert("Preencha os campos!");return;}
+  db.collection("inscricoes").add({nick, clan, timestamp:firebase.firestore.FieldValue.serverTimestamp()})
+    .then(()=>{
+      showPopUp(`✅ Cadastrado com sucesso!<br>Só será confirmado quando chegar o comprovante no WhatsApp.`);
+    }).catch(err=>{alert("Erro ao salvar: "+err);});
+}
 
-// CAMPEONATO
-function abrirCamp(){ fecharTudo(); alert("Inscrição Campeonato não implementada ainda."); }
+// MIX (mesma lógica)
+function abrirMix(){ fecharTudo(); document.getElementById("telaMix").style.display="flex"; startTimer('tempoMix',60,'comprovanteMix');}
+function iniciarMix(){ const nome = document.getElementById("nomeMix").value; if(!nome){alert("Digite seu nick");return;} document.getElementById("comprovanteMix").style.display="block"; document.getElementById("btnFinalizarMix").disabled=false;}
+function abrirZapMix(){ window.open('https://w.app/8mysvz',"_blank");}
 
+// Pop-up
+function showPopUp(msg){
+  const pop = document.getElementById("popUp");
+  pop.innerHTML=msg;
+  pop.style.opacity=1;
+  setTimeout(()=>{pop.style.opacity=0;},4000);
+}
 </script>
-
 </body>
 </html>
