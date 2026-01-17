@@ -196,16 +196,16 @@ button:disabled{opacity:.5}
     <p><strong>PIX:</strong></p>
     <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
     <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
-    <img src="qrcode50.png" width="150">
+    <img src="qrcode-pix.png" width="150">
 
     <p id="tempoPagar">⏱ 01:00</p>
-    <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ CONTINUAR</button>
 
+    <!-- Botões na ordem correta -->
     <div id="comprovanteDiv" style="display:none; margin-top:15px;">
-      <button class="btn btn-torneio" onclick="abrirZap()">📩 ENVIAR COMPROVANTE</button>
+      <button class="btn btn-torneio" id="btnEnviarComprovante" onclick="ativarFinalizar()">📩 ENVIAR COMPROVANTE</button>
     </div>
 
-    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()">✅ FINALIZAR INSCRIÇÃO</button>
+    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
 
     <p id="resultadoTorneio" style="margin-top:15px;"></p>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
@@ -215,12 +215,12 @@ button:disabled{opacity:.5}
 <script>
 // Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCJShIcpEuOxk5VbCsX6yI23pyNRNoKsJw",
-  authDomain: "torneio-sags.firebaseapp.com",
-  projectId: "torneio-sags",
-  storageBucket: "torneio-sags.firebasestorage.app",
-  messagingSenderId: "892896599237",
-  appId: "1:892896599237:web:d4638d2aedda0c5e2324ac"
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SUA_SENDER_ID",
+  appId: "SUA_APP_ID"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -265,6 +265,8 @@ function abrirTorneio(){
   fecharTudo();
   document.getElementById("telaTorneio").style.display="flex";
   startTimer(60);
+  document.getElementById("btnFinalizarTorneio").disabled = true;
+  document.getElementById("comprovanteDiv").style.display = "none";
 }
 
 function copiarPix(){
@@ -285,23 +287,17 @@ function startTimer(segundos){
     tempoPagar.innerText = `⏱ ${min}:${sec}`;
     if(tempo<=0){
       clearInterval(timerInterval);
-      btnContinuar.style.display="block";
+      document.getElementById("comprovanteDiv").style.display = "block";
       tempoPagar.style.display="none";
     }
     tempo--;
   },1000);
 }
 
-function mostrarComprovante(){
-  document.getElementById("comprovanteDiv").style.display="block";
-}
-
-function abrirZap(){
-  const nick = document.getElementById("nickTorneio").value;
-  const clan = document.getElementById("clanTorneio").value;
-  const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
-  window.open(zapLink, "_blank");
+// Ativar botão Finalizar somente após enviar comprovante
+function ativarFinalizar(){
   document.getElementById("btnFinalizarTorneio").disabled = false;
+  alert("✅ Agora você pode FINALIZAR INSCRIÇÃO");
 }
 
 // Finalizar inscrição
