@@ -34,7 +34,7 @@ body {
         0 0 18px #7fdcff;
 }
 
-/* SLOT — +10px (SEM MEXER EM MAIS NADA) */
+/* SLOT */
 .slot {
     position: absolute;
     width: 310px;
@@ -44,6 +44,13 @@ body {
     box-shadow:
         0 0 6px #6fd6ff,
         0 0 12px #6fd6ff;
+}
+
+/* LINHAS */
+.linha {
+    position: absolute;
+    height: 2px;
+    background: #6fd6ff;
 }
 
 /* ===== ESQUERDA ===== */
@@ -68,6 +75,16 @@ body {
 /* ===== FINAL ===== */
 #final1 { top: 500px; left: 980px; }
 #final2 { top: 585px; left: 980px; }
+
+/* ===== LINHAS DAS SEMI FINAL (para trás) ===== */
+#line-q1 { top: 265px; left: 230px; width: 310px; }
+#line-q2 { top: 485px; left: 230px; width: 310px; }
+#line-q3 { top: 725px; left: 230px; width: 310px; }
+#line-q4 { top: 945px; left: 230px; width: 310px; }
+
+/* ===== LINHAS DA FINAL (para o meio das semis) ===== */
+#line-final1 { top: 540px; left: 850px; width: 130px; }
+#line-final2 { top: 625px; left: 850px; width: 130px; }
 
 </style>
 </head>
@@ -95,6 +112,16 @@ body {
 <!-- FINAL -->
 <div class="slot" id="final1"></div>
 <div class="slot" id="final2"></div>
+
+<!-- LINHAS SEMI FINAL -->
+<div class="linha" id="line-q1"></div>
+<div class="linha" id="line-q2"></div>
+<div class="linha" id="line-q3"></div>
+<div class="linha" id="line-q4"></div>
+
+<!-- LINHAS FINAL -->
+<div class="linha" id="line-final1"></div>
+<div class="linha" id="line-final2"></div>
 
 </body>
 </html>
