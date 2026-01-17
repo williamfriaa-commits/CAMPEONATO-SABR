@@ -116,16 +116,6 @@ input::placeholder{ color:#888; }
 }
 
 button:disabled{opacity:.5}
-
-/* Aviso Torneio SAGS */
-#avisoPremiacao{
-  margin:10px 0;
-  font-size:16px;
-  color:#ffdc00;
-  font-weight:bold;
-  text-shadow:0 0 4px #ff073a;
-  animation: neonPulse 1.5s infinite;
-}
 </style>
 
 <!-- Firebase SDK -->
@@ -144,9 +134,10 @@ button:disabled{opacity:.5}
 
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
     <a href="ranking.html" class="btn btn-tabela">📊 RANKING DE CLANS</a>
-    <a href="tabelas-sags.html" class="btn btn-torneio" onclick="mensagemInscricao()">📊 TABELAS SAGS</a>
+    <a href="tabelas-sags.html" class="btn btn-torneio">📊 TABELAS SAGS</a>
     <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
     <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">🎮 Vetos de Mapas</button>
+
     <footer style="margin-top:30px;font-size:14px;opacity:.8">© 2026 • Eventos SABR</footer>
   </div>
 </div>
@@ -185,9 +176,10 @@ button:disabled{opacity:.5}
     <h1>TORNEIO SAGS</h1>
 
     <!-- Aviso da premiação -->
-    <p id="avisoPremiacao">
+    <p id="avisoPremiacao" style="margin:10px 0; font-size:16px; color:#ffdc00; font-weight:bold; text-shadow:0 0 4px #ff073a;">
       🏆 Prêmio entregue no término do torneio, sendo 10% da CASA.<br>
-      Inscrição até dia 13 (terça-feira). Torneio na quarta-feira às 21h!
+      Inscrição até dia 13 (terça-feira). Torneio na quarta-feira às 21h!<br>
+      💰 INSCRIÇÃO: R$ 50,00
     </p>
 
     <input id="nickTorneio" placeholder="Digite seu nick">
@@ -200,11 +192,12 @@ button:disabled{opacity:.5}
 
     <p id="tempoPagar">⏱ 01:00</p>
 
-    <!-- Botões na ordem correta -->
+    <!-- Botão ENVIAR COMPROVANTE -->
     <div id="comprovanteDiv" style="display:none; margin-top:15px;">
-      <button class="btn btn-torneio" id="btnEnviarComprovante" onclick="ativarFinalizar()">📩 ENVIAR COMPROVANTE</button>
+      <button class="btn btn-torneio" id="btnEnviarComprovante" onclick="abrirZapFinalizar()">📩 ENVIAR COMPROVANTE</button>
     </div>
 
+    <!-- Botão FINALIZAR INSCRIÇÃO -->
     <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
 
     <p id="resultadoTorneio" style="margin-top:15px;"></p>
@@ -228,11 +221,6 @@ const db = firebase.firestore();
 // Funções Gerais
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
-
-// Mostrar aviso de inscrição 50 reais ao clicar no botão TORNEIO SAGS
-function mensagemInscricao(){
-  alert("💰 INSCRIÇÃO 50 REAIS");
-}
 
 // MIX
 let jaGirou=false;
@@ -265,8 +253,6 @@ function abrirTorneio(){
   fecharTudo();
   document.getElementById("telaTorneio").style.display="flex";
   startTimer(60);
-  document.getElementById("btnFinalizarTorneio").disabled = true;
-  document.getElementById("comprovanteDiv").style.display = "none";
 }
 
 function copiarPix(){
@@ -287,15 +273,28 @@ function startTimer(segundos){
     tempoPagar.innerText = `⏱ ${min}:${sec}`;
     if(tempo<=0){
       clearInterval(timerInterval);
-      document.getElementById("comprovanteDiv").style.display = "block";
+      document.getElementById("comprovanteDiv").style.display="block";
       tempoPagar.style.display="none";
     }
     tempo--;
   },1000);
 }
 
-// Ativar botão Finalizar somente após enviar comprovante
-function ativarFinalizar(){
+// Abrir WhatsApp e liberar FINALIZAR
+function abrirZapFinalizar(){
+  const nick = document.getElementById("nickTorneio").value.trim();
+  const clan = document.getElementById("clanTorneio").value.trim();
+
+  if(!nick || !clan){
+    alert("Preencha os campos antes de enviar o comprovante!");
+    return;
+  }
+
+  // Abre link do WhatsApp
+  const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
+  window.open(zapLink, "_blank");
+
+  // Libera botão FINALIZAR INSCRIÇÃO
   document.getElementById("btnFinalizarTorneio").disabled = false;
   alert("✅ Agora você pode FINALIZAR INSCRIÇÃO");
 }
@@ -322,10 +321,10 @@ function finalizarTorneio(){
   });
 }
 
-// Funções placeholders
+// Funções placeholders para botões não implementados
 function abrirMix(){ document.getElementById("telaMix").style.display="flex"; }
 function abrirCamp(){ alert("Inscrição Campeonato em construção"); }
-
 </script>
+
 </body>
 </html>
