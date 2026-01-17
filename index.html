@@ -132,8 +132,8 @@ button:disabled{opacity:.5}
     <h1>EVENTOS SABR</h1>
     <p>GAMER SIGNAL Brasil</p>
 
-    <!-- Botão INSCREVER-SE agora abre a tela de escolha -->
-    <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
+    <!-- BOTÃO INSCREVER-SE FUNCIONANDO -->
+    <button class="btn btn-inscricao" onclick="fecharTudo(); document.getElementById('telaEscolha').style.display='flex';">📝 INSCREVER-SE</button>
 
     <a href="ranking.html" class="btn btn-tabela">📊 RANKING DE CLANS</a>
     <a href="tabelas-sags.html" class="btn btn-torneio">📊 TABELAS SAGS</a>
@@ -218,13 +218,6 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Funções Gerais
-function abrirEscolha(){
-    // Fecha todas as telas abertas
-    fecharTudo();
-    // Mostra a tela de escolha (MIX / TORNEIO SAGS / CAMPEONATO)
-    document.getElementById("telaEscolha").style.display = "flex";
-}
-
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
 // MIX
@@ -270,7 +263,6 @@ let timerInterval;
 function startTimer(segundos){
   let tempo = segundos;
   const tempoPagar = document.getElementById("tempoPagar");
-  const btnContinuar = document.getElementById("btnContinuar");
   tempoPagar.style.display = "block";
   timerInterval = setInterval(()=>{
     let min = String(Math.floor(tempo/60)).padStart(2,'0');
