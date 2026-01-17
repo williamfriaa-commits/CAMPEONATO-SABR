@@ -116,6 +116,16 @@ input::placeholder{ color:#888; }
 }
 
 button:disabled{opacity:.5}
+
+/* Aviso Torneio SAGS */
+#avisoPremiacao{
+  margin:10px 0;
+  font-size:16px;
+  color:#ffdc00;
+  font-weight:bold;
+  text-shadow:0 0 4px #ff073a;
+  animation: neonPulse 1.5s infinite;
+}
 </style>
 
 <!-- Firebase SDK -->
@@ -134,10 +144,9 @@ button:disabled{opacity:.5}
 
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
     <a href="ranking.html" class="btn btn-tabela">📊 RANKING DE CLANS</a>
-    <a href="tabelas-sags.html" class="btn btn-torneio">📊 TABELAS SAGS</a>
+    <a href="tabelas-sags.html" class="btn btn-torneio" onclick="mensagemInscricao()">📊 TABELAS SAGS</a>
     <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
     <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">🎮 Vetos de Mapas</button>
-
     <footer style="margin-top:30px;font-size:14px;opacity:.8">© 2026 • Eventos SABR</footer>
   </div>
 </div>
@@ -176,14 +185,8 @@ button:disabled{opacity:.5}
     <h1>TORNEIO SAGS</h1>
 
     <!-- Aviso da premiação -->
-    <p id="avisoPremiacao" style="
-        margin:10px 0;
-        font-size:16px;
-        color:#ffdc00;
-        font-weight:bold;
-        text-shadow:0 0 4px #ff073a;
-    ">
-      🏆 Prêmio entregue no término do torneio, sendo 10% da CASA. 
+    <p id="avisoPremiacao">
+      🏆 Prêmio entregue no término do torneio, sendo 10% da CASA.<br>
       Inscrição até dia 13 (terça-feira). Torneio na quarta-feira às 21h!
     </p>
 
@@ -212,12 +215,12 @@ button:disabled{opacity:.5}
 <script>
 // Firebase
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SUA_SENDER_ID",
-  appId: "SUA_APP_ID"
+  apiKey: "AIzaSyCJShIcpEuOxk5VbCsX6yI23pyNRNoKsJw",
+  authDomain: "torneio-sags.firebaseapp.com",
+  projectId: "torneio-sags",
+  storageBucket: "torneio-sags.firebasestorage.app",
+  messagingSenderId: "892896599237",
+  appId: "1:892896599237:web:d4638d2aedda0c5e2324ac"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -225,6 +228,11 @@ const db = firebase.firestore();
 // Funções Gerais
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
+
+// Mostrar aviso de inscrição 50 reais ao clicar no botão TORNEIO SAGS
+function mensagemInscricao(){
+  alert("💰 INSCRIÇÃO 50 REAIS");
+}
 
 // MIX
 let jaGirou=false;
@@ -318,10 +326,10 @@ function finalizarTorneio(){
   });
 }
 
-// Funções placeholders para os botões ainda não implementados
+// Funções placeholders
 function abrirMix(){ document.getElementById("telaMix").style.display="flex"; }
 function abrirCamp(){ alert("Inscrição Campeonato em construção"); }
-</script>
 
+</script>
 </body>
 </html>
