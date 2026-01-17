@@ -38,27 +38,27 @@ body {
 .slot {
     position: absolute;
     width: 310px;
-    height: 80px;
+    height: 120px; /* aumentei para encaixar imagem 100x100 */
     border: 2px solid #6fd6ff;
     box-sizing: border-box;
     box-shadow:
         0 0 6px #6fd6ff,
         0 0 12px #6fd6ff;
     display: flex;
-    flex-direction: row; /* imagem à esquerda, nome à direita */
+    flex-direction: row; /* horizontal: imagem + nome */
     align-items: center; /* centraliza verticalmente */
-    justify-content: flex-start; /* começa da esquerda */
+    justify-content: flex-start;
     background: rgba(0,0,0,0.3);
-    padding-left: 10px; /* espaço interno */
+    padding-left: 10px;
     text-align: left;
 }
 
 /* IMAGEM DENTRO DO SLOT */
 .slot img {
-    max-width: 50px; /* aumentei para ficar mais visível */
-    max-height: 60px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
-    margin-right: 15px; /* espaço entre imagem e nome */
+    margin-right: 15px;
 }
 
 /* NOME DO CLÃ */
@@ -78,29 +78,29 @@ body {
 
 /* ===== POSIÇÕES PARA PC ===== */
 #s1 { top: 170px; left: 140px; }
-#s2 { top: 280px; left: 140px; }
-#s3 { top: 390px; left: 140px; }
-#s4 { top: 500px; left: 140px; }
-#s5 { top: 610px; left: 140px; }
-#s6 { top: 720px; left: 140px; }
-#s7 { top: 830px; left: 140px; }
-#s8 { top: 940px; left: 140px; }
+#s2 { top: 320px; left: 140px; }
+#s3 { top: 470px; left: 140px; }
+#s4 { top: 620px; left: 140px; }
+#s5 { top: 770px; left: 140px; }
+#s6 { top: 920px; left: 140px; }
+#s7 { top: 1070px; left: 140px; }
+#s8 { top: 1220px; left: 140px; }
 
-#q1 { top: 225px; left: 540px; }
-#q2 { top: 445px; left: 540px; }
-#q3 { top: 667px; left: 540px; }
-#q4 { top: 887px; left: 540px; }
+#q1 { top: 250px; left: 540px; }
+#q2 { top: 550px; left: 540px; }
+#q3 { top: 850px; left: 540px; }
+#q4 { top: 1150px; left: 540px; }
 
-#final1 { top: 504px; left: 980px; }
-#final2 { top: 589px; left: 980px; }
+#final1 { top: 580px; left: 980px; }
+#final2 { top: 850px; left: 980px; }
 
-#line-q1 { top: 265px; left: 230px; width: 310px; }
-#line-q2 { top: 485px; left: 230px; width: 310px; }
-#line-q3 { top: 707px; left: 230px; width: 310px; }
-#line-q4 { top: 927px; left: 230px; width: 310px; }
+#line-q1 { top: 300px; left: 230px; width: 310px; }
+#line-q2 { top: 600px; left: 230px; width: 310px; }
+#line-q3 { top: 900px; left: 230px; width: 310px; }
+#line-q4 { top: 1200px; left: 230px; width: 310px; }
 
-#line-final1 { top: 540px; left: 850px; width: 130px; }
-#line-final2 { top: 625px; left: 850px; width: 130px; }
+#line-final1 { top: 630px; left: 850px; width: 130px; }
+#line-final2 { top: 900px; left: 850px; width: 130px; }
 
 /* ===== MEDIA QUERY PARA CELULAR ===== */
 @media (max-width: 768px) {
@@ -108,37 +108,37 @@ body {
 
     .slot {
         width: 250px;
-        height: 70px;
+        height: 90px; /* ajustado para imagem 70x70 */
         padding-left: 8px;
     }
 
     .slot img {
-        max-width: 40px;
-        max-height: 50px;
+        width: 70px;
+        height: 70px;
         margin-right: 10px;
     }
 
     .slot .nome-clan {
-        font-size: 14px; /* ainda legível no celular */
+        font-size: 16px; /* mantido tamanho */
     }
 
     /* Slots centralizados verticalmente e horizontalmente */
-    #s1 { top: 100px; left: 50%; transform: translateX(-50%); }
+    #s1 { top: 80px; left: 50%; transform: translateX(-50%); }
     #s2 { top: 180px; left: 50%; transform: translateX(-50%); }
-    #s3 { top: 260px; left: 50%; transform: translateX(-50%); }
-    #s4 { top: 340px; left: 50%; transform: translateX(-50%); }
-    #s5 { top: 420px; left: 50%; transform: translateX(-50%); }
-    #s6 { top: 500px; left: 50%; transform: translateX(-50%); }
-    #s7 { top: 580px; left: 50%; transform: translateX(-50%); }
-    #s8 { top: 660px; left: 50%; transform: translateX(-50%); }
+    #s3 { top: 280px; left: 50%; transform: translateX(-50%); }
+    #s4 { top: 380px; left: 50%; transform: translateX(-50%); }
+    #s5 { top: 480px; left: 50%; transform: translateX(-50%); }
+    #s6 { top: 580px; left: 50%; transform: translateX(-50%); }
+    #s7 { top: 680px; left: 50%; transform: translateX(-50%); }
+    #s8 { top: 780px; left: 50%; transform: translateX(-50%); }
 
-    #q1 { top: 740px; left: 50%; transform: translateX(-50%); }
-    #q2 { top: 820px; left: 50%; transform: translateX(-50%); }
-    #q3 { top: 900px; left: 50%; transform: translateX(-50%); }
-    #q4 { top: 980px; left: 50%; transform: translateX(-50%); }
+    #q1 { top: 880px; left: 50%; transform: translateX(-50%); }
+    #q2 { top: 980px; left: 50%; transform: translateX(-50%); }
+    #q3 { top: 1080px; left: 50%; transform: translateX(-50%); }
+    #q4 { top: 1180px; left: 50%; transform: translateX(-50%); }
 
-    #final1 { top: 1060px; left: 50%; transform: translateX(-50%); }
-    #final2 { top: 1140px; left: 50%; transform: translateX(-50%); }
+    #final1 { top: 1280px; left: 50%; transform: translateX(-50%); }
+    #final2 { top: 1380px; left: 50%; transform: translateX(-50%); }
 
     /* Linhas escondidas no celular */
     .linha { display: none; }
