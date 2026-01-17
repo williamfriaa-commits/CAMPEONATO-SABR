@@ -18,7 +18,6 @@ body{
 @media(max-width:768px){
   body{background-image:url("fundo-mobile-1080x1920.png")}
 }
-
 .overlay{
   min-height:100vh;
   background:rgba(0,0,0,.65);
@@ -26,18 +25,10 @@ body{
   align-items:center;
   justify-content:center;
 }
-
 .content{text-align:center}
-
-.logo{
-  max-width:260px;
-  width:80%;
-  margin-bottom:20px
-}
-
+.logo{max-width:260px;width:80%;margin-bottom:20px}
 h1{font-size:38px;margin:10px 0}
 p{opacity:.9}
-
 .btn{
   display:block;
   width:320px;
@@ -51,7 +42,6 @@ p{opacity:.9}
   cursor:pointer;
   color:#fff;
 }
-
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
 .btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
 .btn-jornal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
@@ -60,7 +50,6 @@ p{opacity:.9}
 .btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
 .btn-vetos{background:linear-gradient(135deg,#facc15,#eab308)}
 .btn-voltar{background:#ef4444}
-
 .tela{
   position:fixed;
   inset:0;
@@ -70,7 +59,6 @@ p{opacity:.9}
   justify-content:center;
   z-index:999;
 }
-
 .box{
   background:#111;
   padding:25px;
@@ -79,7 +67,6 @@ p{opacity:.9}
   max-width:420px;
   text-align:center;
 }
-
 input{
   width:100%;
   padding:12px;
@@ -87,11 +74,32 @@ input{
   border:none;
   margin-bottom:10px;
 }
-
 button:disabled{opacity:.5}
 
-#tempoPagar{font-size:20px; font-weight:bold; margin:10px 0;}
-#avisoComprovante{color:#f59e0b; font-weight:bold; margin:10px 0;}
+/* ANIMAÇÃO MENSAGEM FINAL */
+#mensagemFinal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.7);
+  z-index:1000;
+}
+#mensagemFinal .boxMensagem{
+  background:#222;
+  padding:25px;
+  border-radius:15px;
+  max-width:400px;
+  text-align:center;
+  color:#fff;
+  font-size:18px;
+  animation:fadeIn 0.5s ease forwards;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(0.8);}
+  to{opacity:1; transform:scale(1);}
+}
 </style>
 
 <!-- Firebase SDK -->
@@ -152,20 +160,14 @@ button:disabled{opacity:.5}
     <input id="nickTorneio" placeholder="Digite seu nick">
     <input id="clanTorneio" placeholder="Nome do seu Clan">
 
-    <button class="btn btn-torneio" onclick="cadastrarTorneio()">✅ CADASTRAR</button>
-
-    <!-- QR code e copiar PIX escondidos inicialmente -->
-    <p id="avisoComprovante" style="display:none;">Só será confirmado quando chegar o comprovante no WhatsApp.</p>
     <p><strong>PIX:</strong></p>
-    <p id="pixKey" style="display:none;">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
-    <button id="btnCopiarPix" class="btn btn-torneio" onclick="copiarPix()" style="display:none;">📋 COPIAR PIX</button>
-    <img id="qrcode" src="qrcode-pix.png" width="150" style="display:none; margin-top:10px;">
+    <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
+    <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
+    <img src="qrcode-pix.png" width="150">
 
-    <!-- Cronômetro -->
-    <p id="tempoPagar" style="display:none;">⏱ 01:00</p>
+    <p id="tempoPagar">⏱ 02:00</p>
     <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ CONTINUAR</button>
 
-    <!-- Enviar comprovante -->
     <div id="comprovanteDiv" style="display:none; margin-top:15px;">
       <button class="btn btn-torneio" onclick="abrirZap()">📩 ENVIAR COMPROVANTE</button>
     </div>
@@ -174,6 +176,14 @@ button:disabled{opacity:.5}
 
     <p id="resultadoTorneio"></p>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
+  </div>
+</div>
+
+<!-- MENSAGEM FINAL ANIMADA -->
+<div id="mensagemFinal">
+  <div class="boxMensagem" id="boxMensagemFinal">
+    ✅ Cadastrado com sucesso!<br>
+    ⚠️ A vaga só será validada com o envio do comprovante para que a vaga seja confirmada.
   </div>
 </div>
 
@@ -194,7 +204,7 @@ const db = firebase.firestore();
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
-// MIX (mantém igual)
+// MIX
 let jaGirou=false;
 function liberar(){
   const nomeInput = document.getElementById("nome");
@@ -220,19 +230,11 @@ function girar(){
   },100);
 }
 
-// TORNEIO SAGS
-let timerInterval;
-function cadastrarTorneio(){
-  const nick = document.getElementById("nickTorneio").value;
-  const clan = document.getElementById("clanTorneio").value;
-  if(!nick || !clan){ alert("Preencha os campos!"); return; }
-
-  // Mostra QR code, botão copiar, mensagem e cronômetro
-  document.getElementById("qrcode").style.display = "block";
-  document.getElementById("btnCopiarPix").style.display = "block";
-  document.getElementById("pixKey").style.display = "block";
-  document.getElementById("avisoComprovante").style.display = "block";
-  startTimer(60);
+// TORNEIO
+function abrirTorneio(){
+  fecharTudo();
+  document.getElementById("telaTorneio").style.display="flex";
+  startTimer(60); // 1 minuto
 }
 
 function copiarPix(){
@@ -241,6 +243,7 @@ function copiarPix(){
   alert("PIX copiado!");
 }
 
+let timerInterval;
 function startTimer(segundos){
   let tempo = segundos;
   const tempoPagar = document.getElementById("tempoPagar");
@@ -275,12 +278,19 @@ function finalizarTorneio(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
   if(!nick || !clan){ alert("Preencha os campos antes de finalizar!"); return; }
+
   db.collection("inscricoes").add({
     nick: nick,
     clan: clan,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(()=>{
-    document.getElementById("resultadoTorneio").innerHTML = `✅ ${nick} do Clan ${clan} inscrito com sucesso!`;
+    const mensagem = document.getElementById("mensagemFinal");
+    mensagem.style.display="flex";
+
+    // Fecha a mensagem após 5 segundos
+    setTimeout(()=>{
+      mensagem.style.display="none";
+    },5000);
   }).catch(err=>{
     alert("Erro ao enviar inscrição: "+err);
   });
@@ -289,3 +299,4 @@ function finalizarTorneio(){
 
 </body>
 </html>
+
