@@ -1,42 +1,26 @@
-d<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Chaveamento Playoff</title>
+<title>Playoff Bracket</title>
 
 <style>
 body {
   margin: 0;
-  background: url("FUNDO DOS CAMP.png") center/cover no-repeat;
+  background: url("FUNDO.jpg") center/cover no-repeat;
   font-family: Arial, sans-serif;
 }
 
 .bracket {
-  display: grid;
-  grid-template-columns: 320px 220px 220px;
+  position: relative;
+  width: 100vw;
   height: 100vh;
-  align-items: center;
-  padding-left: 40px;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  position: relative;
-}
-
-.match {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* QUADRADOS */
+/* ---------- GERAL ---------- */
 .slot {
-  width: 260px;
-  height: 52px;
+  width: 300px;
+  height: 55px;
   border: 1.5px solid #3aaaff;
   background: rgba(0,0,0,0.35);
   display: flex;
@@ -45,45 +29,58 @@ body {
   color: white;
 }
 
-/* LINHAS */
-.line-right {
+/* ---------- QUARTAS ---------- */
+.quarters {
   position: absolute;
-  right: -40px;
-  top: 50%;
-  width: 40px;
+  left: 60px;
+  top: 120px;
+}
+
+.q-match {
+  margin-bottom: 70px;
+}
+
+.q-match .slot {
+  margin-bottom: 12px;
+}
+
+/* ---------- SEMIS ---------- */
+.semis {
+  position: absolute;
+  left: 420px;
+  top: 185px;
+}
+
+.s-match {
+  margin-bottom: 210px;
+}
+
+.s-match .slot {
+  margin-bottom: 12px;
+}
+
+/* ---------- FINAL ---------- */
+.final {
+  position: absolute;
+  left: 780px;
+  top: 320px;
+}
+
+.final .slot {
+  margin-bottom: 12px;
+}
+
+/* ---------- LINHAS ---------- */
+.line-h {
+  position: absolute;
   height: 1.5px;
   background: #3aaaff;
 }
 
-.line-left {
+.line-v {
   position: absolute;
-  left: -40px;
-  top: 50%;
-  width: 40px;
-  height: 1.5px;
-  background: #3aaaff;
-}
-
-.vertical {
-  position: absolute;
-  right: -40px;
   width: 1.5px;
   background: #3aaaff;
-}
-
-.match.quarter .vertical {
-  height: 120px;
-  top: 26px;
-}
-
-/* AJUSTE SEMI */
-.match.semi {
-  margin-top: 60px;
-}
-
-/* FINAL */
-.match.final {
-  margin-top: 140px;
 }
 </style>
 </head>
@@ -93,61 +90,60 @@ body {
 <div class="bracket">
 
   <!-- QUARTAS -->
-  <div class="column">
-    <div class="match quarter">
+  <div class="quarters">
+    <div class="q-match">
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="line-right"></div>
-      <div class="vertical"></div>
     </div>
 
-    <div class="match quarter">
+    <div class="q-match">
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="line-right"></div>
-      <div class="vertical"></div>
     </div>
 
-    <div class="match quarter">
+    <div class="q-match">
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="line-right"></div>
-      <div class="vertical"></div>
     </div>
 
-    <div class="match quarter">
+    <div class="q-match">
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="line-right"></div>
-      <div class="vertical"></div>
     </div>
   </div>
 
-  <!-- SEMI -->
-  <div class="column">
-    <div class="match semi">
+  <!-- SEMIS -->
+  <div class="semis">
+    <div class="s-match">
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="line-right"></div>
-      <div class="line-left"></div>
     </div>
 
-    <div class="match semi">
+    <div class="s-match">
       <div class="slot"></div>
       <div class="slot"></div>
-      <div class="line-right"></div>
-      <div class="line-left"></div>
     </div>
   </div>
 
   <!-- FINAL -->
-  <div class="column">
-    <div class="match final">
-      <div class="slot"></div>
-      <div class="slot"></div>
-      <div class="line-left"></div>
-    </div>
+  <div class="final">
+    <div class="slot"></div>
+    <div class="slot"></div>
   </div>
+
+  <!-- LINHAS QUARTAS → SEMI -->
+  <div class="line-h" style="left:360px; top:160px; width:60px;"></div>
+  <div class="line-h" style="left:360px; top:232px; width:60px;"></div>
+  <div class="line-v" style="left:420px; top:160px; height:72px;"></div>
+
+  <div class="line-h" style="left:360px; top:372px; width:60px;"></div>
+  <div class="line-h" style="left:360px; top:444px; width:60px;"></div>
+  <div class="line-v" style="left:420px; top:372px; height:72px;"></div>
+
+  <!-- LINHAS SEMI → FINAL -->
+  <div class="line-h" style="left:720px; top:350px; width:60px;"></div>
+  <div class="line-h" style="left:720px; top:422px; width:60px;"></div>
+  <div class="line-v" style="left:780px; top:350px; height:72px;"></div>
 
 </div>
 
