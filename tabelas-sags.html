@@ -37,75 +37,55 @@ body {
 /* SLOT */
 .slot {
     position: absolute;
-    width: 260px;
-    height: 120px;
+    width: 310px;
+    height: 80px;
     border: 2px solid #6fd6ff;
     box-sizing: border-box;
+    box-shadow:
+        0 0 6px #6fd6ff,
+        0 0 12px #6fd6ff;
 }
 
 /* LINHAS */
-.linha-h {
+.linha {
     position: absolute;
     height: 2px;
     background: #6fd6ff;
 }
 
-.linha-v {
-    position: absolute;
-    width: 2px;
-    background: #6fd6ff;
-}
-
 /* ===== ESQUERDA ===== */
-#s1 { top: 180px; left: 140px; }
-#s2 { top: 235px; left: 140px; }
+#s1 { top: 170px; left: 140px; }
+#s2 { top: 280px; left: 140px; }
 
-#s3 { top: 330px; left: 140px; }
-#s4 { top: 385px; left: 140px; }
+#s3 { top: 390px; left: 140px; }
+#s4 { top: 500px; left: 140px; }
 
-#s5 { top: 480px; left: 140px; }
-#s6 { top: 535px; left: 140px; }
+#s5 { top: 610px; left: 140px; }
+#s6 { top: 720px; left: 140px; }
 
-#s7 { top: 630px; left: 140px; }
-#s8 { top: 685px; left: 140px; }
+#s7 { top: 830px; left: 140px; }
+#s8 { top: 940px; left: 140px; }
 
 /* ===== SEMI FINAL ===== */
-#q1 { top: 208px; left: 440px; }
-#q2 { top: 358px; left: 440px; }
-#q3 { top: 528px; left: 440px; }
-#q4 { top: 678px; left: 440px; }
+#q1 { top: 225px; left: 540px; }
+#q2 { top: 445px; left: 540px; }
+#q3 { top: 667px; left: 540px; }
+#q4 { top: 887px; left: 540px; }
 
 /* ===== FINAL ===== */
-#final1 { top: 433px; left: 820px; }
-#final2 { top: 488px; left: 820px; }
+/* ⬇️ AJUSTE FINAL +4px */
+#final1 { top: 504px; left: 980px; }
+#final2 { top: 589px; left: 980px; }
 
-/* ===== CAMPEÃO ===== */
-#champion {
-    top: 460px;
-    left: 1120px;
-}
+/* ===== LINHAS DAS SEMI FINAL ===== */
+#line-q1 { top: 265px; left: 230px; width: 310px; }
+#line-q2 { top: 485px; left: 230px; width: 310px; }
+#line-q3 { top: 707px; left: 230px; width: 310px; }
+#line-q4 { top: 927px; left: 230px; width: 310px; }
 
-/* ===== LINHAS EXISTENTES ===== */
-.lh1 { top: 202px; left: 400px; width: 40px; }
-.lh2 { top: 352px; left: 400px; width: 40px; }
-.lh3 { top: 522px; left: 400px; width: 40px; }
-.lh4 { top: 672px; left: 400px; width: 40px; }
-
-.lhf1 { top: 465px; left: 780px; width: 40px; }
-
-.lv1 { top: 202px; left: 400px; height: 88px; }
-.lv2 { top: 352px; left: 400px; height: 88px; }
-.lv3 { top: 522px; left: 400px; height: 88px; }
-.lv4 { top: 672px; left: 400px; height: 88px; }
-
-.lvf { top: 465px; left: 780px; height: 88px; }
-
-/* ===== LINHA CAMPEÃO ===== */
-.lh-champion {
-    top: 520px;
-    left: 1080px;
-    width: 40px;
-}
+/* ===== LINHAS DA FINAL ===== */
+#line-final1 { top: 540px; left: 850px; width: 130px; }
+#line-final2 { top: 625px; left: 850px; width: 130px; }
 
 </style>
 </head>
@@ -134,25 +114,13 @@ body {
 <div class="slot" id="final1"></div>
 <div class="slot" id="final2"></div>
 
-<!-- CAMPEÃO -->
-<div class="slot" id="champion"></div>
-
 <!-- LINHAS -->
-<div class="linha-h lh1"></div>
-<div class="linha-h lh2"></div>
-<div class="linha-h lh3"></div>
-<div class="linha-h lh4"></div>
-
-<div class="linha-v lv1"></div>
-<div class="linha-v lv2"></div>
-<div class="linha-v lv3"></div>
-<div class="linha-v lv4"></div>
-
-<div class="linha-h lhf1"></div>
-<div class="linha-v lvf"></div>
-
-<!-- LINHA DO CAMPEÃO -->
-<div class="linha-h lh-champion"></div>
+<div class="linha" id="line-q1"></div>
+<div class="linha" id="line-q2"></div>
+<div class="linha" id="line-q3"></div>
+<div class="linha" id="line-q4"></div>
+<div class="linha" id="line-final1"></div>
+<div class="linha" id="line-final2"></div>
 
 </body>
 </html>
