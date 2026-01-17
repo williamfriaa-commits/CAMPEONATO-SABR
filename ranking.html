@@ -5,82 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ranking de Clans</title>
 <style>
-body {
+body{
   margin:0;
   font-family: Arial, sans-serif;
-  background:#111 url('fundo-ranking.jpg') center/cover no-repeat;
+  background:#111 url("seu-fundo.jpg") center/cover no-repeat;
   color:#fff;
 }
 
-h1 {
+h1{
   text-align:center;
   margin:20px 0;
-  font-size:32px;
-  text-shadow: 0 0 10px #ff073a, 0 0 20px #ff073a;
+  font-size:28px;
+  text-shadow: 2px 2px 5px #000;
 }
 
-table {
+.table-container{
   width:90%;
-  max-width:1400px;
-  margin: 0 auto 50px;
-  border-collapse: collapse;
-  box-shadow: 0 0 20px #ff073a inset;
+  max-width:1200px;
+  margin:20px auto;
+  overflow-x:auto;
 }
 
-th, td {
-  padding:10px 8px;
+table{
+  width:100%;
+  border-collapse:collapse;
+  background: rgba(20,20,20,0.9);
+  box-shadow: 0 0 15px #ff073a, 0 0 30px #ff073a inset;
+}
+
+th, td{
+  padding:12px 8px;
   text-align:center;
-  border-bottom: 1px solid #ff073a;
+  border: 1px solid #FFD700;
 }
 
-th {
-  background: #ff073a;
-  color:#fff;
+th{
+  background:#222;
+  color:#FFD700;
   font-size:16px;
-  text-transform: uppercase;
-  text-shadow: 0 0 5px #fff;
 }
 
-tr:nth-child(even){
-  background: rgba(255,7,58,0.1);
+td img{
+  width:30px;
+  height:30px;
+  object-fit:cover;
+  border-radius:4px;
 }
 
-tr:hover {
-  background: rgba(255,7,58,0.2);
-}
-
-.clan-name {
-  font-weight:bold;
-  text-shadow: 0 0 5px #ff073a;
+td.clan-name{
   display:flex;
   align-items:center;
   gap:8px;
-  justify-content:center;
-}
-
-.clan-name img {
-  width:24px;
-  height:24px;
-  object-fit:cover;
-  border-radius:50%;
-  border:1px solid #fff;
-}
-
-.vitoria { font-weight:bold; color:#00ffcc; } /* Facilita editar o número */
-
-@media(max-width:768px){
-  table, th, td {
-    font-size:12px;
-    padding:6px 4px;
-  }
-  .clan-name img { width:20px; height:20px; }
+  font-weight:bold;
 }
 </style>
 </head>
 <body>
 
-<h1>🏆 Ranking de Clans</h1>
+<h1>RANKING DE CLANS</h1>
 
+<div class="table-container">
 <table>
   <thead>
     <tr>
@@ -95,56 +79,175 @@ tr:hover {
   <tbody>
     <tr>
       <td>1</td>
-      <td class="clan-name"><img src="bandeiras/reaction.png"> REACTION</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
+      <td class="clan-name"><img src="flags/gts.png" alt="GTS">.:GTS::.</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <td>2</td>
-      <td class="clan-name"><img src="bandeiras/hyperx.png"> HYPERX-</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
+      <td class="clan-name"><img src="flags/vision.png" alt="VISION">VISION</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <td>3</td>
-      <td class="clan-name"><img src="bandeiras/avoxy.png"> AVOXY</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
+      <td class="clan-name"><img src="flags/playcore.png" alt="PLAY CORE">PLAY CORE</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
-    <!-- Continue com os outros clans -->
     <tr>
       <td>4</td>
-      <td class="clan-name"><img src="bandeiras/homelles.png"> HOMELLES</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
+      <td class="clan-name"><img src="flags/varzea.png" alt="VARZEA">VARZEA</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <td>5</td>
-      <td class="clan-name"><img src="bandeiras/gts.png"> .:GTS::.</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
+      <td class="clan-name"><img src="flags/classic.png" alt="CLASSIC">CLASSIC</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
     <tr>
       <td>6</td>
-      <td class="clan-name"><img src="bandeiras/vision.png"> VISION</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
-      <td class="vitoria">0</td>
+      <td class="clan-name"><img src="flags/yinyang.png" alt="YINYANG">YINYANG</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
     </tr>
-    <!-- Continue preenchendo os outros clans -->
+    <tr>
+      <td>7</td>
+      <td class="clan-name"><img src="flags/celtics.png" alt="CELTICS">CELTICS</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td class="clan-name"><img src="flags/theendgaming.png" alt="THEENDGAAMING">THEENDGAAMING</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td class="clan-name"><img src="flags/undecide.png" alt="UNDECIDE">UNDECIDE</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td class="clan-name"><img src="flags/kings.png" alt="KINGS">KINGS</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td class="clan-name"><img src="flags/since.png" alt="SINCE">SINCE</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td class="clan-name"><img src="flags/funny.png" alt="FUNNY">FUNNY</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td class="clan-name"><img src="flags/unshakable.png" alt="UNSHAKABLE~">UNSHAKABLE~</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td class="clan-name"><img src="flags/betano.png" alt="BETANO">BETANO</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td class="clan-name"><img src="flags/onjacktalbeck.png" alt="ONJACKTALBECK">ONJACKTALBECK</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td class="clan-name"><img src="flags/bandnewspanda.png" alt="BANDNEWSPANDA">BANDNEWSPANDA</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td class="clan-name"><img src="flags/nulborn.png" alt="NULBORN">NULBORN</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td class="clan-name"><img src="flags/reaction.png" alt="REACTION">REACTION</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td class="clan-name"><img src="flags/hyperx.png" alt="HYPERX-">HYPERX-</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td class="clan-name"><img src="flags/avoxy.png" alt="AVOXY">AVOXY</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td class="clan-name"><img src="flags/homelles.png" alt="HOMELLES">HOMELLES</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
   </tbody>
 </table>
+</div>
 
 </body>
 </html>
