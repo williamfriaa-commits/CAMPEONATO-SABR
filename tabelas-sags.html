@@ -44,6 +44,17 @@ body {
     box-shadow:
         0 0 6px #6fd6ff,
         0 0 12px #6fd6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3); /* opcional, só pra destacar a imagem */
+}
+
+/* IMAGEM DENTRO DO SLOT */
+.slot img {
+    max-width: 70%; /* ajusta o tamanho da imagem dentro do slot */
+    max-height: 70%;
+    object-fit: contain;
 }
 
 /* LINHAS */
@@ -56,13 +67,10 @@ body {
 /* ===== ESQUERDA ===== */
 #s1 { top: 170px; left: 140px; }
 #s2 { top: 280px; left: 140px; }
-
 #s3 { top: 390px; left: 140px; }
 #s4 { top: 500px; left: 140px; }
-
 #s5 { top: 610px; left: 140px; }
 #s6 { top: 720px; left: 140px; }
-
 #s7 { top: 830px; left: 140px; }
 #s8 { top: 940px; left: 140px; }
 
@@ -73,7 +81,6 @@ body {
 #q4 { top: 887px; left: 540px; }
 
 /* ===== FINAL ===== */
-/* ⬇️ AJUSTE FINAL +4px */
 #final1 { top: 504px; left: 980px; }
 #final2 { top: 589px; left: 980px; }
 
@@ -95,24 +102,24 @@ body {
 <div class="titulo">SAGS ALL MD3</div>
 
 <!-- ESQUERDA -->
-<div class="slot" id="s1"></div>
-<div class="slot" id="s2"></div>
-<div class="slot" id="s3"></div>
-<div class="slot" id="s4"></div>
-<div class="slot" id="s5"></div>
-<div class="slot" id="s6"></div>
-<div class="slot" id="s7"></div>
-<div class="slot" id="s8"></div>
+<div class="slot" id="s1"><img src="img/time1.png" alt="Time 1"></div>
+<div class="slot" id="s2"><img src="img/time2.png" alt="Time 2"></div>
+<div class="slot" id="s3"><img src="img/time3.png" alt="Time 3"></div>
+<div class="slot" id="s4"><img src="img/time4.png" alt="Time 4"></div>
+<div class="slot" id="s5"><img src="img/time5.png" alt="Time 5"></div>
+<div class="slot" id="s6"><img src="img/time6.png" alt="Time 6"></div>
+<div class="slot" id="s7"><img src="img/time7.png" alt="Time 7"></div>
+<div class="slot" id="s8"><img src="img/time8.png" alt="Time 8"></div>
 
 <!-- SEMI FINAL -->
-<div class="slot" id="q1"></div>
-<div class="slot" id="q2"></div>
-<div class="slot" id="q3"></div>
-<div class="slot" id="q4"></div>
+<div class="slot" id="q1"><img src="img/q1.png" alt="Semi 1"></div>
+<div class="slot" id="q2"><img src="img/q2.png" alt="Semi 2"></div>
+<div class="slot" id="q3"><img src="img/q3.png" alt="Semi 3"></div>
+<div class="slot" id="q4"><img src="img/q4.png" alt="Semi 4"></div>
 
 <!-- FINAL -->
-<div class="slot" id="final1"></div>
-<div class="slot" id="final2"></div>
+<div class="slot" id="final1"><img src="img/final1.png" alt="Final 1"></div>
+<div class="slot" id="final2"><img src="img/final2.png" alt="Final 2"></div>
 
 <!-- LINHAS -->
 <div class="linha" id="line-q1"></div>
