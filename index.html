@@ -9,39 +9,14 @@
 
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  color:#fff;
-  background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;
-}
-@media(max-width:768px){
-  body{background-image:url("fundo-mobile-1080x1920.png")}
-}
-.overlay{
-  min-height:100vh;
-  background:rgba(0,0,0,.65);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+body{margin:0;font-family:Arial,sans-serif;color:#fff;background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;}
+@media(max-width:768px){body{background-image:url("fundo-mobile-1080x1920.png")}}
+.overlay{min-height:100vh;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;}
 .content{text-align:center}
 .logo{max-width:260px;width:80%;margin-bottom:20px}
 h1{font-size:38px;margin:10px 0}
 p{opacity:.9}
-.btn{
-  display:block;
-  width:320px;
-  max-width:100%;
-  padding:18px;
-  margin:12px auto;
-  border:none;
-  border-radius:12px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  color:#fff;
-}
+.btn{display:block;width:320px;max-width:100%;padding:18px;margin:12px auto;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;color:#fff;}
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
 .btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
 .btn-jornal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
@@ -50,56 +25,12 @@ p{opacity:.9}
 .btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
 .btn-vetos{background:linear-gradient(135deg,#facc15,#eab308)}
 .btn-voltar{background:#ef4444}
-.tela{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.9);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-.box{
-  background:#111;
-  padding:25px;
-  border-radius:15px;
-  width:100%;
-  max-width:420px;
-  text-align:center;
-}
-input{
-  width:100%;
-  padding:12px;
-  border-radius:8px;
-  border:none;
-  margin-bottom:10px;
-}
+.tela{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999;}
+.box{background:#111;padding:25px;border-radius:15px;width:100%;max-width:420px;text-align:center;}
+input{width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px;}
 button:disabled{opacity:.5}
-
-/* ANIMAÇÃO MENSAGEM FINAL */
-#mensagemFinal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,0.7);
-  z-index:1000;
-}
-#mensagemFinal .boxMensagem{
-  background:#222;
-  padding:25px;
-  border-radius:15px;
-  max-width:400px;
-  text-align:center;
-  color:#fff;
-  font-size:18px;
-  animation:fadeIn 0.5s ease forwards;
-}
-@keyframes fadeIn{
-  from{opacity:0; transform:scale(0.8);}
-  to{opacity:1; transform:scale(1);}
-}
+#mensagemConfirmacao{display:none;background:#16a34a;color:#fff;padding:15px;border-radius:10px;margin-top:10px;animation:fadeIn 1s;}
+@keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
 </style>
 
 <!-- Firebase SDK -->
@@ -115,12 +46,10 @@ button:disabled{opacity:.5}
     <img src="logo.png" class="logo">
     <h1>EVENTOS SABR</h1>
     <p>GAMER SIGNAL Brasil</p>
-
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
     <a href="tabela.html" class="btn btn-tabela">📊 VER TABELA</a>
     <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
     <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">🎮 Vetos de Mapas</button>
-
     <footer style="margin-top:30px;font-size:14px;opacity:.8">© 2026 • Eventos SABR</footer>
   </div>
 </div>
@@ -159,43 +88,37 @@ button:disabled{opacity:.5}
     <h1>TORNEIO SAGS</h1>
     <input id="nickTorneio" placeholder="Digite seu nick">
     <input id="clanTorneio" placeholder="Nome do seu Clan">
+    <button class="btn btn-torneio" id="btnCadastrar" onclick="cadastrarTorneio()">📝 CADASTRAR</button>
 
-    <p><strong>PIX:</strong></p>
-    <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
-    <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
-    <img src="qrcode50.png" width="150">
-
-    <p id="tempoPagar">⏱ 02:00</p>
-    <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ CONTINUAR</button>
+    <div id="pixDiv" style="display:none;">
+      <p><strong>PIX:</strong></p>
+      <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
+      <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
+      <img src="qrcode-pix.png" width="150">
+      <p id="tempoPagar">⏱ 01:00</p>
+      <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ ENVIAR COMPROVANTE</button>
+    </div>
 
     <div id="comprovanteDiv" style="display:none; margin-top:15px;">
       <button class="btn btn-torneio" onclick="abrirZap()">📩 ENVIAR COMPROVANTE</button>
+      <p>⏱ Segundos restantes...</p>
     </div>
 
     <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
-
-    <p id="resultadoTorneio"></p>
+    <p id="mensagemConfirmacao"></p>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
-  </div>
-</div>
-
-<!-- MENSAGEM FINAL ANIMADA -->
-<div id="mensagemFinal">
-  <div class="boxMensagem" id="boxMensagemFinal">
-    ✅ Cadastrado com sucesso!<br>
-    ⚠️ A vaga só será validada com o envio do comprovante para que a vaga seja confirmada.
   </div>
 </div>
 
 <script>
 // Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCJShIcpEuOxk5VbCsX6yI23pyNRNoKsJw",
-  authDomain: "torneio-sags.firebaseapp.com",
-  projectId: "torneio-sags",
-  storageBucket: "torneio-sags.firebasestorage.app",
-  messagingSenderId: "892896599237",
-  appId: "1:892896599237:web:d4638d2aedda0c5e2324ac"
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SUA_SENDER_ID",
+  appId: "SUA_APP_ID"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -231,10 +154,12 @@ function girar(){
 }
 
 // TORNEIO
-function abrirTorneio(){
-  fecharTudo();
-  document.getElementById("telaTorneio").style.display="flex";
-  startTimer(60); // 1 minuto
+function cadastrarTorneio(){
+  const nick = document.getElementById("nickTorneio").value;
+  const clan = document.getElementById("clanTorneio").value;
+  if(!nick || !clan){ alert("Preencha os campos!"); return; }
+  document.getElementById("pixDiv").style.display="block";
+  startTimer(60);
 }
 
 function copiarPix(){
@@ -269,7 +194,7 @@ function mostrarComprovante(){
 function abrirZap(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
-  const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:%20${encodeURIComponent(nick)}%20Clan:%20${encodeURIComponent(clan)}`;
+  const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
   window.open(zapLink, "_blank");
   document.getElementById("btnFinalizarTorneio").disabled = false;
 }
@@ -277,20 +202,15 @@ function abrirZap(){
 function finalizarTorneio(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
-  if(!nick || !clan){ alert("Preencha os campos antes de finalizar!"); return; }
-
+  if(!nick || !clan){ alert("Preencha os campos!"); return; }
   db.collection("inscricoes").add({
     nick: nick,
     clan: clan,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(()=>{
-    const mensagem = document.getElementById("mensagemFinal");
-    mensagem.style.display="flex";
-
-    // Fecha a mensagem após 5 segundos
-    setTimeout(()=>{
-      mensagem.style.display="none";
-    },5000);
+    const msg = document.getElementById("mensagemConfirmacao");
+    msg.innerHTML = `✅ Cadastrado com sucesso!<br>O vaga só será validada com envio do comprovante para o WhatsApp.`;
+    msg.style.display="block";
   }).catch(err=>{
     alert("Erro ao enviar inscrição: "+err);
   });
@@ -299,4 +219,3 @@ function finalizarTorneio(){
 
 </body>
 </html>
-
