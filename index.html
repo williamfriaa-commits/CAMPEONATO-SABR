@@ -9,14 +9,43 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;color:#fff;background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;}
-@media(max-width:768px){body{background-image:url("fundo-mobile-1080x1920.png")}}
-.overlay{min-height:100vh;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:#fff;
+  background:#000 url("fundo-pc-1920x1080.png") center/cover no-repeat;
+}
+@media(max-width:768px){
+  body{background-image:url("fundo-mobile-1080x1920.png")}
+}
+.overlay{
+  min-height:100vh;
+  background:rgba(0,0,0,.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 .content{text-align:center}
-.logo{max-width:260px;width:80%;margin-bottom:20px}
+.logo{
+  max-width:260px;
+  width:80%;
+  margin-bottom:20px
+}
 h1{font-size:38px;margin:10px 0}
 p{opacity:.9}
-.btn{display:block;width:320px;max-width:100%;padding:18px;margin:12px auto;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer;color:#fff;}
+.btn{
+  display:block;
+  width:320px;
+  max-width:100%;
+  padding:18px;
+  margin:12px auto;
+  border:none;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  color:#fff;
+}
 .btn-inscricao{background:linear-gradient(135deg,#22c55e,#16a34a)}
 .btn-tabela{background:linear-gradient(135deg,#3b82f6,#2563eb)}
 .btn-jornal{background:linear-gradient(135deg,#14b8a6,#0f766e)}
@@ -25,12 +54,45 @@ p{opacity:.9}
 .btn-camp{background:linear-gradient(135deg,#f59e0b,#d97706)}
 .btn-vetos{background:linear-gradient(135deg,#facc15,#eab308)}
 .btn-voltar{background:#ef4444}
-.tela{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:999;}
-.box{background:#111;padding:25px;border-radius:15px;width:100%;max-width:420px;text-align:center;}
-input{width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px;}
+.tela{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.box{
+  background:#111;
+  padding:25px;
+  border-radius:15px;
+  width:100%;
+  max-width:420px;
+  text-align:center;
+}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  margin-bottom:10px;
+}
 button:disabled{opacity:.5}
-#mensagemConfirmacao{display:none;background:#16a34a;color:#fff;padding:15px;border-radius:10px;margin-top:10px;animation:fadeIn 1s;}
-@keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+#mensagemConfirmacao{
+  display:none;
+  margin-top:15px;
+  padding:15px;
+  background:#22c55e;
+  color:#fff;
+  border-radius:12px;
+  font-weight:bold;
+  animation:fadeIn 1s ease;
+}
+@keyframes fadeIn{
+  from {opacity:0;}
+  to {opacity:1;}
+}
 </style>
 
 <!-- Firebase SDK -->
@@ -46,10 +108,12 @@ button:disabled{opacity:.5}
     <img src="logo.png" class="logo">
     <h1>EVENTOS SABR</h1>
     <p>GAMER SIGNAL Brasil</p>
+
     <button class="btn btn-inscricao" onclick="abrirEscolha()">📝 INSCREVER-SE</button>
     <a href="tabela.html" class="btn btn-tabela">📊 VER TABELA</a>
     <a href="jornal.html" class="btn btn-jornal">📰 JORNAL SABR</a>
     <button class="btn btn-vetos" onclick="window.location.href='vetos.html'">🎮 Vetos de Mapas</button>
+
     <footer style="margin-top:30px;font-size:14px;opacity:.8">© 2026 • Eventos SABR</footer>
   </div>
 </div>
@@ -88,24 +152,23 @@ button:disabled{opacity:.5}
     <h1>TORNEIO SAGS</h1>
     <input id="nickTorneio" placeholder="Digite seu nick">
     <input id="clanTorneio" placeholder="Nome do seu Clan">
-    <button class="btn btn-torneio" id="btnCadastrar" onclick="cadastrarTorneio()">📝 CADASTRAR</button>
 
-    <div id="pixDiv" style="display:none;">
+    <button class="btn btn-torneio" id="btnCadastrar" onclick="mostrarPix()">📝 CADASTRAR</button>
+
+    <div id="pixDiv" style="display:none; margin-top:10px;">
       <p><strong>PIX:</strong></p>
       <p id="pixKey">0601c368-3f42-4cef-82b5-5d64bbcb49ff</p>
       <button class="btn btn-torneio" onclick="copiarPix()">📋 COPIAR PIX</button>
       <img src="qrcode-pix.png" width="150">
       <p id="tempoPagar">⏱ 01:00</p>
-      <button class="btn btn-torneio" id="btnContinuar" onclick="mostrarComprovante()" style="display:none;">➡ ENVIAR COMPROVANTE</button>
     </div>
 
-    <div id="comprovanteDiv" style="display:none; margin-top:15px;">
-      <button class="btn btn-torneio" onclick="abrirZap()">📩 ENVIAR COMPROVANTE</button>
-      <p>⏱ Segundos restantes...</p>
-    </div>
+    <button class="btn btn-torneio" id="btnComprovante" onclick="abrirZap()" style="display:none; margin-top:10px;">📩 ENVIAR COMPROVANTE</button>
+    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" style="display:none;">✅ FINALIZAR INSCRIÇÃO</button>
 
-    <button class="btn btn-torneio" id="btnFinalizarTorneio" onclick="finalizarTorneio()" disabled>✅ FINALIZAR INSCRIÇÃO</button>
-    <p id="mensagemConfirmacao"></p>
+    <div id="mensagemConfirmacao">✅ Cadastrado com sucesso!<br>O vaga só será validada com envio do comprovante para o WhatsApp.</div>
+
+    <p id="resultadoTorneio"></p>
     <button class="btn btn-voltar" onclick="fecharTudo()">❌ VOLTAR</button>
   </div>
 </div>
@@ -127,39 +190,14 @@ const db = firebase.firestore();
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
-// MIX
-let jaGirou=false;
-function liberar(){
-  const nomeInput = document.getElementById("nome");
-  const btnGirar = document.getElementById("btnGirar");
-  if(!nomeInput.value){ alert("Digite seu nick"); return; }
-  btnGirar.disabled=false;
-}
-function girar(){
-  if(jaGirou) return;
-  jaGirou=true;
-  const btnGirar = document.getElementById("btnGirar");
-  const roleta = document.getElementById("roleta");
-  const resultado = document.getElementById("resultado");
-  btnGirar.disabled=true;
-  let tempo=0;
-  let anim=setInterval(()=>{
-    roleta.innerText=Math.floor(Math.random()*8)+1;
-    tempo+=100;
-    if(tempo>=2000){
-      clearInterval(anim);
-      resultado.innerHTML="✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
-    }
-  },100);
-}
-
 // TORNEIO
-function cadastrarTorneio(){
+function mostrarPix(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
   if(!nick || !clan){ alert("Preencha os campos!"); return; }
+
   document.getElementById("pixDiv").style.display="block";
-  startTimer(60);
+  startTimer(60); // 1 minuto
 }
 
 function copiarPix(){
@@ -172,23 +210,18 @@ let timerInterval;
 function startTimer(segundos){
   let tempo = segundos;
   const tempoPagar = document.getElementById("tempoPagar");
-  const btnContinuar = document.getElementById("btnContinuar");
-  tempoPagar.style.display = "block";
+  const btnComprovante = document.getElementById("btnComprovante");
   timerInterval = setInterval(()=>{
     let min = String(Math.floor(tempo/60)).padStart(2,'0');
     let sec = String(tempo%60).padStart(2,'0');
     tempoPagar.innerText = `⏱ ${min}:${sec}`;
     if(tempo<=0){
       clearInterval(timerInterval);
-      btnContinuar.style.display="block";
+      btnComprovante.style.display="block";
       tempoPagar.style.display="none";
     }
     tempo--;
   },1000);
-}
-
-function mostrarComprovante(){
-  document.getElementById("comprovanteDiv").style.display="block";
 }
 
 function abrirZap(){
@@ -196,21 +229,21 @@ function abrirZap(){
   const clan = document.getElementById("clanTorneio").value;
   const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
   window.open(zapLink, "_blank");
-  document.getElementById("btnFinalizarTorneio").disabled = false;
+  // Mostra botão finalizar após 10 segundos
+  setTimeout(()=>{ document.getElementById("btnFinalizarTorneio").style.display="block"; }, 10000);
 }
 
 function finalizarTorneio(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
-  if(!nick || !clan){ alert("Preencha os campos!"); return; }
+  if(!nick || !clan){ alert("Preencha os campos antes de finalizar!"); return; }
+
   db.collection("inscricoes").add({
     nick: nick,
     clan: clan,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(()=>{
-    const msg = document.getElementById("mensagemConfirmacao");
-    msg.innerHTML = `✅ Cadastrado com sucesso!<br>O vaga só será validada com envio do comprovante para o WhatsApp.`;
-    msg.style.display="block";
+    document.getElementById("mensagemConfirmacao").style.display="block";
   }).catch(err=>{
     alert("Erro ao enviar inscrição: "+err);
   });
