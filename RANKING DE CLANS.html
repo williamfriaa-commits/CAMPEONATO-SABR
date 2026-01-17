@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chaveamento Torneio 16 Times</title>
+<title>Ranking de Clans</title>
 <style>
 body{
   margin:0;
   font-family: Arial, sans-serif;
-  background:#111 url("dd.webp") center/cover no-repeat;
+  background:#111 url("fundo-ranking.jpg") center/cover no-repeat;
   color:#fff;
 }
 
@@ -19,232 +19,268 @@ h1{
   text-shadow: 2px 2px 5px #000;
 }
 
-.chaveamento{
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  padding: 20px;
-  flex-wrap: nowrap;
-  position: relative;
+table{
+  width:90%;
+  max-width:1200px;
+  margin:20px auto;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.7);
+  box-shadow: 0 0 15px #ff073a, 0 0 30px #ff073a inset;
 }
 
-/* Round / Fase */
-.round{
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  position: relative;
+th, td{
+  padding:12px;
+  text-align:center;
+  border:1px solid #FFD700;
 }
 
-/* Título da fase */
-.round-title{
-  text-align: center;
-  font-weight:bold;
-  font-size:18px;
-  margin-bottom:10px;
-  color:#FFD700;
-  text-shadow: 1px 1px 3px #000;
+th{
+  background:#222;
+  font-size:16px;
+  text-shadow: 0 0 5px #FFD700;
 }
 
-/* Confronto */
-.match{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  background: rgba(20,20,20,0.9);
-  border-radius:8px;
-  padding:8px;
-  position: relative;
-  min-height:60px;
-  border-left:3px solid #FFD700;
+tr:hover{
+  background: rgba(255,0,0,0.2);
 }
 
-.match .emblema{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  overflow:hidden;
-  flex-shrink:0;
-}
-
-.match .emblema img{
-  width:100%;
-  height:100%;
+.clan-img{
+  width:32px;
+  height:32px;
   object-fit:cover;
+  border-radius:50%;
+  vertical-align:middle;
+  margin-right:8px;
 }
 
-.match .clan{
+button{
+  display:block;
+  margin:20px auto;
+  padding:12px 20px;
+  font-size:16px;
   font-weight:bold;
-  font-size:14px;
+  background:#ff073a;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow: 0 0 10px #ff073a, 0 0 20px #ff073a inset;
+  transition: 0.3s;
 }
 
-.match span{
-  margin:0 4px;
-  font-weight:bold;
-  color:#FFD700;
-}
-
-.match .mapa{
-  font-size:12px;
-  margin-left:auto;
-  color:#ccc;
-}
-
-/* Linhas conectando os rounds */
-.round:not(:last-child) .match::after{
-  content:'';
-  position:absolute;
-  width:40px;
-  height:2px;
-  background:#FFD700;
-  right:-40px;
-  top:50%;
-}
-
-.round:nth-child(2) .match:nth-child(odd)::after,
-.round:nth-child(3) .match:nth-child(odd)::after{
-  top:25%;
-}
-
-.round:nth-child(2) .match:nth-child(even)::after,
-.round:nth-child(3) .match:nth-child(even)::after{
-  top:75%;
-}
-
-/* Conexão vertical das linhas (tarja) */
-.round:not(:last-child) .match:nth-child(odd)::before,
-.round:not(:last-child) .match:nth-child(even)::before{
-  content:'';
-  position:absolute;
-  width:2px;
-  height:40px;
-  background:#FFD700;
-  right:-40px;
-}
-
-.round:not(:last-child) .match:nth-child(odd)::before{
-  top:50%;
-}
-
-.round:not(:last-child) .match:nth-child(even)::before{
-  top:-50%;
-}
-
-/* Responsivo */
-@media(max-width:1200px){
-  .chaveamento{
-    flex-direction: column;
-    align-items:center;
-    gap:30px;
-  }
-  .round{
-    gap:20px;
-  }
+button:hover{
+  filter: brightness(1.3);
 }
 </style>
 </head>
 <body>
 
-<h1>CHAVEAMENTO TORNEIO 16 TIMES</h1>
+<h1>RANKING DE CLANS</h1>
 
-<div class="chaveamento">
-  <!-- Oitavas  -->
-  <div class="round">
-    <div class="round-title">Oitavas A</div>
-    <div class="match">
-      <div class="emblema"><img src="hyperX.png"></div>
-      <div class="clan">HYPERX-</div>
-      <span>vs</span>
-      <div class="emblema"><img src="reaction.jpeg"></div>
-      <div class="clan">REACTION-</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-    <div class="match">
-      <div class="emblema"><img src="avox.png"></div>
-      <div class="clan">AVOXY</div>
-      <span>vs</span>
-      <div class="emblema"><img src="HOMELLES.png"></div>
-      <div class="clan">HOMELLES</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-    <div class="match">
-      <div class="emblema"><img src="yang.png"></div>
-      <div class="clan">YINYANG</div>
-      <span>vs</span>
-      <div class="emblema"><img src="celtic.png"></div>
-      <div class="clan">CELTICS</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-    <div class="match">
-      <div class="emblema"><img src="theend.jpeg"></div>
-      <div class="clan">THEENDGAAMING</div>
-      <span>vs</span>
-      <div class="emblema"><img src="undecided.png"></div>
-      <div class="clan">UNDECIDE</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-  </div>
+<table id="rankingTable">
+  <thead>
+    <tr>
+      <th>POSIÇÃO</th>
+      <th>CLAN</th>
+      <th>VITÓRIAS</th>
+      <th>V.MIX</th>
+      <th>V.TORNEIO</th>
+      <th>V.CAMPEONATO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Adicione ou edite vitórias facilmente -->
+    <tr>
+      <td>1</td>
+      <td><img src="GTS (1).png" class="clan-img">.::GTS::.</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><img src="VISION.png" class="clan-img">VISION</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><img src="PLAYCORE.png" class="clan-img">PLAY CORE</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><img src="VARZEA.png" class="clan-img">VARZEA</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><img src="ClassiC-.png" class="clan-img">CLASSIC</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><img src="YANG.png" class="clan-img">YINYANG</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><img src="CELTIC.png" class="clan-img">CELTICS</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td><img src="THEEND.jpeg" class="clan-img">THEENDGAAMING</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td><img src="UNDECIDED.png" class="clan-img">UNDECIDE</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><img src="KING.png" class="clan-img">KINGS</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td><img src="SINCE.png" class="clan-img">SINCE</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td><img src="FUNNY.png" class="clan-img">FUNNY</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td><img src="UNSHARKBLE~.png" class="clan-img">UNSHAKABLE~</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td><img src="BETANO.png" class="clan-img">BETANO</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td><img src="ONJACKTALBECK.png" class="clan-img">ONJACKTALBECK</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td><img src="BANDNEWS.png" class="clan-img">BANDNEWSPANDA</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td><img src="NULBORN.png" class="clan-img">NULBORN</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td><img src="REACTION.png" class="clan-img">REACTION</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td><img src="HYPERX.png" class="clan-img">HYPERX-</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td><img src="AVOX.png" class="clan-img">AVOXY</td>
+      <td class="total">0</td>
+      <td class="mix">0</td>
+      <td class="torneio">0</td>
+      <td class="camp">0</td>
+    </tr>
+  </tbody>
+</table>
 
-  <!-- Oitavas  -->
-  <div class="round">
-    <div class="round-title">Oitavas B</div>
-    <div class="match">
-      <div class="emblema"><img src="GTS (1).png"></div>
-      <div class="clan">.::GTS::.</div>
-      <span>vs</span>
-      <div class="emblema"><img src="playcore.png"></div>
-      <div class="clan">PLAYCORE</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-    <div class="match">
-      <div class="emblema"><img src="varzea.png"></div>
-      <div class="clan">VÁRZEA</div>
-      <span>vs</span>
-      <div class="emblema"><img src="ClassiC-.png"></div>
-      <div class="clan">CLASSIC</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-    <div class="match">
-      <div class="emblema"><img src="king.png"></div>
-      <div class="clan">KINGS-</div>
-      <span>vs</span>
-      <div class="emblema"><img src="since.png"></div>
-      <div class="clan">SINCE</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-    <div class="match">
-      <div class="emblema"><img src="unsharkble~.png"></div>
-      <div class="clan">UNSHAKABLE~</div>
-      <span>vs</span>
-      <div class="emblema"><img src="funny.png"></div>
-      <div class="clan">FUNNY</div>
-      <div class="mapa">CP | DR</div>
-    </div>
-  </div>
+<button onclick="atualizarRanking()">ATUALIZAR RANKING</button>
 
-  <!-- Quartas -->
-  <div class="round">
-    <div class="round-title">Quartas</div>
-    <div class="match">X 1 vs X </div>
-    <div class="match">X  vs X </div>
-    <div class="match">X vs X </div>
-    <div class="match">X vs X</div>
-  </div>
+<script>
+function atualizarRanking(){
+  const table = document.getElementById("rankingTable").getElementsByTagName('tbody')[0];
+  const rows = Array.from(table.rows);
 
-  <!-- Semifinal -->
-  <div class="round">
-    <div class="round-title">Semifinal (MD3)</div>
-    <div class="match">X vs X</div>
-    <div class="match">X vs X</div>
-  </div>
+  // Calcula total de vitórias por linha
+  rows.forEach(row=>{
+    const mix = parseInt(row.querySelector('.mix').innerText) || 0;
+    const torneio = parseInt(row.querySelector('.torneio').innerText) || 0;
+    const camp = parseInt(row.querySelector('.camp').innerText) || 0;
+    const total = mix + torneio + camp;
+    row.querySelector('.total').innerText = total;
+  });
 
-  <!-- Final -->
-  <div class="round">
-    <div class="round-title">Final (MD5)</div>
-    <div class="match">X vsX</div>
-  </div>
+  // Ordena linhas pelo total
+  rows.sort((a,b)=>{
+    return parseInt(b.querySelector('.total').innerText) - parseInt(a.querySelector('.total').innerText);
+  });
 
-</div>
+  // Reatribui ao tbody e atualiza posições
+  rows.forEach((row,index)=>{
+    row.cells[0].innerText = index + 1;
+    table.appendChild(row);
+  });
+}
+</script>
+
 </body>
 </html>
