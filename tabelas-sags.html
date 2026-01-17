@@ -34,7 +34,7 @@ body {
         0 0 18px #7fdcff;
 }
 
-/* SLOT — PADRÃO ANTIGO */
+/* SLOT */
 .slot {
     position: absolute;
     width: 250px;
@@ -59,14 +59,17 @@ body {
 /* ===== ESQUERDA ===== */
 #s1 { top: 180px; left: 80px; }
 #s2 { top: 235px; left: 80px; }
+
 #s3 { top: 330px; left: 80px; }
 #s4 { top: 385px; left: 80px; }
+
 #s5 { top: 480px; left: 80px; }
 #s6 { top: 535px; left: 80px; }
+
 #s7 { top: 630px; left: 80px; }
 #s8 { top: 685px; left: 80px; }
 
-/* ===== SEMI FINAL ===== */
+/* ===== MEIO ESQUERDA ===== */
 #q1 { top: 208px; left: 380px; }
 #q2 { top: 358px; left: 380px; }
 #q3 { top: 508px; left: 380px; }
@@ -76,10 +79,7 @@ body {
 #final1 { top: 433px; left: 700px; }
 #final2 { top: 488px; left: 700px; }
 
-/* ===== CAMPEÃO (NOVO – PADRÃO ANTIGO) ===== */
-#champion { top: 460px; left: 1000px; }
-
-/* ===== LINHAS EXISTENTES ===== */
+/* ===== LINHAS HORIZONTAIS ===== */
 .lh1 { top: 202px; left: 330px; width: 50px; }
 .lh2 { top: 352px; left: 330px; width: 50px; }
 .lh3 { top: 502px; left: 330px; width: 50px; }
@@ -87,19 +87,13 @@ body {
 
 .lhf1 { top: 455px; left: 650px; width: 50px; }
 
+/* ===== LINHAS VERTICAIS ===== */
 .lv1 { top: 202px; left: 330px; height: 88px; }
 .lv2 { top: 352px; left: 330px; height: 88px; }
 .lv3 { top: 502px; left: 330px; height: 88px; }
 .lv4 { top: 652px; left: 330px; height: 88px; }
 
 .lvf { top: 455px; left: 650px; height: 88px; }
-
-/* ===== LINHA DO CAMPEÃO ===== */
-.lh-champion {
-    top: 482px;
-    left: 950px;
-    width: 40px;
-}
 
 </style>
 </head>
@@ -118,7 +112,7 @@ body {
 <div class="slot" id="s7"></div>
 <div class="slot" id="s8"></div>
 
-<!-- SEMI FINAL -->
+<!-- QUARTAS -->
 <div class="slot" id="q1"></div>
 <div class="slot" id="q2"></div>
 <div class="slot" id="q3"></div>
@@ -127,9 +121,6 @@ body {
 <!-- FINAL -->
 <div class="slot" id="final1"></div>
 <div class="slot" id="final2"></div>
-
-<!-- CAMPEÃO -->
-<div class="slot" id="champion"></div>
 
 <!-- LINHAS -->
 <div class="linha-h lh1"></div>
@@ -144,9 +135,6 @@ body {
 
 <div class="linha-h lhf1"></div>
 <div class="linha-v lvf"></div>
-
-<!-- LINHA CAMPEÃO -->
-<div class="linha-h lh-champion"></div>
 
 </body>
 </html>
