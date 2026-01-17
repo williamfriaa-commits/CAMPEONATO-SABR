@@ -141,30 +141,13 @@ button:disabled{opacity:.5}
   </div>
 </div>
 
-<!-- MIX (mantém igual) -->
-<div id="telaMix" class="tela">
-  <div class="box">
-    <h1>MIX SA</h1>
-    <p><strong>Valor: R$ 4,00</strong></p>
-    <input id="nomeMix" placeholder="Digite seu nick">
-    <p><strong>PIX:</strong></p>
-    <p id="pixMix">SUA_CHAVE_PIX_AQUI</p>
-    <img src="qrcode-pix.png" width="150">
-    <button class="btn btn-inscricao" onclick="liberarMix()">JÁ PAGUEI</button>
-    <div class="roleta" id="roleta">?</div>
-    <button class="btn btn-mix" id="btnGirar" onclick="girar()" disabled>🎯 GIRAR ROLETA</button>
-    <p id="resultadoMix"></p>
-    <button class="btn btn-voltar" onclick="fecharTudo()">❌ SAIR</button>
-  </div>
-</div>
-
 <!-- TORNEIO SAGS -->
 <div id="telaTorneio" class="tela">
   <div class="box">
     <h1>TORNEIO SAGS</h1>
     <input id="nickTorneio" placeholder="Digite seu nick">
     <input id="clanTorneio" placeholder="Nome do seu Clan">
-    <button class="btn btn-torneio" id="btnCadastrar" onclick="cadastrarTorneio()">📥 CADASTRAR</button>
+    <button class="btn btn-torneio" id="btnCadastrar" onclick="iniciarTorneio()">📥 CADASTRAR</button>
 
     <div id="pagamentoDiv" style="display:none; margin-top:10px;">
       <p><strong>PIX:</strong></p>
@@ -200,37 +183,15 @@ const db = firebase.firestore();
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
 
-// MIX
-let jaGirou=false;
-function liberarMix(){
-  const nome = document.getElementById("nomeMix").value;
-  if(!nome){ alert("Digite seu nick"); return; }
-  document.getElementById("btnGirar").disabled=false;
-}
-function girar(){
-  if(jaGirou) return;
-  jaGirou=true;
-  const roleta = document.getElementById("roleta");
-  const resultado = document.getElementById("resultadoMix");
-  document.getElementById("btnGirar").disabled=true;
-  let tempo=0;
-  let anim=setInterval(()=>{
-    roleta.innerText=Math.floor(Math.random()*8)+1;
-    tempo+=100;
-    if(tempo>=2000){
-      clearInterval(anim);
-      resultado.innerHTML="✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
-    }
-  },100);
-}
-
-// TORNEIO
-function cadastrarTorneio(){
+// TORNEIO SAGS
+let timer;
+function iniciarTorneio(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
   if(!nick || !clan){ alert("Preencha os campos"); return; }
 
   document.getElementById("pagamentoDiv").style.display="block";
+  document.getElementById("btnCadastrar").disabled = true;
   startTimerTorneio(60);
 }
 
@@ -239,12 +200,10 @@ function copiarPix(){
   alert("PIX copiado!");
 }
 
-let timer;
 function startTimerTorneio(segundos){
   let tempo = segundos;
   const tempoPagar = document.getElementById("tempoPagar");
   const btnComprovante = document.getElementById("btnComprovante");
-  const btnFinalizar = document.getElementById("btnFinalizar");
   tempoPagar.style.display="block";
 
   timer = setInterval(()=>{
@@ -276,14 +235,14 @@ function finalizarTorneio(){
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(()=>{
     const msg = document.getElementById("mensagemSucesso");
-    msg.innerText = `✅ Cadastrado com sucesso! \nSó será confirmado quando chegar o comprovante no WhatsApp.`;
+    msg.innerText = "✅ Cadastrado com sucesso!\nSó será confirmado quando chegar o comprovante no WhatsApp.";
     msg.style.display="block";
   }).catch(err=>{
     alert("Erro ao enviar inscrição: "+err);
   });
 }
 
-// CAMP (apenas abrir tela, pode personalizar)
+// CAMP (apenas alerta por enquanto)
 function abrirCamp(){
   alert("Tela de Campeonato ainda não implementada");
 }
