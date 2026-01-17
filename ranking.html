@@ -43,7 +43,7 @@ table {
   max-width:1200px;
   margin: 0 auto 40px auto;
   border-collapse: collapse;
-  background:#000; /* Fundo preto do layout */
+  background:#000; /* Fundo preto */
   border-radius:10px;
 }
 
@@ -61,7 +61,7 @@ th {
 }
 
 td {
-  background: rgba(0,0,0,0.6);
+  background:#000;
   color:#FFD700;
   font-weight:bold;
   text-shadow: 0 0 5px #FFD700;
@@ -109,7 +109,7 @@ th {
     </tr>
   </thead>
   <tbody>
-    <tr><td>1</td><td>.:GTS::.</td><td><img src="GTS (1).png" alt="GTS"></td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td></tr>
+    <tr><td>1</td><td>.:GTS::.</td><td><img src="GTS.png" alt="GTS"></td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td></tr>
     <tr><td>2</td><td>VISION</td><td><img src="vision.png" alt="VISION"></td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td></tr>
     <tr><td>3</td><td>PLAY CORE</td><td><img src="playcore.png" alt="PLAY CORE"></td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td></tr>
     <tr><td>4</td><td>VÁRZEA</td><td><img src="varzea.png" alt="VARZEA"></td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td></tr>
@@ -134,7 +134,7 @@ th {
 </div>
 
 <script>
-// Função para atualizar ranking considerando várias colunas de vitórias
+// Atualiza ranking pelo total de vitórias
 document.getElementById('updateBtn').addEventListener('click', function() {
     const table = document.getElementById('rankingTable').getElementsByTagName('tbody')[0];
     const rows = Array.from(table.rows);
@@ -142,24 +142,19 @@ document.getElementById('updateBtn').addEventListener('click', function() {
     rows.sort((a, b) => {
         const vitA = parseInt(a.cells[3].innerText || 0);
         const vitB = parseInt(b.cells[3].innerText || 0);
-
         const mixA = parseInt(a.cells[4].innerText || 0);
         const mixB = parseInt(b.cells[4].innerText || 0);
-
         const torneioA = parseInt(a.cells[5].innerText || 0);
         const torneioB = parseInt(b.cells[5].innerText || 0);
-
         const campeonatoA = parseInt(a.cells[6].innerText || 0);
         const campeonatoB = parseInt(b.cells[6].innerText || 0);
 
-        // Ordena pela prioridade: VITÓRIAS, V.MIX, V.TORNEIO, V.CAMPEONATO
         if(vitB !== vitA) return vitB - vitA;
         if(mixB !== mixA) return mixB - mixA;
         if(torneioB !== torneioA) return torneioB - torneioA;
         return campeonatoB - campeonatoA;
     });
 
-    // Atualiza posições
     rows.forEach((row, index) => {
         row.cells[0].innerText = index + 1;
         table.appendChild(row);
