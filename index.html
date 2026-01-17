@@ -29,8 +29,27 @@ p{opacity:.9}
 .box{background:#111;padding:25px;border-radius:15px;width:100%;max-width:420px;text-align:center;}
 input{width:100%;padding:12px;border-radius:8px;border:none;margin-bottom:10px;}
 button:disabled{opacity:.5}
-#pixContainer, #comprovanteDiv, #btnFinalizarTorneio, #mensagemFinal{display:none;margin-top:15px;}
-#tempoPagar, #tempoFinal{font-size:18px;font-weight:bold;margin:10px 0;}
+
+/* Pop-up sucesso */
+#popupSucesso{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+#popupSucesso .box{
+  background:#222;
+  padding:30px;
+  border-radius:15px;
+  animation:popupAnim 0.5s ease-out;
+}
+@keyframes popupAnim{
+  0%{transform:scale(0);}
+  100%{transform:scale(1);}
+}
 </style>
 
 <!-- Firebase SDK -->
@@ -67,23 +86,6 @@ button:disabled{opacity:.5}
   </div>
 </div>
 
-<!-- MIX (mantém igual) -->
-<div id="telaMix" class="tela">
-  <div class="box">
-    <h1>MIX SA</h1>
-    <p><strong>Valor: R$ 4,00</strong></p>
-    <input id="nome" placeholder="Digite seu nick">
-    <p><strong>PIX:</strong></p>
-    <p>SUA_CHAVE_PIX_AQUI</p>
-    <img src="qrcode-pix.png" width="150">
-    <button class="btn btn-inscricao" onclick="liberar()">JÁ PAGUEI</button>
-    <div class="roleta" id="roleta">?</div>
-    <button class="btn btn-mix" id="btnGirar" onclick="girar()" disabled>🎯 GIRAR ROLETA</button>
-    <p id="resultado"></p>
-    <button class="btn btn-voltar" onclick="fecharTudo()">❌ SAIR</button>
-  </div>
-</div>
-
 <!-- TORNEIO SAGS -->
 <div id="telaTorneio" class="tela">
   <div class="box">
@@ -113,6 +115,15 @@ button:disabled{opacity:.5}
   </div>
 </div>
 
+<!-- POPUP SUCESSO -->
+<div id="popupSucesso" class="tela">
+  <div class="box">
+    <h2>✅ Cadastro concluído!</h2>
+    <p>O vaga só será validada após envio do comprovante.</p>
+    <button class="btn btn-torneio" onclick="fecharPopup()">Fechar</button>
+  </div>
+</div>
+
 <script>
 // Firebase
 const firebaseConfig = {
@@ -126,35 +137,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Funções Gerais
+// Funções gerais
 function abrirEscolha(){ document.getElementById("telaEscolha").style.display="flex"; }
 function fecharTudo(){ document.querySelectorAll(".tela").forEach(t=>t.style.display="none"); }
-
-// MIX
-let jaGirou=false;
-function liberar(){
-  const nomeInput = document.getElementById("nome");
-  const btnGirar = document.getElementById("btnGirar");
-  if(!nomeInput.value){ alert("Digite seu nick"); return; }
-  btnGirar.disabled=false;
-}
-function girar(){
-  if(jaGirou) return;
-  jaGirou=true;
-  const btnGirar = document.getElementById("btnGirar");
-  const roleta = document.getElementById("roleta");
-  const resultado = document.getElementById("resultado");
-  btnGirar.disabled=true;
-  let tempo=0;
-  let anim=setInterval(()=>{
-    roleta.innerText=Math.floor(Math.random()*8)+1;
-    tempo+=100;
-    if(tempo>=2000){
-      clearInterval(anim);
-      resultado.innerHTML="✅ Você ficou na <b>SALA "+roleta.innerText+"</b>";
-    }
-  },100);
-}
 
 // TORNEIO
 let timerPagar;
@@ -166,7 +151,10 @@ function mostrarPix(){
   if(!nick || !clan){ alert("Preencha Nick e Clan!"); return; }
 
   document.getElementById("pixContainer").style.display="block";
-  startTimerPagar(60); // 1 minuto
+  document.getElementById("comprovanteDiv").style.display="none";
+  document.getElementById("btnFinalizarTorneio").disabled = true;
+  document.getElementById("mensagemFinal").innerText = "";
+  startTimerPagar(60);
 }
 
 function copiarPix(){
@@ -178,14 +166,17 @@ function copiarPix(){
 function startTimerPagar(segundos){
   let tempo = segundos;
   const tempoPagar = document.getElementById("tempoPagar");
-  const btnContinuar = document.getElementById("comprovanteDiv");
+  const comprovanteDiv = document.getElementById("comprovanteDiv");
+  tempoPagar.style.display="block";
   timerPagar = setInterval(()=>{
     let min = String(Math.floor(tempo/60)).padStart(2,'0');
     let sec = String(tempo%60).padStart(2,'0');
     tempoPagar.innerText = `⏱ ${min}:${sec}`;
     if(tempo<=0){
       clearInterval(timerPagar);
-      btnContinuar.style.display="block";
+      comprovanteDiv.style.display="block";
+      tempoPagar.style.display="none";
+      startTimerFinal(10);
     }
     tempo--;
   },1000);
@@ -194,12 +185,10 @@ function startTimerPagar(segundos){
 function abrirZap(){
   const nick = document.getElementById("nickTorneio").value;
   const clan = document.getElementById("clanTorneio").value;
-  const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:%20${encodeURIComponent(nick)}%20Clan:${encodeURIComponent(clan)}`;
+  const zapLink = `https://w.app/8mysvz?text=Olá!%20Segue%20o%20comprovante%20da%20inscrição.%20Nick:%20${encodeURIComponent(nick)}%20Clan:%20${encodeURIComponent(clan)}`;
   window.open(zapLink, "_blank");
-
   document.getElementById("btnFinalizarTorneio").disabled = false;
   document.getElementById("mensagemFinal").innerText = "Só será confirmado quando chegar o comprovante no WhatsApp.";
-  startTimerFinal(10); // 10 segundos até liberar botão FINALIZAR
 }
 
 function startTimerFinal(segundos){
@@ -207,8 +196,7 @@ function startTimerFinal(segundos){
   const tempoFinal = document.getElementById("tempoFinal");
   tempoFinal.style.display="block";
   timerFinal = setInterval(()=>{
-    let sec = String(tempo).padStart(2,'0');
-    tempoFinal.innerText = `⏱ ${sec}s`;
+    tempoFinal.innerText = `⏱ ${tempo}s`;
     if(tempo<=0){
       clearInterval(timerFinal);
       tempoFinal.style.display="none";
@@ -226,12 +214,16 @@ function finalizarTorneio(){
     clan: clan,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   }).then(()=>{
-    document.getElementById("resultadoTorneio").innerHTML = `✅ ${nick} do Clan ${clan} inscrito com sucesso!<br>O vaga só será validada após envio do comprovante.`;
+    document.getElementById("popupSucesso").style.display="flex";
   }).catch(err=>{
     alert("Erro ao enviar inscrição: "+err);
   });
 }
-</script>
 
+function fecharPopup(){
+  document.getElementById("popupSucesso").style.display="none";
+  fecharTudo();
+}
+</script>
 </body>
 </html>
