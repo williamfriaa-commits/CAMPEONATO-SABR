@@ -8,16 +8,15 @@
 html, body {
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
+    width: 100%;
+    min-height: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 body {
-    background: url("FUNDO DOS CAMP.png") no-repeat center center;
+    background: url("FUNDO DOS CAMP.png") no-repeat center center fixed;
     background-size: cover;
-    background-attachment: fixed;
 }
 
 /* TÍTULO */
@@ -41,20 +40,15 @@ body {
     width: 310px;
     height: 120px;
     border: 2px solid #6fd6ff;
-    box-sizing: border-box;
-    box-shadow:
-        0 0 6px #6fd6ff,
-        0 0 12px #6fd6ff;
+    box-shadow: 0 0 6px #6fd6ff, 0 0 12px #6fd6ff;
+    background: rgba(0,0,0,0.35);
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    background: rgba(0,0,0,0.3);
     padding-left: 10px;
-    text-align: left;
+    box-sizing: border-box;
 }
 
-/* IMAGEM DENTRO DO SLOT */
+/* IMAGEM */
 .slot img {
     width: 100px;
     height: 100px;
@@ -62,8 +56,8 @@ body {
     margin-right: 15px;
 }
 
-/* NOME DO CLÃ */
-.slot .nome-clan {
+/* NOME */
+.nome-clan {
     color: white;
     font-weight: bold;
     font-size: 16px;
@@ -75,73 +69,76 @@ body {
     position: absolute;
     height: 2px;
     background: #6fd6ff;
+    box-shadow: 0 0 6px #6fd6ff;
 }
 
-/* ===== POSIÇÕES PARA PC ===== */
+/* ===== COLUNA ESQUERDA ===== */
 #s1 { top: 170px; left: 140px; }
-#s2 { top: 320px; left: 140px; }
-#s3 { top: 470px; left: 140px; }
-#s4 { top: 620px; left: 140px; }
-#s5 { top: 770px; left: 140px; }
-#s6 { top: 920px; left: 140px; }
-#s7 { top: 1070px; left: 140px; }
-#s8 { top: 1220px; left: 140px; }
+#s2 { top: 310px; left: 140px; }
+#s3 { top: 450px; left: 140px; }
+#s4 { top: 590px; left: 140px; }
+#s5 { top: 730px; left: 140px; }
+#s6 { top: 870px; left: 140px; }
+#s7 { top: 1010px; left: 140px; }
+#s8 { top: 1150px; left: 140px; }
 
-#q1 { top: 250px; left: 540px; }
-#q2 { top: 550px; left: 540px; }
-#q3 { top: 850px; left: 540px; }
-#q4 { top: 1150px; left: 540px; }
+/* ===== SEMI FINAL ===== */
+#q1 { top: 240px; left: 540px; }
+#q2 { top: 520px; left: 540px; }
+#q3 { top: 800px; left: 540px; }
+#q4 { top: 1080px; left: 540px; }
 
-#final1 { top: 580px; left: 980px; }
-#final2 { top: 850px; left: 980px; }
+/* ===== FINAL ===== */
+#final1 { top: 610px; left: 950px; }
+#final2 { top: 860px; left: 950px; }
 
-#line-q1 { top: 300px; left: 230px; width: 310px; }
-#line-q2 { top: 600px; left: 230px; width: 310px; }
-#line-q3 { top: 900px; left: 230px; width: 310px; }
-#line-q4 { top: 1200px; left: 230px; width: 310px; }
+/* ===== LINHAS ===== */
+#line-q1 { top: 300px; left: 450px; width: 90px; }
+#line-q2 { top: 580px; left: 450px; width: 90px; }
+#line-q3 { top: 860px; left: 450px; width: 90px; }
+#line-q4 { top: 1140px; left: 450px; width: 90px; }
 
-#line-final1 { top: 630px; left: 850px; width: 130px; }
-#line-final2 { top: 900px; left: 850px; width: 130px; }
+#line-final1 { top: 670px; left: 850px; width: 100px; }
+#line-final2 { top: 920px; left: 850px; width: 100px; }
 
-/* ===== MEDIA QUERY PARA CELULAR ===== */
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
     .titulo { font-size: 32px; top: 20px; }
 
     .slot {
         width: 250px;
         height: 90px;
-        padding-left: 8px;
     }
 
     .slot img {
         width: 70px;
         height: 70px;
-        margin-right: 10px;
     }
 
-    .slot .nome-clan {
-        font-size: 16px;
+    .nome-clan { font-size: 14px; }
+
+    .slot {
+        left: 50% !important;
+        transform: translateX(-50%);
     }
 
-    /* Slots centralizados horizontalmente e descendo mais */
-    #s1 { top: 130px; left: 50%; transform: translateX(-50%); }
-    #s2 { top: 230px; left: 50%; transform: translateX(-50%); }
-    #s3 { top: 330px; left: 50%; transform: translateX(-50%); }
-    #s4 { top: 430px; left: 50%; transform: translateX(-50%); }
-    #s5 { top: 530px; left: 50%; transform: translateX(-50%); }
-    #s6 { top: 630px; left: 50%; transform: translateX(-50%); }
-    #s7 { top: 730px; left: 50%; transform: translateX(-50%); }
-    #s8 { top: 830px; left: 50%; transform: translateX(-50%); }
+    #s1 { top: 120px; }
+    #s2 { top: 220px; }
+    #s3 { top: 320px; }
+    #s4 { top: 420px; }
+    #s5 { top: 520px; }
+    #s6 { top: 620px; }
+    #s7 { top: 720px; }
+    #s8 { top: 820px; }
 
-    #q1 { top: 930px; left: 50%; transform: translateX(-50%); }
-    #q2 { top: 1030px; left: 50%; transform: translateX(-50%); }
-    #q3 { top: 1130px; left: 50%; transform: translateX(-50%); }
-    #q4 { top: 1230px; left: 50%; transform: translateX(-50%); }
+    #q1 { top: 920px; }
+    #q2 { top: 1020px; }
+    #q3 { top: 1120px; }
+    #q4 { top: 1220px; }
 
-    #final1 { top: 1330px; left: 50%; transform: translateX(-50%); }
-    #final2 { top: 1430px; left: 50%; transform: translateX(-50%); }
+    #final1 { top: 1320px; }
+    #final2 { top: 1420px; }
 
-    /* Linhas escondidas no celular */
     .linha { display: none; }
 }
 </style>
@@ -152,66 +149,24 @@ body {
 <div class="titulo">SAGS ALL MD3</div>
 
 <!-- ESQUERDA -->
-<div class="slot" id="s1">
-    <img src="GTS (1).png" alt="ONJACKTALBECK">
-    <div class="nome-clan">.::GTS::.</div>
-</div>
-<div class="slot" id="s2">
-    <img src="BETANO-removebg-preview (1).png" alt="BETANO">
-    <div class="nome-clan">BETANO</div>
-</div>
-<div class="slot" id="s3">
-    <img src="celtic-removebg-preview.png" alt="Time 3">
-    <div class="nome-clan">CELTICS</div>
-</div>
-<div class="slot" id="s4">
-    <img src="Captura_de_tela_2026-01-10_155126-removebg-preview.png" alt="Time 4">
-    <div class="nome-clan"> VARZEA</div>
-</div>
-<div class="slot" id="s5">
-    <img src="reaction__1_-removebg-preview.png" alt="Time 5">
-    <div class="nome-clan">REACTION-</div>
-</div>
-<div class="slot" id="s6">
-    <img src="NULBORN__2_-removebg-preview.png" alt="Time 6">
-    <div class="nome-clan">NULBORN</div>
-</div>
-<div class="slot" id="s7">
-    <img src="avox-removebg-preview.png" alt="Time 7">
-    <div class="nome-clan">AVOXY</div>
-</div>
-<div class="slot" id="s8">
-    <img src="ONJACKTALBECK-removebg-preview (1) (1).png" alt="Time 8">
-    <div class="nome-clan">ONJACKTALBECK</div>
-</div>
+<div class="slot" id="s1"><img src="GTS (1).png"><div class="nome-clan">.::GTS::.</div></div>
+<div class="slot" id="s2"><img src="BETANO-removebg-preview (1).png"><div class="nome-clan">BETANO</div></div>
+<div class="slot" id="s3"><img src="celtic-removebg-preview.png"><div class="nome-clan">CELTICS</div></div>
+<div class="slot" id="s4"><img src="Captura_de_tela_2026-01-10_155126-removebg-preview.png"><div class="nome-clan">VARZEA</div></div>
+<div class="slot" id="s5"><img src="reaction__1_-removebg-preview.png"><div class="nome-clan">REACTION</div></div>
+<div class="slot" id="s6"><img src="NULBORN__2_-removebg-preview.png"><div class="nome-clan">NULBORN</div></div>
+<div class="slot" id="s7"><img src="avox-removebg-preview.png"><div class="nome-clan">AVOXY</div></div>
+<div class="slot" id="s8"><img src="ONJACKTALBECK-removebg-preview (1).png"><div class="nome-clan">ONJACKTALBECK</div></div>
 
-<!-- SEMI FINAL -->
-<div class="slot" id="q1">
-    <img src="ONJACKTALBECK-removebg-preview (1) (1).png" alt="Semi 1">
-    <div class="nome-clan">ONJACKTALBECK</div>
-</div>
-<div class="slot" id="q2">
-    <img src="NULBORN__2_-removebg-preview.png" alt="Semi 2">
-    <div class="nome-clan">NULBORN</div>
-</div>
-<div class="slot" id="q3">
-    <img src="celtic-removebg-preview.png" alt="Semi 3">
-    <div class="nome-clan"CELTICS</div>
-</div>
-<div class="slot" id="q4">
-    <img src="BETANO-removebg-preview (1).png" alt="Semi 4">
-    <div class="nome-clan">BETANO</div>
-</div>
+<!-- SEMI -->
+<div class="slot" id="q1"><img src="ONJACKTALBECK-removebg-preview (1).png"><div class="nome-clan">ONJACKTALBECK</div></div>
+<div class="slot" id="q2"><img src="NULBORN__2_-removebg-preview.png"><div class="nome-clan">NULBORN</div></div>
+<div class="slot" id="q3"><img src="celtic-removebg-preview.png"><div class="nome-clan">CELTICS</div></div>
+<div class="slot" id="q4"><img src="BETANO-removebg-preview (1).png"><div class="nome-clan">BETANO</div></div>
 
 <!-- FINAL -->
-<div class="slot" id="final1">
-    <img src="NULBORN__2_-removebg-preview.png" alt="Final 1">
-    <div class="nome-clan">NULBORN</div>
-</div>
-<div class="slot" id="final2">
-    <img src="img/final2.png" alt="Final 2">
-    <div class="nome-clan">FINAL 2</div>
-</div>
+<div class="slot" id="final1"><img src="NULBORN__2_-removebg-preview.png"><div class="nome-clan">NULBORN</div></div>
+<div class="slot" id="final2"><img src="final2.png"><div class="nome-clan">FINAL</div></div>
 
 <!-- LINHAS -->
 <div class="linha" id="line-q1"></div>
